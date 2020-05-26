@@ -2,18 +2,18 @@
     "collab_server" : "",
     "contents" : "",
     "created" : 1590159319383.000,
-    "dirty" : true,
+    "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "0",
     "id" : "9BC2B24A",
-    "lastKnownWriteTime" : 1590516072,
-    "last_content_update" : 1590516629424,
+    "lastKnownWriteTime" : 1590524146,
+    "last_content_update" : 1590524146372,
     "path" : "~/Repos/arrozconleche/02-literature.Rmd",
     "project_path" : "02-literature.Rmd",
     "properties" : {
-        "cursorPosition" : "30,0",
-        "scrollLine" : "5"
+        "cursorPosition" : "41,34",
+        "scrollLine" : "10"
     },
     "read_only" : false,
     "read_only_alternatives" : [

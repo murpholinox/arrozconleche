@@ -141,6 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html"><i class="fa fa-check"></i><b>3</b> Extracción de datos</a><ul>
 <li class="chapter" data-level="3.1" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#pdb"><i class="fa fa-check"></i><b>3.1</b> PDB</a></li>
+<li class="chapter" data-level="3.2" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#filtrar-por-método-experimental"><i class="fa fa-check"></i><b>3.2</b> Filtrar por método experimental</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
@@ -172,18 +173,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="extracción-de-datos" class="section level1">
 <h1><span class="header-section-number">3</span> Extracción de datos</h1>
 <p>En un inicio, la extracción de datos se realizaba por medio de la interfaz de programación de aplicaciones (API, por sus siglas en inglés) del banco de datos de proteínas (PDB, por sus siglas en inglés), con ayuda de un formato en <code>.xml</code> autogenerado en base a una búsqueda avanzada en el mismo sitio del PDB. Sin embargo, la descontinuación de esta API para ser reemplazada por una mejor (información <a href="https://www.rcsb.org/news?year=2020&amp;article=5eb18ccfd62245129947212a&amp;feature=true">aquí</a>) terminó con este proceso.</p>
-<p>Por el motivo anterior y puesto que la nueva API no se encuentra del todo completa, se decidió emplear la información cruda del PDB, es decir, los archivos de las estructuras en <code>.pdb</code> o <code>.mmCIF</code>. Cabe recalcar que el formato <code>.mmCIF</code>, tiene como fin reemplazar el formato <code>.pdb</code> (información <a href="http://mmcif.wwpdb.org/docs/faqs/pdbx-mmcif-faq-general.html">aquí</a>). De hecho, desde abril del 2019, es indispensable depositar la estructura resuelta en formato <code>.mmCIF</code> (información <a href="https://journals.iucr.org/d/issues/2019/04/00/rr5177/">aquí</a>).</p>
+<p>Por el motivo anterior y puesto que la nueva API no se encuentra del todo completa, se decidió emplear la información cruda del PDB, es decir, los archivos de las estructuras en <code>.pdb</code> o <code>.mmCIF</code>. Cabe recalcar que el formato <code>.mmCIF</code>, tiene como fin reemplazar el formato <code>.pdb</code> (información <a href="http://mmcif.wwpdb.org/docs/faqs/pdbx-mmcif-faq-general.html">aquí</a>). De hecho, desde abril del 2019, es indispensable depositar la estructura de tu proteína de interés en formato <code>.mmCIF</code> (información <a href="https://journals.iucr.org/d/issues/2019/04/00/rr5177/">aquí</a>).</p>
 <div id="pdb" class="section level2">
 <h2><span class="header-section-number">3.1</span> PDB</h2>
 <p>Para descargar todo las estructuras del PDB en formato <code>.mmCIF</code>, se usa el siguiente comando:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="bu">cd</span> /run/media/murphy/lolita</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="fu">rsync</span> -rlpt -v -z --delete --port=33444 \</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">rsync.rcsb.org::ftp_data/structures/divided/mmCIF/ ./mmCIF</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="bu">cd</span> /run/media/murphy/lolita <span class="co"># Trabaja en el disco duro</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="fu">rsync</span> -rlpt -v -z --delete --port=33444 <span class="dt">\ </span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="ex">rsync.rcsb.org</span>::ftp_data/structures/divided/mmCIF/ ./mmCIF </a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># La primera vez, suponiendo una velocidad promedio de 6.5 Mbps, tarda cerca de dos horas (44Gb).</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co"># Posteriormente tarda mucho menos, dependiendo del número de estructuras depositadas después</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co"># de la última actualización. Así es como funciona rsync.</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co"># Por ejemplo:</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co"># La última actualización fue en mayo 18, para mayo 26 tardó ~6 minutos.</span></a></code></pre></div>
 <blockquote>
-<p>Instrucciones de <a href="https://www.wwpdb.org/ftp/pdb-ftp-sites">aquí</a>.</p>
+<p>Instrucciones tomadas de <a href="https://www.wwpdb.org/ftp/pdb-ftp-sites">aquí</a>.</p>
 </blockquote>
-<p>Para las pruebas se hace una copia de este directorio.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="fu">cp</span> -r mmCIF/ testing</a></code></pre></div>
+<p>Las estructuras están organizadas en diferentes subdirectorios, el nombre del subdirectorio viene del segundo y tercer caracter del archivo <code>.mmCIF</code>. Por ejemplo <code>1ABC.mmCIF.gz</code> estará en el subdirectorio <code>ab</code>. Para las pruebas se hace una copia de este directorio, sin los subdirectorios.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">#cp -r mmCIF/ testing</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="bu">cd</span> /run/media/murphy/lolita</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="fu">mkdir</span> new</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="bu">cd</span> mmCIF/</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="bu">time</span> find . -name <span class="st">&#39;*.gz&#39;</span> -exec cp <span class="dt">\{\}</span> /run/media/murphy/lolita/new/ <span class="dt">\;</span> </a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co"># Hay que dar el path absoluto</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co"># Esto tarda 58 minutos</span></a></code></pre></div>
+</div>
+<div id="filtrar-por-método-experimental" class="section level2">
+<h2><span class="header-section-number">3.2</span> Filtrar por método experimental</h2>
+<p>Para obtener las estructuras que fueron determinadas por cristalografía de rayos-X, hacemos lo siguiente.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="bu">time</span> gemmi grep _exptl.method ./testing/ <span class="op">&gt;</span> method <span class="co"># toma n minutos</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="fu">grep</span> X-RAY method <span class="kw">|</span> <span class="fu">awk</span> -F : <span class="st">&#39;{print $1}&#39;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span> <span class="op">&gt;</span> filtropormetodo</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co"># vim filtropormetodo y haz :%s/$/.cif.gz/</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="fu">cat</span> filtropormetodo <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">line</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw">do</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="fu">cp</span> <span class="va">$line</span> <span class="op">&lt;&lt;desired_directory&gt;&gt;</span><span class="ex">/</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">done</a></code></pre></div>
 
 </div>
 </div>
