@@ -1,0 +1,8 @@
+"0","sudo dnf -y install git cmake
+cd; mkdir Repos; cd Repos
+git clone https://github.com/project-gemmi/gemmi.git
+cd gemmi
+cmake .
+make
+echo ""# Gemmi"" >> ~/.bashrc
+echo ""alias gemmi='/home/murphy/Repos/gemmi/gemmi'"" >> ~/.bashrc"

@@ -1,0 +1,56 @@
+# Dependencias
+
+En caso de falla de mi sistema operativo (SO) o si alguien desea reproducir mis resultados se listan las dependencias usadas.
+
+## Sistema operativo
+
+El sistema operativo usado es [Fedora 32](https://getfedora.org/) en su versión [Workstation](https://getfedora.org/es/workstation/download/).
+
+```{bash}
+uname -a
+```
+
+## Minería de datos
+
+Para la extracción de datos se usa [`gemmi`](https://github.com/project-gemmi/gemmi). Cuya instalación depende a su vez de `git` y `cmake`.
+
+```{bash, eval=FALSE}
+sudo dnf -y install git cmake
+cd; mkdir Repos; cd Repos
+git clone https://github.com/project-gemmi/gemmi.git
+cd gemmi
+cmake .
+make
+echo "# Gemmi" >> ~/.bashrc
+echo "alias gemmi='/home/murphy/Repos/gemmi/gemmi'" >> ~/.bashrc
+```
+
+Y para la transformación y limpieza de datos se usan [`grep`](https://en.wikipedia.org/wiki/Grep), [`awk`](https://en.wikipedia.org/wiki/AWK) y [`sed`](https://en.wikipedia.org/wiki/Sed) que vienen instalados por defecto en Fedora 32. También se utiliza: [`R`](https://www.r-project.org/), en especial varias funciones del conjunto de paquetes denominado [`tidyverse`](https://www.tidyverse.org/).
+
+La instalación de `R` conviene hacerla como lo describo en mi [blog](https://murpholinox.github.io/2019/10/07/installRwithouttexlivedependencies.html).
+
+La instalación del `tidyverse` depende a su vez de la instalación de las siguientes librerías en el SO. 
+
+```{bash, eval=FALSE}
+sudo dnf -y install openssl-devel libxml2-devel libcurl-devel
+```
+
+## Bitácora
+
+La reproducción correcta, desde la ejecución del código hasta la producción del archivo de salida, de esta bitácora depende de la instalación de varios programas:
+
+- [`rstudio`](https://rstudio.com/) 
+- [`bookdown`](https://github.com/rstudio/bookdown) 
+- [`rmarkdown`](https://rmarkdown.rstudio.com/) 
+- [`renv`](https://github.com/rstudio/renv) 
+
+Siendo `rstudio` el entorno de desarrollo integrado de `R` y `rmarkdown` es un formato mezcla para documentar en `markdown` código en `R` (véase el sitio web de `rmarkdown`). El paquete `bookdown` ocupa la funcionalidad de `rmarkdown` para generar un libro en formato `.Rmd` que puede exportarse a varios formatos de salida (`.html`, `.pdf`, `.doc`, etc). Para manejar las dependencias de una manera aislada, portable y reproducible se usa `renv`.
+
+```{r, eval=FALSE}
+# renv::consent() # en la consola de R
+renv::init()
+```
+
+```{bash}
+cat renv.lock
+```

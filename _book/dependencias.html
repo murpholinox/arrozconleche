@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Dependencias | Bitácora</title>
+  <meta name="description" content="2 Dependencias | Bitácora de doctorado" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Dependencias | Bitácora" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="2 Dependencias | Bitácora de doctorado" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Dependencias | Bitácora" />
+  
+  <meta name="twitter:description" content="2 Dependencias | Bitácora de doctorado" />
+  
+
+<meta name="author" content="Francisco Murphy Pérez" />
+
+
+<meta name="date" content="2020-05-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="extracción-de-datos.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Resumen del proyecto</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#contacto"><i class="fa fa-check"></i><b>1.1</b> Contacto</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dependencias.html"><a href="dependencias.html"><i class="fa fa-check"></i><b>2</b> Dependencias</a><ul>
+<li class="chapter" data-level="2.1" data-path="dependencias.html"><a href="dependencias.html#sistema-operativo"><i class="fa fa-check"></i><b>2.1</b> Sistema operativo</a></li>
+<li class="chapter" data-level="2.2" data-path="dependencias.html"><a href="dependencias.html#minería-de-datos"><i class="fa fa-check"></i><b>2.2</b> Minería de datos</a></li>
+<li class="chapter" data-level="2.3" data-path="dependencias.html"><a href="dependencias.html#bitácora"><i class="fa fa-check"></i><b>2.3</b> Bitácora</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html"><i class="fa fa-check"></i><b>3</b> Extracción de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#pdb"><i class="fa fa-check"></i><b>3.1</b> PDB</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bitácora</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="dependencias" class="section level1">
+<h1><span class="header-section-number">2</span> Dependencias</h1>
+<p>En caso de falla de mi sistema operativo (SO) o si alguien desea reproducir mis resultados se listan las dependencias usadas.</p>
+<div id="sistema-operativo" class="section level2">
+<h2><span class="header-section-number">2.1</span> Sistema operativo</h2>
+<p>El sistema operativo usado es <a href="https://getfedora.org/">Fedora 32</a> en su versión <a href="https://getfedora.org/es/workstation/download/">Workstation</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="fu">uname</span> -a</a></code></pre></div>
+<pre><code>## Linux eva02 5.6.12-300.fc32.x86_64 #1 SMP Mon May 11 16:47:13 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</code></pre>
+</div>
+<div id="minería-de-datos" class="section level2">
+<h2><span class="header-section-number">2.2</span> Minería de datos</h2>
+<p>Para la extracción de datos se usa <a href="https://github.com/project-gemmi/gemmi"><code>gemmi</code></a>. Cuya instalación depende a su vez de <code>git</code> y <code>cmake</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="fu">sudo</span> dnf -y install git cmake</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="bu">cd</span><span class="kw">;</span> <span class="fu">mkdir</span> Repos<span class="kw">;</span> <span class="bu">cd</span> Repos</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="fu">git</span> clone https://github.com/project-gemmi/gemmi.git</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="bu">cd</span> gemmi</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="fu">cmake</span> .</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="fu">make</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="bu">echo</span> <span class="st">&quot;# Gemmi&quot;</span> <span class="op">&gt;&gt;</span> ~/.bashrc</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="bu">echo</span> <span class="st">&quot;alias gemmi=&#39;/home/murphy/Repos/gemmi/gemmi&#39;&quot;</span> <span class="op">&gt;&gt;</span> ~/.bashrc</a></code></pre></div>
+<p>Y para la transformación y limpieza de datos se usan <a href="https://en.wikipedia.org/wiki/Grep"><code>grep</code></a>, <a href="https://en.wikipedia.org/wiki/AWK"><code>awk</code></a> y <a href="https://en.wikipedia.org/wiki/Sed"><code>sed</code></a> que vienen instalados por defecto en Fedora 32. También se utiliza: <a href="https://www.r-project.org/"><code>R</code></a>, en especial varias funciones del conjunto de paquetes denominado <a href="https://www.tidyverse.org/"><code>tidyverse</code></a>.</p>
+<p>La instalación de <code>R</code> conviene hacerla como lo describo en mi <a href="https://murpholinox.github.io/2019/10/07/installRwithouttexlivedependencies.html">blog</a>.</p>
+<p>La instalación del <code>tidyverse</code> depende a su vez de la instalación de las siguientes librerías en el SO.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="fu">sudo</span> dnf -y install openssl-devel libxml2-devel libcurl-devel</a></code></pre></div>
+</div>
+<div id="bitácora" class="section level2">
+<h2><span class="header-section-number">2.3</span> Bitácora</h2>
+<p>La reproducción correcta, desde la ejecución del código hasta la producción del archivo de salida, de esta bitácora depende de la instalación de varios programas:</p>
+<ul>
+<li><a href="https://rstudio.com/"><code>rstudio</code></a></li>
+<li><a href="https://github.com/rstudio/bookdown"><code>bookdown</code></a></li>
+<li><a href="https://rmarkdown.rstudio.com/"><code>rmarkdown</code></a></li>
+<li><a href="https://github.com/rstudio/renv"><code>renv</code></a></li>
+</ul>
+<p>Siendo <code>rstudio</code> el entorno de desarrollo integrado de <code>R</code> y <code>rmarkdown</code> es un formato mezcla para documentar en <code>markdown</code> código en <code>R</code> (véase el sitio web de <code>rmarkdown</code>). El paquete <code>bookdown</code> ocupa la funcionalidad de <code>rmarkdown</code> para generar un libro en formato <code>.Rmd</code> que puede exportarse a varios formatos de salida (<code>.html</code>, <code>.pdf</code>, <code>.doc</code>, etc). Para manejar las dependencias de una manera aislada, portable y reproducible se usa <code>renv</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># renv::consent() # en la consola de R</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">renv<span class="op">::</span><span class="kw">init</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="fu">cat</span> renv.lock</a></code></pre></div>
+<pre><code>## {
+##   &quot;R&quot;: {
+##     &quot;Version&quot;: &quot;3.6.3&quot;,
+##     &quot;Repositories&quot;: [
+##       {
+##         &quot;Name&quot;: &quot;CRAN&quot;,
+##         &quot;URL&quot;: &quot;https://cran.rstudio.com&quot;
+##       }
+##     ]
+##   },
+##   &quot;Packages&quot;: {
+##     &quot;Rcpp&quot;: {
+##       &quot;Package&quot;: &quot;Rcpp&quot;,
+##       &quot;Version&quot;: &quot;1.0.4.6&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;e652f23d8b1807cc975c51410d05b72f&quot;
+##     },
+##     &quot;base64enc&quot;: {
+##       &quot;Package&quot;: &quot;base64enc&quot;,
+##       &quot;Version&quot;: &quot;0.1-3&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;543776ae6848fde2f48ff3816d0628bc&quot;
+##     },
+##     &quot;bookdown&quot;: {
+##       &quot;Package&quot;: &quot;bookdown&quot;,
+##       &quot;Version&quot;: &quot;0.19&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;4f669b7b4f236538e6afc311f32d2c93&quot;
+##     },
+##     &quot;digest&quot;: {
+##       &quot;Package&quot;: &quot;digest&quot;,
+##       &quot;Version&quot;: &quot;0.6.25&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;f697db7d92b7028c4b3436e9603fb636&quot;
+##     },
+##     &quot;evaluate&quot;: {
+##       &quot;Package&quot;: &quot;evaluate&quot;,
+##       &quot;Version&quot;: &quot;0.14&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;ec8ca05cffcc70569eaaad8469d2a3a7&quot;
+##     },
+##     &quot;glue&quot;: {
+##       &quot;Package&quot;: &quot;glue&quot;,
+##       &quot;Version&quot;: &quot;1.4.1&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;f43e0d5e85ccb0a4045670c0607ee504&quot;
+##     },
+##     &quot;highr&quot;: {
+##       &quot;Package&quot;: &quot;highr&quot;,
+##       &quot;Version&quot;: &quot;0.8&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;4dc5bb88961e347a0f4d8aad597cbfac&quot;
+##     },
+##     &quot;htmltools&quot;: {
+##       &quot;Package&quot;: &quot;htmltools&quot;,
+##       &quot;Version&quot;: &quot;0.4.0&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;2d7691222f82f41e93f6d30f169bd5e1&quot;
+##     },
+##     &quot;jsonlite&quot;: {
+##       &quot;Package&quot;: &quot;jsonlite&quot;,
+##       &quot;Version&quot;: &quot;1.6.1&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;84b0ee361e2f78d6b7d670db9471c0c5&quot;
+##     },
+##     &quot;knitr&quot;: {
+##       &quot;Package&quot;: &quot;knitr&quot;,
+##       &quot;Version&quot;: &quot;1.28&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;915a6f0134cdbdf016d7778bc80b2eda&quot;
+##     },
+##     &quot;magrittr&quot;: {
+##       &quot;Package&quot;: &quot;magrittr&quot;,
+##       &quot;Version&quot;: &quot;1.5&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;1bb58822a20301cee84a41678e25d9b7&quot;
+##     },
+##     &quot;markdown&quot;: {
+##       &quot;Package&quot;: &quot;markdown&quot;,
+##       &quot;Version&quot;: &quot;1.1&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;61e4a10781dd00d7d81dd06ca9b94e95&quot;
+##     },
+##     &quot;mime&quot;: {
+##       &quot;Package&quot;: &quot;mime&quot;,
+##       &quot;Version&quot;: &quot;0.9&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;e87a35ec73b157552814869f45a63aa3&quot;
+##     },
+##     &quot;renv&quot;: {
+##       &quot;Package&quot;: &quot;renv&quot;,
+##       &quot;Version&quot;: &quot;0.10.0&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;0d3f1c2b63e70b3d918246b4e2ca59b7&quot;
+##     },
+##     &quot;rlang&quot;: {
+##       &quot;Package&quot;: &quot;rlang&quot;,
+##       &quot;Version&quot;: &quot;0.4.6&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;aa263e3ce17b177c49e0daade2ee3cdc&quot;
+##     },
+##     &quot;rmarkdown&quot;: {
+##       &quot;Package&quot;: &quot;rmarkdown&quot;,
+##       &quot;Version&quot;: &quot;2.1&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;9d1c61d476c448350c482d6664e1b28b&quot;
+##     },
+##     &quot;stringi&quot;: {
+##       &quot;Package&quot;: &quot;stringi&quot;,
+##       &quot;Version&quot;: &quot;1.4.6&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;e99d8d656980d2dd416a962ae55aec90&quot;
+##     },
+##     &quot;stringr&quot;: {
+##       &quot;Package&quot;: &quot;stringr&quot;,
+##       &quot;Version&quot;: &quot;1.4.0&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;0759e6b6c0957edb1311028a49a35e76&quot;
+##     },
+##     &quot;tinytex&quot;: {
+##       &quot;Package&quot;: &quot;tinytex&quot;,
+##       &quot;Version&quot;: &quot;0.23&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;a8c653ef8ce67683f588e6088ed45572&quot;
+##     },
+##     &quot;xfun&quot;: {
+##       &quot;Package&quot;: &quot;xfun&quot;,
+##       &quot;Version&quot;: &quot;0.14&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;60e146e3aba37a547e12306dc3da77a6&quot;
+##     },
+##     &quot;yaml&quot;: {
+##       &quot;Package&quot;: &quot;yaml&quot;,
+##       &quot;Version&quot;: &quot;2.2.1&quot;,
+##       &quot;Source&quot;: &quot;Repository&quot;,
+##       &quot;Repository&quot;: &quot;CRAN&quot;,
+##       &quot;Hash&quot;: &quot;2826c5d9efb0a88f657c7a679c7106db&quot;
+##     }
+##   }
+## }</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="extracción-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["arrozconleche.pdf", "arrozconleche.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
