@@ -1,5 +1,3 @@
-# Final Words
-
 El siguiente paso es obtener, de las estructuras determinadas por cristalografía de rayos-X, su identificador dentro del archivo, el tipo de macromolécula (proteína, ADN, o ARN) que representa y su código UniProt.
 
 ```{r, echo=FALSE}

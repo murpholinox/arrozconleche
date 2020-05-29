@@ -24,7 +24,7 @@
 <meta name="author" content="Francisco Murphy Pérez" />
 
 
-<meta name="date" content="2020-05-26" />
+<meta name="date" content="2020-05-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,6 +50,7 @@
 
 
 
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
 
 
 <style type="text/css">
@@ -142,6 +143,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html"><i class="fa fa-check"></i><b>3</b> Extracción de datos</a><ul>
 <li class="chapter" data-level="3.1" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#pdb"><i class="fa fa-check"></i><b>3.1</b> PDB</a></li>
 <li class="chapter" data-level="3.2" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#filtrar-por-método-experimental"><i class="fa fa-check"></i><b>3.2</b> Filtrar por método experimental</a></li>
+<li class="chapter" data-level="3.3" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#filtrar-por-código-uniprot"><i class="fa fa-check"></i><b>3.3</b> Filtrar por código UniProt</a></li>
+<li class="chapter" data-level="3.4" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#filtrar-por-número-de-entidades"><i class="fa fa-check"></i><b>3.4</b> Filtrar por número de entidades</a></li>
+<li class="chapter" data-level="3.5" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#filtrar-por-tipo-de-cadena"><i class="fa fa-check"></i><b>3.5</b> Filtrar por tipo de cadena</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
@@ -180,11 +184,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="bu">cd</span> /run/media/murphy/lolita <span class="co"># Trabaja en el disco duro</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="fu">rsync</span> -rlpt -v -z --delete --port=33444 <span class="dt">\ </span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="ex">rsync.rcsb.org</span>::ftp_data/structures/divided/mmCIF/ ./mmCIF </a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># La primera vez, suponiendo una velocidad promedio de 6.5 Mbps, tarda cerca de dos horas (44Gb).</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># La primera vez, suponiendo una velocidad promedio de 6.5 Mbps. Esto tarda 113 minutos (44Gb).</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co"># Posteriormente tarda mucho menos, dependiendo del número de estructuras depositadas después</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co"># de la última actualización. Así es como funciona rsync.</span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co"># Por ejemplo:</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co"># La última actualización fue en mayo 18, para mayo 26 tardó ~6 minutos.</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co"># De mayo 18 a mayo 26, esto tarda ~6 minutos.</span></a></code></pre></div>
 <blockquote>
 <p>Instrucciones tomadas de <a href="https://www.wwpdb.org/ftp/pdb-ftp-sites">aquí</a>.</p>
 </blockquote>
@@ -195,18 +199,1476 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="bu">cd</span> mmCIF/</a>
 <a class="sourceLine" id="cb9-5" data-line-number="5"><span class="bu">time</span> find . -name <span class="st">&#39;*.gz&#39;</span> -exec cp <span class="dt">\{\}</span> /run/media/murphy/lolita/new/ <span class="dt">\;</span> </a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co"># Hay que dar el path absoluto</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co"># Esto tarda 58 minutos</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co"># Esto tarda 58 minutos!</span></a></code></pre></div>
 </div>
 <div id="filtrar-por-método-experimental" class="section level2">
 <h2><span class="header-section-number">3.2</span> Filtrar por método experimental</h2>
 <p>Para obtener las estructuras que fueron determinadas por cristalografía de rayos-X, hacemos lo siguiente.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="bu">time</span> gemmi grep _exptl.method ./testing/ <span class="op">&gt;</span> method <span class="co"># toma n minutos</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="fu">grep</span> X-RAY method <span class="kw">|</span> <span class="fu">awk</span> -F : <span class="st">&#39;{print $1}&#39;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span> <span class="op">&gt;</span> filtropormetodo</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co"># vim filtropormetodo y haz :%s/$/.cif.gz/</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="fu">cat</span> filtropormetodo <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">line</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw">do</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="fu">cp</span> <span class="va">$line</span> <span class="op">&lt;&lt;desired_directory&gt;&gt;</span><span class="ex">/</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">done</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="bu">cd</span> /run/media/murphy/lolita</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="bu">time</span> gemmi grep _exptl.method ./new/ <span class="op">&gt;</span> filtropormetodo <span class="co"># Esto tarda 78 minutos!</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="fu">grep</span> X-RAY filtropormetodo <span class="kw">|</span> <span class="fu">awk</span> -F : <span class="st">&#39;{print $1}&#39;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span> <span class="op">&gt;</span> filtropormetodo_pdbids</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co"># vim filtropormetodo_pdbids y haz :%s/$/.cif.gz/ y :sav listofpdbs_byxray</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="fu">mkdir</span> xrays</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="fu">cat</span> listofpdbs_byxray <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">line</span>; <span class="kw">do</span> <span class="fu">cp</span> ./new/<span class="va">$line</span> xrays/<span class="kw">;</span> <span class="kw">done</span> <span class="co"># Esto tarda 52 minutos</span></a></code></pre></div>
+<p>Lo que sigue es filtrar las estructuras determinadas por cristalografía de rayos-X por algo más.
+Las opciones son:</p>
+</div>
+<div id="filtrar-por-código-uniprot" class="section level2">
+<h2><span class="header-section-number">3.3</span> Filtrar por código UniProt</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="bu">cd</span> /run/media/murphy/lolita</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="bu">time</span> gemmi grep _struct_ref.pdbx_db_accession xrays/ <span class="op">&gt;</span> filtraxraysporanumac</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co"># Esto tarda 83 minutos. </span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co"># </span></a></code></pre></div>
+</div>
+<div id="filtrar-por-número-de-entidades" class="section level2">
+<h2><span class="header-section-number">3.4</span> Filtrar por número de entidades</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="bu">cd</span> /run/media/murphy/lolita</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="bu">time</span> gemmi grep _struct_ref.entity_id xrays/ <span class="op">&gt;</span> filtraxrayspornumentidad </a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co"># Esto tarda 73 minutos.</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#</span></a></code></pre></div>
+</div>
+<div id="filtrar-por-tipo-de-cadena" class="section level2">
+<h2><span class="header-section-number">3.5</span> Filtrar por tipo de cadena</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="bu">time</span> gemmi grep _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession  xrays/ <span class="op">&gt;</span> filtraxraysporpolytype_ac </a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co"># Esto tarda 75 minutos.</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co"># </span></a></code></pre></div>
+<p>Creo que el tercer filtro es el más útil.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">filtro3 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;/run/media/murphy/lolita/filtraxraysporpolytype_ac&quot;</span>, <span class="dt">header=</span><span class="ot">FALSE</span>, <span class="dt">sep=</span><span class="st">&quot;;&quot;</span>)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">orf3 &lt;-<span class="st"> </span>filtro3 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="st">  </span><span class="kw">add_count</span>(V3) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n))</a></code></pre></div>
+<p>Una tabla</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">library</span>(knitr)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">library</span>(kableExtra)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     group_rows</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">horf3&lt;-<span class="kw">head</span>(orf3, <span class="dt">n=</span><span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw">kable</span>(horf3) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>), <span class="dt">full_width=</span>F)</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+V1
+</th>
+<th style="text-align:left;">
+V2
+</th>
+<th style="text-align:left;">
+V3
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1VY4:1
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:2
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:3
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:4
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:5
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:6
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:7
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:8
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:9
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:10
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:11
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:12
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:13
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:14
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:15
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:16
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:17
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:18
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:19
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:20
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:21
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:22
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:23
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:24
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:25
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:26
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:27
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:28
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:29
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:30
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:31
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:32
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:33
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:34
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:35
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:36
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:37
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:38
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:39
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:40
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:41
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:42
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:43
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:44
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:45
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:46
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:47
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:48
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:49
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:50
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:51
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:52
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:53
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:54
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:55
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY4:56
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:1
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:2
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:3
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:4
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:5
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:6
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:7
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:8
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:9
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:10
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:11
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:12
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:13
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:14
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:15
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:16
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:17
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:18
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:19
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:20
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:21
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:22
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:23
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:24
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:25
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:26
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:27
+</td>
+<td style="text-align:left;">
+polyribonucleotide
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:28
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:29
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:30
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:31
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:32
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:33
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:34
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:35
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:36
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:37
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:38
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:39
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:40
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:41
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:42
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:43
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1VY5:44
+</td>
+<td style="text-align:left;">
+polypeptide(L)
+</td>
+<td style="text-align:left;">
+55771382
+</td>
+<td style="text-align:right;">
+5334
+</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 </div>

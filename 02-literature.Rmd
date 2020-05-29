@@ -16,11 +16,11 @@ Para descargar todo las estructuras del PDB en formato `.mmCIF`, se usa el sigui
 cd /run/media/murphy/lolita # Trabaja en el disco duro
 rsync -rlpt -v -z --delete --port=33444 \ 
 rsync.rcsb.org::ftp_data/structures/divided/mmCIF/ ./mmCIF 
-# La primera vez, suponiendo una velocidad promedio de 6.5 Mbps, tarda cerca de dos horas (44Gb).
+# La primera vez, suponiendo una velocidad promedio de 6.5 Mbps. Esto tarda 113 minutos (44Gb).
 # Posteriormente tarda mucho menos, dependiendo del número de estructuras depositadas después
 # de la última actualización. Así es como funciona rsync.
 # Por ejemplo:
-# La última actualización fue en mayo 18, para mayo 26 tardó ~6 minutos.
+# De mayo 18 a mayo 26, esto tarda ~6 minutos.
 ```
 
 > Instrucciones tomadas de [aquí](https://www.wwpdb.org/ftp/pdb-ftp-sites).
@@ -34,22 +34,47 @@ mkdir new
 cd mmCIF/
 time find . -name '*.gz' -exec cp \{\} /run/media/murphy/lolita/new/ \; 
 # Hay que dar el path absoluto
-# Esto tarda 58 minutos
+# Esto tarda 58 minutos!
 ```
-
- 
 
 ## Filtrar por método experimental
 Para obtener las estructuras que fueron determinadas por cristalografía de rayos-X, hacemos lo siguiente.
 
+```{bash, eval=FALSE}
+cd /run/media/murphy/lolita
+time gemmi grep _exptl.method ./new/ > filtropormetodo # Esto tarda 78 minutos!
+grep X-RAY filtropormetodo | awk -F : '{print $1}' | tr '[:upper:]' '[:lower:]' > filtropormetodo_pdbids
+# vim filtropormetodo_pdbids y haz :%s/$/.cif.gz/ y :sav listofpdbs_byxray
+mkdir xrays
+cat listofpdbs_byxray | while read line; do cp ./new/$line xrays/; done # Esto tarda 52 minutos
+```
+
+Obtiene varios campos dentro de los archivos `.mmCIF`.
 
 ```{bash, eval=FALSE}
-time gemmi grep _exptl.method ./testing/ > method # toma n minutos
-grep X-RAY method | awk -F : '{print $1}' | tr '[:upper:]' '[:lower:]' > filtropormetodo
-# vim filtropormetodo y haz :%s/$/.cif.gz/
-cat filtropormetodo | while read line
-do
-cp $line <<desired_directory>>/
-done
+time gemmi grep --delimiter='\t' _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI xrays/ > todo
+# Esto tarda 45 minutos
+
+```
+
+```{r}
+todo <- read.delim("/run/media/murphy/lolita/todo", header=FALSE)
+## Cuenta y ordena
+library("dplyr")
+todo_n <- todo %>%
+  add_count(V4) %>%
+  arrange(desc(n))
+```
+
+## Elimina entradas
+Algunas entradas corresponden a proteínas constituidas por varias subunidades.
+
+Una tabla
+```{r}
+library(knitr)
+library(kableExtra)
+horf3<-head(orf3, n=100)
+kable(horf3) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
 ```
 
