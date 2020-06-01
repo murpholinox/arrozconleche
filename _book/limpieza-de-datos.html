@@ -4,21 +4,21 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2 Dependencias | Bitácora</title>
-  <meta name="description" content="2 Dependencias | Bitácora de doctorado" />
+  <title>4 Limpieza de datos | Bitácora</title>
+  <meta name="description" content="4 Limpieza de datos | Bitácora de doctorado" />
   <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2 Dependencias | Bitácora" />
+  <meta property="og:title" content="4 Limpieza de datos | Bitácora" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="2 Dependencias | Bitácora de doctorado" />
+  <meta property="og:description" content="4 Limpieza de datos | Bitácora de doctorado" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2 Dependencias | Bitácora" />
+  <meta name="twitter:title" content="4 Limpieza de datos | Bitácora" />
   
-  <meta name="twitter:description" content="2 Dependencias | Bitácora de doctorado" />
+  <meta name="twitter:description" content="4 Limpieza de datos | Bitácora de doctorado" />
   
 
 <meta name="author" content="Francisco Murphy Pérez" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="extracción-de-datos.html"/>
+<link rel="prev" href="extracción-de-datos.html"/>
+<link rel="next" href="applications.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -185,45 +185,68 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="dependencias" class="section level1">
-<h1><span class="header-section-number">2</span> Dependencias</h1>
-<p>En caso de falla de mi sistema operativo (SO) o si alguien desea reproducir mis resultados se listan las dependencias usadas.</p>
-<div id="sistema-operativo" class="section level2">
-<h2><span class="header-section-number">2.1</span> Sistema operativo</h2>
-<p>El sistema operativo usado es <a href="https://getfedora.org/">Fedora 32</a> en su versión <a href="https://getfedora.org/es/workstation/download/">Workstation</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="fu">uname</span> -a</a></code></pre></div>
-<pre><code>## Linux eva02 5.6.12-300.fc32.x86_64 #1 SMP Mon May 11 16:47:13 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</code></pre>
+<div id="limpieza-de-datos" class="section level1">
+<h1><span class="header-section-number">4</span> Limpieza de datos</h1>
+<p>Habiendo verificado la naturaleza de nuestros datos, sigue el turno de su limpieza. Limpiar los datos consistirá en los siguientes filtros:</p>
+<ol style="list-style-type: decimal">
+<li>Aquellas entradas con una resolución peor que 2 Å no se ocupan.</li>
+<li>Además elimina las estructuras donde no se anotó el pH en su respectiva columna. Según la <a href="http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v50.dic/Categories/exptl_crystal_grow.html">página</a> del diccionario <code>.mmcif</code> dicha anotación se encuentra en 83.7 % del total de entradas depositadas en el PDB.</li>
+<li>Aquellas entradas con una estructura compleja cuaternaria no se ocupan.</li>
+<li>Aquellas entradas con entidades diferentes a proteínas no se ocupan.</li>
+</ol>
+<div id="filtro-1" class="section level2">
+<h2><span class="header-section-number">4.1</span> Filtro 1</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">fil1 &lt;-<span class="st"> </span>df2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(rs1 <span class="op">&lt;=</span><span class="st"> </span><span class="fl">2.0</span>)</a></code></pre></div>
 </div>
-<div id="minería-de-datos" class="section level2">
-<h2><span class="header-section-number">2.2</span> Minería de datos</h2>
-<p>Para la extracción de datos se usa <a href="https://github.com/project-gemmi/gemmi"><code>gemmi</code></a>. Cuya instalación depende a su vez de <code>git</code> y <code>cmake</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="fu">sudo</span> dnf -y install git cmake</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="bu">cd</span><span class="kw">;</span> <span class="fu">mkdir</span> Repos<span class="kw">;</span> <span class="bu">cd</span> Repos</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="fu">git</span> clone https://github.com/project-gemmi/gemmi.git</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="bu">cd</span> gemmi</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="fu">cmake</span> .</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="fu">make</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="bu">echo</span> <span class="st">&quot;# Gemmi&quot;</span> <span class="op">&gt;&gt;</span> ~/.bashrc</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="bu">echo</span> <span class="st">&quot;alias gemmi=&#39;/home/murphy/Repos/gemmi/gemmi&#39;&quot;</span> <span class="op">&gt;&gt;</span> ~/.bashrc</a></code></pre></div>
-<p>Y para la transformación y limpieza de datos se usan <a href="https://en.wikipedia.org/wiki/Grep"><code>grep</code></a>, <a href="https://en.wikipedia.org/wiki/AWK"><code>awk</code></a> y <a href="https://en.wikipedia.org/wiki/Sed"><code>sed</code></a> que vienen instalados por defecto en Fedora 32. También se utiliza: <a href="https://www.r-project.org/"><code>R</code></a>, en especial varias funciones del conjunto de paquetes denominado <a href="https://www.tidyverse.org/"><code>tidyverse</code></a>.</p>
-<p>La instalación de <code>R</code> conviene hacerla como lo describo en mi <a href="https://murpholinox.github.io/installRwithouttexlivedependencies/">blog</a>.</p>
-<p>La instalación del <code>tidyverse</code> depende a su vez de la instalación de las siguientes librerías en el SO.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="fu">sudo</span> dnf -y install openssl-devel libxml2-devel libcurl-devel</a></code></pre></div>
+<div id="filtro-2" class="section level2">
+<h2><span class="header-section-number">4.2</span> Filtro 2</h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">fil2 &lt;-fil1 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(peh))</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="kw">write_excel_csv</span>(fil2, <span class="st">&quot;/run/media/murphy/lolita/doctorado/clean/fil2.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#wc -l fil2.csv </span></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#69689 fil2.csv</span></a></code></pre></div>
 </div>
-<div id="bitácora" class="section level2">
-<h2><span class="header-section-number">2.3</span> Bitácora</h2>
-<p>La reproducción correcta, desde la ejecución del código hasta la producción del archivo de salida, de esta bitácora depende de la instalación de varios programas:</p>
-<ul>
-<li><a href="https://rstudio.com/"><code>rstudio</code></a></li>
-<li><a href="https://github.com/rstudio/bookdown"><code>bookdown</code></a></li>
-<li><a href="https://rmarkdown.rstudio.com/"><code>rmarkdown</code></a></li>
-<li><a href="https://github.com/rstudio/renv"><code>renv</code></a></li>
-</ul>
-<p>Siendo <code>rstudio</code> el entorno de desarrollo integrado de <code>R</code> y <code>rmarkdown</code> es un formato mezcla para documentar en <code>markdown</code> código en <code>R</code> (véase el sitio web de <code>rmarkdown</code>). El paquete <code>bookdown</code> ocupa la funcionalidad de <code>rmarkdown</code> para generar un libro en formato <code>.Rmd</code> que puede exportarse a varios formatos de salida (<code>.html</code>, <code>.pdf</code>, <code>.doc</code>, etc). Para manejar las dependencias de una manera aislada, portable y reproducible se usa <code>renv</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># renv::consent() # en la consola de R</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">renv<span class="op">::</span><span class="kw">init</span>()</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Para ver las dependencias descomenta la siguiente línea.</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#cat renv.lock</span></a></code></pre></div>
+<div id="filtro-3" class="section level2">
+<h2><span class="header-section-number">4.3</span> Filtro 3</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="bu">cd</span> /run/media/murphy/lolita/doctorado/clean</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="fu">awk</span> -F <span class="st">&quot;;&quot;</span> <span class="st">&#39;{print $1}&#39;</span> fil2.csv <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">uniq</span> -c <span class="kw">|</span> <span class="fu">sort</span> -n <span class="op">&gt;</span> a</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co">#wc -l a </span></a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#58404 a</span></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co"># a contiene dos columnas, la primera es el número</span></a>
+<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="co"># de entidades y la segunda es el pdb id.</span></a>
+<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="fu">awk</span> <span class="st">&#39;{if($1&gt;=5) print $2;}&#39;</span> a <span class="op">&gt;</span> pat</a>
+<a class="sourceLine" id="cb22-8" data-line-number="8"><span class="fu">grep</span> -v -f pat fil2.csv <span class="op">&gt;</span> fil3.csv</a></code></pre></div>
+</div>
+<div id="realiza-primer-listado" class="section level2">
+<h2><span class="header-section-number">4.4</span> Realiza primer listado</h2>
+<p>Cuenta la frecuencia del identificador de UniProt, con base en esto realiza una lista ordenada en orden descendente.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">f3_cola &lt;-<span class="st"> </span>f3 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(ID_UniProt, <span class="dt">name=</span><span class="st">&quot;Cuenta&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Colapsa los datos hacia n</span></a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Cuenta))</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">f3_nocola &lt;-<span class="st"> </span>f3 <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Agrega n</span></a>
+<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="st">  </span><span class="kw">add_count</span>(ID_UniProt, <span class="dt">name=</span><span class="st">&quot;Cuenta&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-6" data-line-number="6"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Cuenta))</a></code></pre></div>
+</div>
+<div id="falta" class="section level2">
+<h2><span class="header-section-number">4.5</span> FALTA</h2>
+<p>TODO: También elimina algunas entradas relacionadas con rRNA, proteosoma y la poliproteína proveniente de Gag-pol. Las primeras debido a la complejidad de su cristalización y la última debido a la dificultad para identificarla en los datos.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">dat3 &lt;-<span class="st"> </span>dat2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>ID_UniProt <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;55771382&quot;</span>, <span class="st">&quot;P23639&quot;</span>, <span class="st">&quot;155076&quot;</span>, <span class="st">&quot;AP008226.1&quot;</span>, <span class="st">&quot;1262303&quot;</span>, <span class="st">&quot;3377779&quot;</span>, <span class="st">&quot;831416132&quot;</span>, <span class="st">&quot;M26923.1&quot;</span>, <span class="st">&quot;55979969&quot;</span>, <span class="st">&quot;359330873&quot;</span>, <span class="st">&quot;Z75578.1&quot;</span>, <span class="st">&quot;P03366&quot;</span>, <span class="st">&quot;46197919&quot;</span>, <span class="st">&quot;83754040&quot;</span>, <span class="st">&quot;55229667&quot;</span>, <span class="st">&quot;AE017221.1&quot;</span>, <span class="st">&quot;874346701&quot;</span>, <span class="st">&quot;P04585&quot;</span>, <span class="st">&quot;AP009048.1&quot;</span>, <span class="st">&quot;AP012306.1&quot;</span>, <span class="st">&quot;731469900&quot;</span>, <span class="st">&quot;834774822&quot;</span>, <span class="st">&quot;33357879&quot;</span>, <span class="st">&quot;A0A073FPA6&quot;</span>, <span class="st">&quot;J01695.2&quot;</span>, <span class="st">&quot;37223181&quot;</span>))</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co"># Elimina con base a su código. </span></a></code></pre></div>
+<p>Esto debería reordenar los datos, en base a su identificador de UniProt.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">filtrado_<span class="dv">3</span>_ord_cola &lt;-<span class="st"> </span>filtrado_<span class="dv">3</span> <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(ID_UniProt, <span class="dt">name=</span><span class="st">&quot;Cuenta&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Colapsa los datos hacia n</span></a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Cuenta))</a>
+<a class="sourceLine" id="cb25-4" data-line-number="4">filtrado_<span class="dv">3</span>_ord_nocola &lt;-<span class="st"> </span>filtrado_<span class="dv">3</span> <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="st">  </span><span class="kw">add_count</span>(ID_UniProt, <span class="dt">name=</span><span class="st">&quot;Cuenta&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># No colapsa</span></a>
+<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Cuenta))</a></code></pre></div>
+<p>Una tabla</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">library</span>(knitr)</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw">library</span>(kableExtra)</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3">patabla&lt;-<span class="kw">head</span>(filtrado_<span class="dv">3</span>_ord_cola, <span class="dt">n=</span><span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="kw">kable</span>(patabla) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-5" data-line-number="5"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>), <span class="dt">full_width=</span>F)</a></code></pre></div>
 
 </div>
 </div>
@@ -232,8 +255,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="extracción-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="extracción-de-datos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="applications.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

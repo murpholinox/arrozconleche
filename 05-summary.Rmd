@@ -1,30 +1,3 @@
 # Final Words
 
-El siguiente paso es obtener, de las estructuras determinadas por cristalografía de rayos-X, su identificador dentro del archivo, el tipo de macromolécula (proteína, ADN, o ARN) que representa y su código UniProt.
 
-```{r, echo=FALSE}
-# UniProt
-# cd /run/media/murphy/lolita
-# time gemmi grep _struct_ref.pdbx_db_accession xrays/ > filtraxraysporanumac
-# Esto tarda 83 minutos.
-# 
-# Número de entidades
-# cd /run/media/murphy/lolita
-# time gemmi grep _struct_ref.entity_id xrays/ > filtraxrayspornumentidad
-# Esto tarda 73 minutos.
-```
-
-## Obtiene id, tipo y código
-```{bash, eval=FALSE}
-cd /run/media/murphy/lolita
-time gemmi grep _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession  xrays/ > filtraxraysporpolytype_ac 
-# Esto tarda 75 minutos.
-```
-## Cuenta y ordena
-```{r, message=FALSE, warning=FALSE}
-library("dplyr")
-filtro3 <- read.csv("/run/media/murphy/lolita/filtraxraysporpolytype_ac", header=FALSE, sep=";")
-orf3 <- filtro3 %>%
-  add_count(V3) %>%
-  arrange(desc(n))
-```

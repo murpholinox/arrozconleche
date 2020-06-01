@@ -1,3 +1,65 @@
-# Methods
+# Limpieza de datos
 
-We describe our methods in this chapter.
+Habiendo verificado la naturaleza de nuestros datos, sigue el turno de su limpieza. Limpiar los datos consistirá en los siguientes filtros:
+
+1. Aquellas entradas con una resolución peor que 2 Å no se ocupan. 
+2. Además elimina las estructuras donde no se anotó el pH en su respectiva columna. Según la [página](http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v50.dic/Categories/exptl_crystal_grow.html) del diccionario `.mmcif` dicha anotación se encuentra en 83.7 % del total de entradas depositadas en el PDB.
+3. Aquellas entradas donde el número de entidades sea mayor o igual a cinco no se ocupan.
+
+## Filtro 1
+```{r, eval=FALSE}
+fil1 <- df2 %>%
+  filter(rs1 <= 2.0)
+```
+
+## Filtro 2
+```{r, eval=FALSE}
+fil2 <-fil1 %>%
+  filter(!is.na(peh))
+write_excel_csv(fil2, "/run/media/murphy/lolita/doctorado/clean/fil2.csv")
+#wc -l fil2.csv 
+#69689 fil2.csv
+```
+
+## Filtro 3
+```{bash, eval=FALSE}
+cd /run/media/murphy/lolita/doctorado/clean
+awk -F ";" '{print $1}' fil2.csv | tail -n +2 | uniq -c | sort -n > a
+#wc -l a 
+#58404 a
+# a contiene dos columnas, la primera es el número
+# de entidades y la segunda es el pdb id.
+awk '{if($1>=5) print $2;}' a > pat
+grep -v -f pat fil2.csv > fil3.csv
+```
+
+## Realiza primer listado
+Cuenta la frecuencia del identificador de UniProt, con base en esto realiza una lista ordenada en orden descendente.
+
+```{r, eval=FALSE}
+fil3 <- read_csv("/run/media/murphy/lolita/doctorado/clean/fil3.csv")
+f3_cola <- fil3 %>%
+  count(ide, name="cta_ide") %>% # Colapsa los datos hacia n
+  arrange(desc(cta_ide))
+f3_nocola <- fil3 %>% # Agrega n
+  add_count(ide, name="cta_ide") %>%
+  arrange(desc(cta_ide))
+# Una tabla
+tabla_f3_cola<-head(f3_cola, n=50)
+kable(tabla_f3_cola) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
+```
+
+
+## TODO
+Falta checar el intervalo de pH de las 50 proteínas más representadas y checar las respectivas gráficas de pH
+
+```{r, eval=FALSE}
+ggplot(filter(clean, UAC=="P00698"), aes(x=Length)) + geom_bar() + facet_wrap( ~ sg) + xlab("Residuos de aminoácido") + ylab ("Número de estructuras")
+ggsave("P00698_bar-length_wrap-sg.pdf", width = 20, units = "cm") 
+ggsave("P00698_bar-length_wrap-sg.png", width = 20, units = "cm") 
+ggplot(filter(clean, UAC=="P00698" & sg=="P 43 21 2"), aes(x=pH)) + geom_bar() + xlab("pH") + ylab ("Número de estructuras")
+ggsave("P00698_ph-sg_P_43_21_2.pdf", width = 20, units = "cm") 
+ggsave("p00698_ph-sg_P_43_21_2.png", width = 20, units = "cm") 
+```
+

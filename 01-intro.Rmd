@@ -27,7 +27,7 @@ echo "alias gemmi='/home/murphy/Repos/gemmi/gemmi'" >> ~/.bashrc
 
 Y para la transformación y limpieza de datos se usan [`grep`](https://en.wikipedia.org/wiki/Grep), [`awk`](https://en.wikipedia.org/wiki/AWK) y [`sed`](https://en.wikipedia.org/wiki/Sed) que vienen instalados por defecto en Fedora 32. También se utiliza: [`R`](https://www.r-project.org/), en especial varias funciones del conjunto de paquetes denominado [`tidyverse`](https://www.tidyverse.org/).
 
-La instalación de `R` conviene hacerla como lo describo en mi [blog](https://murpholinox.github.io/2019/10/07/installRwithouttexlivedependencies.html).
+La instalación de `R` conviene hacerla como lo describo en mi [blog](https://murpholinox.github.io/installRwithouttexlivedependencies/).
 
 La instalación del `tidyverse` depende a su vez de la instalación de las siguientes librerías en el SO. 
 
@@ -52,5 +52,6 @@ renv::init()
 ```
 
 ```{bash}
-cat renv.lock
+# Para ver las dependencias descomenta la siguiente línea.
+#cat renv.lock
 ```
