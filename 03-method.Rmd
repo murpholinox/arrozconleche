@@ -1,43 +1,88 @@
 # Limpieza de datos
+Habiendo verificado la naturaleza de nuestros datos, sigue el turno de su limpieza que consiste en aplicar los siguientes filtros:
 
-Habiendo verificado la naturaleza de nuestros datos, sigue el turno de su limpieza. Limpiar los datos consistirá en los siguientes filtros:
+1. Elimina entradas con una resolución peor que 2 Å. 
+2. Elimina entradas donde no se anotó el pH en su respectiva columna. Según la [página](http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v50.dic/Categories/exptl_crystal_grow.html) del diccionario `.mmcif` dicha anotación se encuentra en 83.7 % del total de entradas depositadas en el PDB.
+3. Elimina entradas donde el número de entidades sea mayor o igual a dos.
+4. Elimina entradas donde la longitud de la cadena polipeptídica sea variable.
 
-1. Aquellas entradas con una resolución peor que 2 Å no se ocupan. 
-2. Además elimina las estructuras donde no se anotó el pH en su respectiva columna. Según la [página](http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v50.dic/Categories/exptl_crystal_grow.html) del diccionario `.mmcif` dicha anotación se encuentra en 83.7 % del total de entradas depositadas en el PDB.
-3. Aquellas entradas donde el número de entidades sea mayor o igual a cinco no se ocupan.
+## Filtros 1 y 2
 
-## Filtro 1
-```{r, eval=FALSE}
-fil1 <- df2 %>%
-  filter(rs1 <= 2.0)
-```
-
-## Filtro 2
-```{r, eval=FALSE}
+```{r}
+# Filtro 0
+fil0 <-df2 %>%
+  filter(!ide =="") # Si no tiene identificador se va.
+# Filtro 1
+fil1 <- fil0 %>%
+  filter(rs1 <= 2.0) # Mala resolución no me sirve.
+# Filtro 2
 fil2 <-fil1 %>%
-  filter(!is.na(peh))
+  filter(!is.na(peh)) # Si no tiene pH se va.
 write_excel_csv(fil2, "/run/media/murphy/lolita/doctorado/clean/fil2.csv")
 #wc -l fil2.csv 
-#69689 fil2.csv
+#69669 fil2.csv
 ```
 
 ## Filtro 3
-```{bash, eval=FALSE}
+```{bash}
 cd /run/media/murphy/lolita/doctorado/clean
-awk -F ";" '{print $1}' fil2.csv | tail -n +2 | uniq -c | sort -n > a
+awk -F "," '{print $1}' fil2.csv | tail -n +2 | uniq -c | sort -n > a
 #wc -l a 
-#58404 a
-# a contiene dos columnas, la primera es el número
-# de entidades y la segunda es el pdb id.
-awk '{if($1>=5) print $2;}' a > pat
+#58388 a
+# a contiene dos columnas, la primera es el número de entidades y la segunda es el pdb id.
+awk '{if($1>=2) print $2;}' a > pat
 grep -v -f pat fil2.csv > fil3.csv
 ```
 
-## Realiza primer listado
+```{r}
+# Carga fil3.
+fil3 <- read_csv("/run/media/murphy/lolita/doctorado/clean/fil3.csv")
+```
+
+## Prueba
+Necesitamos un directorio prueba.
+```{r}
+p00698 <- fil3 %>%
+  filter(ide == "P00698")
+write_excel_csv(p00698, "/run/media/murphy/lolita/doctorado/prueba/p00698.csv")
+```
+
+```{bash, eval=FALSE}
+cd /run/media/murphy/lolita/doctorado/prueba
+awk -F "," '{print $1}' p00698.csv | tail -n +2 | tr '[:upper:]' '[:lower:]' > pdbs_p00698.dat
+sed 's/$/.cif.gz/'g pdbs_p00698.dat > list_pdbs_id_p00698
+mkdir hewl
+cat list_pdbs_id_p00698 | while read line; do cp /run/media/murphy/lolita/doctorado/PDB_backup/$line /run/media/murphy/lolita/doctorado/prueba/hewl ; done # 9 segundos.
+time gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _entity_poly.pdbx_seq_one_letter_code hewl/  > prueba1
+```
+
+```{r}
+# Carga fil3.
+prueba1 <-read_delim("/run/media/murphy/lolita/doctorado/prueba/prueba1", 
+    "¿", escape_double = FALSE, col_names = FALSE, 
+    comment = "*>", trim_ws = TRUE)
+pdb<-prueba1$X1
+nde<-stringr::str_replace(prueba1$X2, '�', '')
+tde<-stringr::str_replace(prueba1$X3, '�', '')
+sec0<-stringr::str_replace(prueba1$X4, '�', '')
+sec<-stringr::str_replace_all(sec0, '\\\\n', '')
+prueba1<-data.frame(pdb, nde, tde, sec)
+ulti<-length(sec)
+repe <- seq(1,ulti)
+for (i in repe) {
+long_i<-str_length(sec[[i]])
+lop<-c(lop,long_i)
+}
+ldp<-as.data.frame(lop)
+ldp = ldp[-1,]
+```
+
+## Filtro 4
+
+## Listado
 Cuenta la frecuencia del identificador de UniProt, con base en esto realiza una lista ordenada en orden descendente.
 
 ```{r, eval=FALSE}
-fil3 <- read_csv("/run/media/murphy/lolita/doctorado/clean/fil3.csv")
 f3_cola <- fil3 %>%
   count(ide, name="cta_ide") %>% # Colapsa los datos hacia n
   arrange(desc(cta_ide))
@@ -48,8 +93,50 @@ f3_nocola <- fil3 %>% # Agrega n
 tabla_f3_cola<-head(f3_cola, n=50)
 kable(tabla_f3_cola) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
+write_excel_csv(tabla_f3_cola, "/run/media/murphy/lolita/doctorado/clean/tabla_f3_cola.csv")
+```
+Aquí tenemos el *top* 50 de proteínas representadas en el PDB que se conforman de acuerdo a los filtros anteriores.
+
+## Obtiene nombres
+Por simplicidad trabaja con nombres.
+
+```{bash, eval=FALSE}
+cd /run/media/murphy/lolita/doctorado/clean
+# Obtiene los identificadores
+awk -F "," '{print $1}'  tabla_f3_cola.csv | tail -n +2 > top50_uac.lst
+# Convierte de lista a línea.
+tr '\n' ' ' < top50_uac.lst > top50_uac.ln
+# Descarga el programa.
+wget -O get_info.pl https://raw.githubusercontent.com/murpholinox/usefulscripts/master/uniprot_batch_retrieval.pl
+# Instala requisitos para correr el programa.
+# sudo dnf install 'perl(LWP::UserAgent)' 
+# sudo dnf install perl-LWP-Protocol-https
+chmod u+x get_info.pl
+# Corre el programa.
+perl ./get_info.pl top50_uac.ln > top50_wholeinfo.txt
+# Obtiene identificadores.
+egrep "^ID|^AC|^DE   RecN|^OS" top50_wholeinfo.txt > top50_ids_acs_fnames_org.txt
+# Obtiene nombres.
+grep "^DE" top50_ids_acs_fnames_org.txt | awk -F "=" '{print $2}' | sed 's/Full=//'g | sed 's/;$/,/g' > top50_fnames.lst
+# Checa nombres con comas
+awk -F , 'NF != 2 ' < top50_fnames.lst
+# HLA class I histocompatibility antigen, A alpha chain,
+#Nitric oxide synthase, brain,
+#DNA polymerase I, thermostable,
+#Glycogen phosphorylase, muscle form,
+# Elimina comas
+sed -e 's/antigen, A alpha/antigen A alpha/g ; s/synthase, brain,/synthase brain,/g ; s/polymerase I, thermostable,/polymerase I thermostable,/g ; s/phosphorylase, muscle form,/phosphorylase muscle form,/g' top50_fnames.lst > top50_fnames_fx.lst
+# Obtiene organismos. 
+# Elimina organismos con doble línea OS
+grep -v "^OS   (HIV-1)"  top50_ids_acs_fnames_org.txt > b
+grep -v "^OS   10044" b > top50_ids_acs_fnames_org_fx.txt
+grep "^OS" top50_ids_acs_fnames_org_fx.txt | sed 's/^OS   //'g > top50_org.txt
+# Pega los nombres de las proteínas con su AC, `SUMA` y organismo.
+paste top50_fnames_fx.lst top50_uac.lst > c
+paste -d, c top50_org.txt > top50_final.csv
 ```
 
+Con `top50_final.csv` podemos construir una tabla para la presentación. 
 
 ## TODO
 Falta checar el intervalo de pH de las 50 proteínas más representadas y checar las respectivas gráficas de pH

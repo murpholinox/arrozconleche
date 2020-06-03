@@ -24,7 +24,7 @@
 <meta name="author" content="Francisco Murphy Pérez" />
 
 
-<meta name="date" content="2020-06-01" />
+<meta name="date" content="2020-06-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,25 +54,26 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -81,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -136,9 +137,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#contacto"><i class="fa fa-check"></i><b>1.1</b> Contacto</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="dependencias.html"><a href="dependencias.html"><i class="fa fa-check"></i><b>2</b> Dependencias</a><ul>
-<li class="chapter" data-level="2.1" data-path="dependencias.html"><a href="dependencias.html#sistema-operativo"><i class="fa fa-check"></i><b>2.1</b> Sistema operativo</a></li>
-<li class="chapter" data-level="2.2" data-path="dependencias.html"><a href="dependencias.html#minería-de-datos"><i class="fa fa-check"></i><b>2.2</b> Minería de datos</a></li>
-<li class="chapter" data-level="2.3" data-path="dependencias.html"><a href="dependencias.html#bitácora"><i class="fa fa-check"></i><b>2.3</b> Bitácora</a></li>
+<li class="chapter" data-level="2.1" data-path="dependencias.html"><a href="dependencias.html#configuración"><i class="fa fa-check"></i><b>2.1</b> Configuración</a></li>
+<li class="chapter" data-level="2.2" data-path="dependencias.html"><a href="dependencias.html#sesión"><i class="fa fa-check"></i><b>2.2</b> Sesión</a></li>
+<li class="chapter" data-level="2.3" data-path="dependencias.html"><a href="dependencias.html#sistema-operativo"><i class="fa fa-check"></i><b>2.3</b> Sistema operativo</a></li>
+<li class="chapter" data-level="2.4" data-path="dependencias.html"><a href="dependencias.html#minería-de-datos"><i class="fa fa-check"></i><b>2.4</b> Minería de datos</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dependencias.html"><a href="dependencias.html#bitácora"><i class="fa fa-check"></i><b>2.4.1</b> Bitácora</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html"><i class="fa fa-check"></i><b>3</b> Extracción de datos</a><ul>
 <li class="chapter" data-level="3.1" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#método-anterior"><i class="fa fa-check"></i><b>3.1</b> Método anterior</a></li>
@@ -148,16 +152,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.3.2" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#conoce-el-formato"><i class="fa fa-check"></i><b>3.3.2</b> Conoce el formato</a></li>
 <li class="chapter" data-level="3.3.3" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#descarga-la-información"><i class="fa fa-check"></i><b>3.3.3</b> Descarga la información</a></li>
 <li class="chapter" data-level="3.3.4" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#organización-de-la-información"><i class="fa fa-check"></i><b>3.3.4</b> Organización de la información</a></li>
-<li class="chapter" data-level="3.3.5" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#filtra-por-método-experimental"><i class="fa fa-check"></i><b>3.3.5</b> Filtra por método experimental</a></li>
+<li class="chapter" data-level="3.3.5" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#extrae-entradas-por-método-experimental"><i class="fa fa-check"></i><b>3.3.5</b> Extrae entradas por método experimental</a></li>
 <li class="chapter" data-level="3.3.6" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#extrae-información"><i class="fa fa-check"></i><b>3.3.6</b> Extrae información</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html"><i class="fa fa-check"></i><b>4</b> Limpieza de datos</a><ul>
-<li class="chapter" data-level="4.1" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-1"><i class="fa fa-check"></i><b>4.1</b> Filtro 1</a></li>
-<li class="chapter" data-level="4.2" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-2"><i class="fa fa-check"></i><b>4.2</b> Filtro 2</a></li>
-<li class="chapter" data-level="4.3" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-3"><i class="fa fa-check"></i><b>4.3</b> Filtro 3</a></li>
-<li class="chapter" data-level="4.4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#realiza-primer-listado"><i class="fa fa-check"></i><b>4.4</b> Realiza primer listado</a></li>
-<li class="chapter" data-level="4.5" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#falta"><i class="fa fa-check"></i><b>4.5</b> FALTA</a></li>
+<li class="chapter" data-level="4.1" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtros-1-y-2"><i class="fa fa-check"></i><b>4.1</b> Filtros 1 y 2</a></li>
+<li class="chapter" data-level="4.2" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-3"><i class="fa fa-check"></i><b>4.2</b> Filtro 3</a></li>
+<li class="chapter" data-level="4.3" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#prueba"><i class="fa fa-check"></i><b>4.3</b> Prueba</a></li>
+<li class="chapter" data-level="4.4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-4"><i class="fa fa-check"></i><b>4.4</b> Filtro 4</a></li>
+<li class="chapter" data-level="4.5" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#listado"><i class="fa fa-check"></i><b>4.5</b> Listado</a></li>
+<li class="chapter" data-level="4.6" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#obtiene-nombres"><i class="fa fa-check"></i><b>4.6</b> Obtiene nombres</a></li>
+<li class="chapter" data-level="4.7" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#todo"><i class="fa fa-check"></i><b>4.7</b> TODO</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
 <li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
@@ -187,44 +193,101 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="dependencias" class="section level1">
 <h1><span class="header-section-number">2</span> Dependencias</h1>
-<p>En caso de falla de mi sistema operativo (SO) o si alguien desea reproducir mis resultados se listan las dependencias usadas.</p>
+<p>Se listan las dependencias usadas.</p>
+<div id="configuración" class="section level2">
+<h2><span class="header-section-number">2.1</span> Configuración</h2>
+<p>Se cargan las librerías necesarias de <code>R</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="dependencias.html#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="dependencias.html#cb1-2"></a><span class="kw">library</span>(knitr)</span>
+<span id="cb1-3"><a href="dependencias.html#cb1-3"></a><span class="kw">library</span>(kableExtra)</span></code></pre></div>
+</div>
+<div id="sesión" class="section level2">
+<h2><span class="header-section-number">2.2</span> Sesión</h2>
+<p>Imprime información de la sesión activa de <code>R</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="dependencias.html#cb2-1"></a><span class="kw">sessionInfo</span>()</span></code></pre></div>
+<pre><code>## R version 3.6.3 (2020-02-29)
+## Platform: x86_64-redhat-linux-gnu (64-bit)
+## Running under: Fedora 32 (Workstation Edition)
+## 
+## Matrix products: default
+## BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.9.so
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices datasets  utils     methods   base     
+## 
+## other attached packages:
+##  [1] kableExtra_1.1.0 knitr_1.28       forcats_0.5.0    stringr_1.4.0   
+##  [5] dplyr_0.8.5      purrr_0.3.4      readr_1.3.1      tidyr_1.1.0     
+##  [9] tibble_3.0.1     ggplot2_3.3.1    tidyverse_1.3.0 
+## 
+## loaded via a namespace (and not attached):
+##  [1] tidyselect_1.1.0  xfun_0.14         haven_2.3.0       lattice_0.20-38  
+##  [5] colorspace_1.4-1  vctrs_0.3.0       generics_0.0.2    viridisLite_0.3.0
+##  [9] htmltools_0.4.0   yaml_2.2.1        blob_1.2.1        rlang_0.4.6      
+## [13] pillar_1.4.4      withr_2.2.0       glue_1.4.1        DBI_1.1.0        
+## [17] dbplyr_1.4.4      modelr_0.1.8      readxl_1.3.1      lifecycle_0.2.0  
+## [21] munsell_0.5.0     gtable_0.3.0      cellranger_1.1.0  rvest_0.3.5      
+## [25] evaluate_0.14     fansi_0.4.1       broom_0.5.6       Rcpp_1.0.4.6     
+## [29] renv_0.10.0       backports_1.1.7   scales_1.1.1      webshot_0.5.2    
+## [33] jsonlite_1.6.1    fs_1.4.1          hms_0.5.3         digest_0.6.25    
+## [37] stringi_1.4.6     bookdown_0.19     grid_3.6.3        cli_2.0.2        
+## [41] tools_3.6.3       magrittr_1.5      crayon_1.3.4      pkgconfig_2.0.3  
+## [45] ellipsis_0.3.1    xml2_1.3.2        reprex_0.3.0      lubridate_1.7.8  
+## [49] assertthat_0.2.1  rmarkdown_2.1     httr_1.4.1        rstudioapi_0.11  
+## [53] R6_2.4.1          nlme_3.1-144      compiler_3.6.3</code></pre>
+</div>
 <div id="sistema-operativo" class="section level2">
-<h2><span class="header-section-number">2.1</span> Sistema operativo</h2>
-<p>El sistema operativo usado es <a href="https://getfedora.org/">Fedora 32</a> en su versión <a href="https://getfedora.org/es/workstation/download/">Workstation</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="fu">uname</span> -a</a></code></pre></div>
-<pre><code>## Linux eva02 5.6.12-300.fc32.x86_64 #1 SMP Mon May 11 16:47:13 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</code></pre>
+<h2><span class="header-section-number">2.3</span> Sistema operativo</h2>
+<p>Como se nota en la salida anterior, el sistema operativo usado es Fedora 32 (<a href="https://getfedora.org/" class="uri">https://getfedora.org/</a>) en su versión <em>workstation</em>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="dependencias.html#cb4-1"></a><span class="fu">uname</span> -r <span class="co"># Imprime versión del kernel.</span></span></code></pre></div>
+<pre><code>## 5.6.15-300.fc32.x86_64</code></pre>
 </div>
 <div id="minería-de-datos" class="section level2">
-<h2><span class="header-section-number">2.2</span> Minería de datos</h2>
-<p>Para la extracción de datos se usa <a href="https://github.com/project-gemmi/gemmi"><code>gemmi</code></a>. Cuya instalación depende a su vez de <code>git</code> y <code>cmake</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="fu">sudo</span> dnf -y install git cmake</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="bu">cd</span><span class="kw">;</span> <span class="fu">mkdir</span> Repos<span class="kw">;</span> <span class="bu">cd</span> Repos</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="fu">git</span> clone https://github.com/project-gemmi/gemmi.git</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="bu">cd</span> gemmi</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="fu">cmake</span> .</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="fu">make</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="bu">echo</span> <span class="st">&quot;# Gemmi&quot;</span> <span class="op">&gt;&gt;</span> ~/.bashrc</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="bu">echo</span> <span class="st">&quot;alias gemmi=&#39;/home/murphy/Repos/gemmi/gemmi&#39;&quot;</span> <span class="op">&gt;&gt;</span> ~/.bashrc</a></code></pre></div>
-<p>Y para la transformación y limpieza de datos se usan <a href="https://en.wikipedia.org/wiki/Grep"><code>grep</code></a>, <a href="https://en.wikipedia.org/wiki/AWK"><code>awk</code></a> y <a href="https://en.wikipedia.org/wiki/Sed"><code>sed</code></a> que vienen instalados por defecto en Fedora 32. También se utiliza: <a href="https://www.r-project.org/"><code>R</code></a>, en especial varias funciones del conjunto de paquetes denominado <a href="https://www.tidyverse.org/"><code>tidyverse</code></a>.</p>
-<p>La instalación de <code>R</code> conviene hacerla como lo describo en mi <a href="https://murpholinox.github.io/installRwithouttexlivedependencies/">blog</a>.</p>
+<h2><span class="header-section-number">2.4</span> Minería de datos</h2>
+<p>La extracción de datos se realiza con <code>gemmi</code> (<a href="https://github.com/project-gemmi/gemmi" class="uri">https://github.com/project-gemmi/gemmi</a>). Cuya instalación depende a su vez de <code>git</code> y <code>cmake</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="dependencias.html#cb6-1"></a><span class="fu">sudo</span> dnf -y install git cmake</span>
+<span id="cb6-2"><a href="dependencias.html#cb6-2"></a><span class="bu">cd</span><span class="kw">;</span> <span class="fu">mkdir</span> Repos<span class="kw">;</span> <span class="bu">cd</span> Repos</span>
+<span id="cb6-3"><a href="dependencias.html#cb6-3"></a><span class="fu">git</span> clone https://github.com/project-gemmi/gemmi.git</span>
+<span id="cb6-4"><a href="dependencias.html#cb6-4"></a><span class="bu">cd</span> gemmi</span>
+<span id="cb6-5"><a href="dependencias.html#cb6-5"></a><span class="fu">cmake</span> .</span>
+<span id="cb6-6"><a href="dependencias.html#cb6-6"></a><span class="fu">make</span></span>
+<span id="cb6-7"><a href="dependencias.html#cb6-7"></a><span class="bu">echo</span> <span class="st">&quot;# Gemmi&quot;</span> <span class="op">&gt;&gt;</span> ~/.bashrc</span>
+<span id="cb6-8"><a href="dependencias.html#cb6-8"></a><span class="bu">echo</span> <span class="st">&quot;alias gemmi=&#39;/home/murphy/Repos/gemmi/gemmi&#39;&quot;</span> <span class="op">&gt;&gt;</span> ~/.bashrc</span></code></pre></div>
+<p>Y para la transformación y limpieza de datos se usa:</p>
+<ul>
+<li><code>grep</code> (<a href="https://www.gnu.org/software/grep/" class="uri">https://www.gnu.org/software/grep/</a>)</li>
+<li><code>awk</code> (<a href="https://www.gnu.org/software/gawk/" class="uri">https://www.gnu.org/software/gawk/</a>)</li>
+<li><code>sed</code> (<a href="https://www.gnu.org/software/gawk/" class="uri">https://www.gnu.org/software/gawk/</a>)</li>
+<li><code>R</code> (<a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a>)</li>
+<li><code>tidyverse</code> (<a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>)</li>
+<li><code>bash</code> (<a href="https://www.gnu.org/software/bash/" class="uri">https://www.gnu.org/software/bash/</a>)</li>
+</ul>
+<p>La instalación de <code>R</code> conviene hacerla como lo describo en el siguiente enlace <a href="https://murpholinox.github.io/installRwithouttexlivedependencies/" class="uri">https://murpholinox.github.io/installRwithouttexlivedependencies/</a>.</p>
 <p>La instalación del <code>tidyverse</code> depende a su vez de la instalación de las siguientes librerías en el SO.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="fu">sudo</span> dnf -y install openssl-devel libxml2-devel libcurl-devel</a></code></pre></div>
-</div>
-<div id="bitácora" class="section level2">
-<h2><span class="header-section-number">2.3</span> Bitácora</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="dependencias.html#cb7-1"></a><span class="fu">sudo</span> dnf -y install openssl-devel libxml2-devel libcurl-devel</span></code></pre></div>
+<div id="bitácora" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> Bitácora</h3>
 <p>La reproducción correcta, desde la ejecución del código hasta la producción del archivo de salida, de esta bitácora depende de la instalación de varios programas:</p>
 <ul>
-<li><a href="https://rstudio.com/"><code>rstudio</code></a></li>
-<li><a href="https://github.com/rstudio/bookdown"><code>bookdown</code></a></li>
-<li><a href="https://rmarkdown.rstudio.com/"><code>rmarkdown</code></a></li>
-<li><a href="https://github.com/rstudio/renv"><code>renv</code></a></li>
+<li><code>rstudio</code> (<a href="https://rstudio.com/" class="uri">https://rstudio.com/</a>)</li>
+<li><code>bookdown</code> (<a href="https://github.com/rstudio/bookdown" class="uri">https://github.com/rstudio/bookdown</a>)</li>
+<li><code>rmarkdown</code> (<a href="https://rmarkdown.rstudio.com/" class="uri">https://rmarkdown.rstudio.com/</a>)</li>
+<li><code>renv</code> (<a href="https://github.com/rstudio/renv" class="uri">https://github.com/rstudio/renv</a>)</li>
 </ul>
-<p>Siendo <code>rstudio</code> el entorno de desarrollo integrado de <code>R</code> y <code>rmarkdown</code> es un formato mezcla para documentar en <code>markdown</code> código en <code>R</code> (véase el sitio web de <code>rmarkdown</code>). El paquete <code>bookdown</code> ocupa la funcionalidad de <code>rmarkdown</code> para generar un libro en formato <code>.Rmd</code> que puede exportarse a varios formatos de salida (<code>.html</code>, <code>.pdf</code>, <code>.doc</code>, etc). Para manejar las dependencias de una manera aislada, portable y reproducible se usa <code>renv</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># renv::consent() # en la consola de R</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">renv<span class="op">::</span><span class="kw">init</span>()</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Para ver las dependencias descomenta la siguiente línea.</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#cat renv.lock</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="dependencias.html#cb8-1"></a><span class="co"># renv::consent() # Da permiso a renv.</span></span>
+<span id="cb8-2"><a href="dependencias.html#cb8-2"></a><span class="co"># renv::init() # Inicia renv.</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="dependencias.html#cb9-1"></a><span class="co"># Ve las dependencias.</span></span>
+<span id="cb9-2"><a href="dependencias.html#cb9-2"></a><span class="fu">cat</span> renv.lock</span></code></pre></div>
 
+</div>
 </div>
 </div>
             </section>

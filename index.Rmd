@@ -14,13 +14,13 @@ description: "Bitácora de doctorado"
 
 Bitácora del proyecto de doctorado de Francisco Murphy Pérez. 
 
-En resumen, el proyecto de doctorado consiste en analizar el efecto que tiene el pH en el daño por radiación en cristales de proteína.
+En resumen, el proyecto de doctorado consiste en analizar el efecto que tiene el pH en el daño por radiación en cristales de proteína. Para ello se plantea cristalizar algunas proteínas con la misma condición de cristalización pero diferente pH.
 
-La primer parte trata de obtener una lista de proteínas que cumplan los requisitos *adecuados* para llevar a cabo dicho proyecto.
+La primer parte trata de obtener una lista de proteínas que cumplan los requisitos *adecuados* para llevar a cabo dicho proyecto. 
 
 La segunda parte será la reproducción de las condiciones de cristalización de las proteínas adecuadas.
 
-En la tercera parte del proyecto se realiza un análisis de los resultados obtenidos.
+En la tercera parte del proyecto se realizará un análisis del daño por radiación en los cristales obtenidos.
 
 ## Contacto
 

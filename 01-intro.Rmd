@@ -1,18 +1,29 @@
 # Dependencias
+Se listan las dependencias usadas.
 
-En caso de falla de mi sistema operativo (SO) o si alguien desea reproducir mis resultados se listan las dependencias usadas.
+## Configuración
+Se cargan las librerías necesarias de `R`.
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+```
+
+## Sesión
+Imprime información de la sesión activa de `R`.
+```{r}
+sessionInfo()
+```
 
 ## Sistema operativo
-
-El sistema operativo usado es [Fedora 32](https://getfedora.org/) en su versión [Workstation](https://getfedora.org/es/workstation/download/).
+Como se nota en la salida anterior, el sistema operativo usado es Fedora 32 (<https://getfedora.org/>) en su versión *workstation*. 
 
 ```{bash}
-uname -a
+uname -r # Imprime versión del kernel.
 ```
 
 ## Minería de datos
-
-Para la extracción de datos se usa [`gemmi`](https://github.com/project-gemmi/gemmi). Cuya instalación depende a su vez de `git` y `cmake`.
+La extracción de datos se realiza con `gemmi` (<https://github.com/project-gemmi/gemmi>). Cuya instalación depende a su vez de `git` y `cmake`.
 
 ```{bash, eval=FALSE}
 sudo dnf -y install git cmake
@@ -25,9 +36,16 @@ echo "# Gemmi" >> ~/.bashrc
 echo "alias gemmi='/home/murphy/Repos/gemmi/gemmi'" >> ~/.bashrc
 ```
 
-Y para la transformación y limpieza de datos se usan [`grep`](https://en.wikipedia.org/wiki/Grep), [`awk`](https://en.wikipedia.org/wiki/AWK) y [`sed`](https://en.wikipedia.org/wiki/Sed) que vienen instalados por defecto en Fedora 32. También se utiliza: [`R`](https://www.r-project.org/), en especial varias funciones del conjunto de paquetes denominado [`tidyverse`](https://www.tidyverse.org/).
+Y para la transformación y limpieza de datos se usa:
 
-La instalación de `R` conviene hacerla como lo describo en mi [blog](https://murpholinox.github.io/installRwithouttexlivedependencies/).
+- `grep` (<https://www.gnu.org/software/grep/>)
+- `awk` (<https://www.gnu.org/software/gawk/>)
+- `sed` (<https://www.gnu.org/software/gawk/>)
+- `R` (<https://www.r-project.org/>)
+- `tidyverse` (<https://www.tidyverse.org/>)
+- `bash` (<https://www.gnu.org/software/bash/>)
+
+La instalación de `R` conviene hacerla como lo describo en el siguiente enlace <https://murpholinox.github.io/installRwithouttexlivedependencies/>.
 
 La instalación del `tidyverse` depende a su vez de la instalación de las siguientes librerías en el SO. 
 
@@ -35,23 +53,20 @@ La instalación del `tidyverse` depende a su vez de la instalación de las sigui
 sudo dnf -y install openssl-devel libxml2-devel libcurl-devel
 ```
 
-## Bitácora
-
+### Bitácora
 La reproducción correcta, desde la ejecución del código hasta la producción del archivo de salida, de esta bitácora depende de la instalación de varios programas:
 
-- [`rstudio`](https://rstudio.com/) 
-- [`bookdown`](https://github.com/rstudio/bookdown) 
-- [`rmarkdown`](https://rmarkdown.rstudio.com/) 
-- [`renv`](https://github.com/rstudio/renv) 
+- `rstudio` (<https://rstudio.com/>)
+- `bookdown` (<https://github.com/rstudio/bookdown>) 
+- `rmarkdown` (<https://rmarkdown.rstudio.com/>)
+- `renv` (<https://github.com/rstudio/renv>)
 
-Siendo `rstudio` el entorno de desarrollo integrado de `R` y `rmarkdown` es un formato mezcla para documentar en `markdown` código en `R` (véase el sitio web de `rmarkdown`). El paquete `bookdown` ocupa la funcionalidad de `rmarkdown` para generar un libro en formato `.Rmd` que puede exportarse a varios formatos de salida (`.html`, `.pdf`, `.doc`, etc). Para manejar las dependencias de una manera aislada, portable y reproducible se usa `renv`.
-
-```{r, eval=FALSE}
-# renv::consent() # en la consola de R
-renv::init()
+```{r}
+# renv::consent() # Da permiso a renv.
+# renv::init() # Inicia renv.
 ```
 
-```{bash}
-# Para ver las dependencias descomenta la siguiente línea.
-#cat renv.lock
+```{bash, eval=FALSE}
+# Ve las dependencias.
+cat renv.lock
 ```

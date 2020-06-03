@@ -1,0 +1,14 @@
+base
+methods
+utils
+datasets
+grDevices
+graphics
+stats
+readr
+stringr
+ggplot2
+RColorBrewer
+dplyr
+knitr
+kableExtra

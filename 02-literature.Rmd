@@ -1,15 +1,10 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 # Extracción de datos
 
 ## Método anterior
-En un inicio la extracción de datos se realizaba por medio de la interfaz de programación de aplicaciones (API, por sus siglas en inglés) del banco de datos de proteínas (PDB, por sus siglas en inglés), basado en una 'búsqueda avanzada' en formato `.xml`, como se describe en este [*post*](https://murpholinox.github.io/getdatafromthePDB/). 
+En un inicio la extracción de datos se realizó por medio de la interfaz de programación de aplicaciones (API, por sus siglas en inglés) del banco de datos de proteínas (PDB, también por sus siglas en inglés), basado en una 'búsqueda avanzada' en formato `.xml`, como lo describo en el siguiente enlace <https://murpholinox.github.io/getdatafromthePDB/>. 
 
 ## Cambios
-A finales del 2019, hubo una serie de cambios al sitio *web* del PDB que no permitieron seguir con el proceso anterior, al introducir ciertas restricciones. Por lo menos a esta fecha, 30 de mayo 2020, las restricciones continúan y son las siguientes:
+A finales del 2019, se implementó una nueva API en el sitio *web* del PDB que no permitió seguir con el proceso anterior, al introducir ciertas restricciones. Por lo menos a esta fecha, 30 de mayo 2020, las restricciones continúan y son las siguientes:
 
 1. Después de una 'búsqueda avanzada', no es posible descargar el archivo `.csv` de los resultados de la búsqueda con un número mayor a 2500 líneas.
 
@@ -17,128 +12,106 @@ A finales del 2019, hubo una serie de cambios al sitio *web* del PDB que no perm
 
 2. Después de una 'búsqueda avanzada', la opción de descargar un `.csv` personalizado, es decir, con la posibilidad de seleccionar las columnas de interés, no se encuentra disponible.
 
-> Justo estas dos limitantes interfieren con los últimos pasos del primer intento de la extracción de datos.
-
 ## Nuevo método
-Debido a estas restricciones se decidió emplear la información cruda del PDB, es decir, se decidió obtener la información directamente del cabezal de los archivos de las estructuras depositadas en el PDB.
+A causa de lo anterior se decidió emplear la información cruda del PDB, es decir, extraer la información directamente del cabezal de los archivos de las estructuras depositadas en el PDB.
 
 ### Escoge formato
-El PDB ofrece archivos en tres formatos diferentes, `.xml`, `.pdb` y `.mmcif`. El segundo es el más fácil de leer y manipular; sin embargo, se decidió usar el tercer formato debido a lo siguiente:
+El PDB ofrece descargar sus archivos en tres formatos diferentes: `.xml`, `.pdb` y `.mmcif`. El segundo es el más fácil de leer y manipular; sin embargo, se decidió usar el tercer formato debido al siguiente párrafo:
 
 > Many of the errors have been fixed in the equivalent mmCIF files. Hence, if you are interested in the header information, it is a good idea to extract information from mmCIF files...
 >
-> De la documentación de `biopython`, [aquí](https://biopython.readthedocs.io/en/latest/chapter_pdb.html).
+> De <https://biopython.readthedocs.io/en/latest/chapter_pdb.html>.
 
 ### Conoce el formato
-El formato `.mmcif` se detalla en esta [página](http://mmcif.wwpdb.org/) y cabe señalar que existe una correspondencia entre las etiquetas del `.pdb` con las del `.mmcif` (véase [aquí](http://mmcif.wwpdb.org/docs/pdb_to_pdbx_correspondences.html)).
+El formato `.mmcif` se detalla en <http://mmcif.wwpdb.org/>. Existe una correspondencia entre las etiquetas del `.pdb` con las del `.mmcif`.
 
-> El formato `.mmcif`, tiene como fin reemplazar el formato `.pdb` (información [aquí](http://mmcif.wwpdb.org/docs/faqs/pdbx-mmcif-faq-general.html)). 
-
-> Desde abril del 2019, es indispensable depositar la estructura de tu proteína de interés en formato `.mmcif` (información [aquí](https://journals.iucr.org/d/issues/2019/04/00/rr5177/)).
+> El formato `.mmcif`, tiene como fin reemplazar el formato `.pdb` (véase <http://mmcif.wwpdb.org/docs/faqs/pdbx-mmcif-faq-general.html>). 
 
 ### Descarga la información
 Para descargar todo las estructuras del PDB en formato `.mmcif`, se usa el siguiente comando:
 
 ```{bash, eval=FALSE}
 cd /run/media/murphy/lolita/doctorado # Trabaja en el disco duro.
-rsync -rlpt -v -z --delete --port=33444 \ 
-rsync.rcsb.org::ftp_data/structures/divided/mmCIF/ ./PDB 
+rsync -rlpt -v -z --delete --port=33444 rsync.rcsb.org::ftp_data/structures/divided/mmCIF/ ./PDB 
 # Tarda 725 minutos!
 ```
 
-> Instrucciones tomadas del mismo PDB, [aquí](https://www.wwpdb.org/ftp/pdb-ftp-sites).
+>Instrucciones de <https://www.wwpdb.org/ftp/pdb-ftp-sites>.
 
 ### Organización de la información
-Las estructuras están organizadas en diferentes subdirectorios, cuyo nombre está formado por el segundo y el tercer carácter del archivo `.mmcif`. Por ejemplo `1ABC.mmcif` estará en el subdirectorio `ab/`. Para las pruebas se hace una copia de este directorio, sin los subdirectorios. Esto tiene dos fines: uno, se tiene un *backup* y dos, es más simple manipular los archivos en un solo directorio.
+Las estructuras están organizadas en diferentes subdirectorios, cuyo nombre está formado por el segundo y el tercer carácter del nombre del archivo `.mmcif`. Por ejemplo `1abc.mmcif` estará en el subdirectorio `ab/`. Para las pruebas se hace una copia de este directorio, sin los subdirectorios. Esto tiene dos fines: realizar un respaldo y manipular de una manera más sencilla los archivos.
 
 ```{bash, eval=FALSE}
 cd /run/media/murphy/lolita/doctorado
 mkdir PDB_backup
 cd PDB/
-time find . -name '*.gz' -exec cp \{\} /run/media/murphy/lolita/doctorado/PDB_backup/ \; # Hay que dar la ruta absoluta.
+time find . -name '*.gz' -exec cp \{\} /run/media/murphy/lolita/doctorado/PDB_backup/ \; 
 # Esto tarda 36 minutos!
 # Se confirma con:
-#find -name "*.gz" | wc -l
-#164391
-#cd ../PDB_backup/
-#find -name "*.gz" | wc -l
-#164391
+# cd ../PDB_backup/
+# find -name "*.gz" | wc -l
+# 164391
 ```
 
-Por otra parte, los archivos están comprimidos en formato `gunzip` ([aquí](https://linux.die.net/man/1/gunzip) su documentación) y así se mantendran ya que no es necesario descomprimirlos. 
+Los archivos descargados están comprimidos en formato `gzip` (<https://www.gnu.org/software/gzip/>). No es necesario descomprimirlos. 
 
-### Filtra por método experimental
-Del universo de estructuras del PDB, obtenemos aquellas estructuras determinadas por cristalografía de rayos-X. Este filtro ayuda a reducir confusiones posteriores. Estas confusiones surgen porque `gemmi`, extrae etiquetas pero no conoce contextos. Esto puede resultar, dependiendo de las etiquetas a extraer, en una producción de un archivo de texto con un número de columnas variable por línea, es decir, datos en forma no rectangular. 
-
-> La mayor parte del `tidyverse` trabaja con datos rectangulares, mismo número de columnas en todas las líneas, por lo que es esencial obtener datos de esta forma. 
+### Extracción de datos
+La extracción de `gemmi` funciona de la siguiente manera:
 
 ```{bash, eval=FALSE}
-cd /run/media/murphy/lolita/doctorado/PDB_backup
+# Obtiene número de acceso.
+# time gemmi grep _struct_ref.pdbx_db_accession xrays/ > from_xrays_get_ide
+# Esto tarda 83 minutos!
+# Obtiene número de entidades.
+# time gemmi grep _entity_poly.entity_id xrays/ > from_xrays_get_nde
+# Esto tarda 73 minutos!
+# Obtiene anteriores y tipo de entidad.
+# time gemmi grep _struct_ref.pdbx_db_accession -a _entity_poly.entity_id -a _entity_poly.type xrays/ > from_xrays_get_ide_nde_tde 
+# Esto tarda 75 minutos!
+# Estos resultados no producen datos rectangulares, por la ausencia de un delimitador apropiado.
+```
+
+#### Separa entradas por método experimental
+Del universo de archivos depositados en el PDB, obtenemos aquellas estructuras determinadas por cristalografía de rayos-X (CRX). Esto ayuda a reducir confusiones posteriores. Estas confusiones surgen porque `gemmi`, extrae etiquetas pero no conoce contextos. Esto puede resultar, dependiendo de las etiquetas, en una producción de un archivo de texto con un número de columnas variable por línea, es decir, datos en forma no rectangular. 
+
+> Advertencia: La mayor parte del `tidyverse` trabaja con datos rectangulares, mismo número de columnas en todas las líneas, por lo que es esencial obtener datos de esta forma. 
+
+```{bash, eval=FALSE}
+cd /run/media/murphy/lolita/doctorado/
 mkdir extract
 time gemmi grep _exptl.method PDB_backup/ > ./extract/method.dat # Esto tarda 74 minutos!
-time grep X-RAY ./extract/method.dat | awk -F : '{print $1}' | tr '[:upper:]' '[:lower:]' > ./extract/pdbs_by_xray.dat # Esto tarda 0.93 segundos.
-# En vim pdbs_by_xray y haz :%s/$/.cif.gz/ y :sav list_pdbs_by_xray y :q
-mv list_pdbs_by_xray extract/
 cd extract/
-# Es interesante comparar el número de entradas por
-# X-RAYs contra el total
-#wc -l method.dat pdbs_by_xray.dat
+grep X-RAY method.dat | awk -F : '{print $1}' | tr '[:upper:]' '[:lower:]' > pdbs_by_xray.dat
+sed 's/$/.cig.gz/'g pdbs_by_xray.dat > list_pdbs_by_xray
+# Es interesante comparar el número de entradas por CRX contra el total:
+# wc -l method.dat pdbs_by_xray.dat
 # 164558 method.dat
 # 146114 pdbs_by_xray.dat
-# 88.79 % de las entradas en el PDB son por X-Rays
+# Es decir, 88.79 % de las entradas en el PDB son por CRX.
 mkdir xrays
 time cat list_pdbs_by_xray | while read line;
-do cp ../PDB_backup/$line xrays/; done 
-# Esto tarda 49 minutos
+do cp /run/media/murphy/lolita/doctorado/PDB_backup/$line xrays/; done 
+# Esto tarda 49 minutos!
 ```
 
-### Extrae información
-
-`gemmi` funciona de la siguiente manera:
-
+#### Extrae datos
 ```{bash, eval=FALSE}
-# Obtiene número de acceso:
-#time gemmi grep _struct_ref.pdbx_db_accession xrays/ > from_xrays_get_accession_code
-# Esto tarda 83 minutos!
-# Obtiene número de entidades:
-#time gemmi grep _struct_ref.entity_id xrays/ > from_xrays_get_number_of_entities
-# Esto tarda 73 minutos!
-#time gemmi grep _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession  xrays/ > from_xrays_get_ne_te_ac 
-# Esto tarda 75 minutos!
-# Si bien esto funciona, los resultados generados no producen
-# datos rectangulares, por la falta de un delimitador apropiado.
-```
-
-
-```{bash, eval=FALSE}
-# El primer delimitador a probar fue TAB (\t)
-#time gemmi grep --delimiter='\t' _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI xrays/ > todo
+# El primer delimitador usado fue <TAB> (\t).
+# time gemmi grep --delimiter='\t' _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI xrays/ > todo
 # Esto tarda 45 minutos! 
-# Sin embargo, el campo donde se anotan las condiciones 
-# experimentales de la cristalización, contienen 
-# este delimitador. La limpieza de datos no es fácil:
-#awk 'BEGIN{FS="\t";}{if(NF>12) print $0;}' todo > errores
-#cat errores # Para ver las líneas mal formateadas.
-# En vim %s/\\^I/ /g
-#awk 'BEGIN{FS="\t";}{if(NF!=12) print $0;}' todo_fix.tsv # Confirma
-# Desafortunadamente, esto todavía no es suficiente.
-# ¿Por qué? No sé. Debe haber caracteres raros en los datos.
-# Probé con un delimitador que jamás podría estar
-# en los archivos `mmcif`, '¿'...
-# (básicamente por que no existe en inglés).
+# Estos resultados no producen datos rectangulares, por la presencia de <TAB> en la columna de la condición de cristalización.
+# La solución es usar un delimitador que jamás podría aparecer en los archivos `.mmcif`.
 cd /run/media/murphy/lolita/doctorado/extract
 time gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI xrays/ > todo2
 # Esto tarda 45 minutos!
 ```
 
-```{r, eval=FALSE, warning=FALSE, message=FALSE}
-library(readr)
+Importa los datos extraídos a `R` y los verifica.
+```{r, warning=FALSE, message=FALSE}
 todo2 <- read_delim("/run/media/murphy/lolita/doctorado/extract/todo2", 
     "¿", escape_double = FALSE, col_names = FALSE, 
     comment = "*>", trim_ws = TRUE)
-library(stringr)
-# El locale de mi sistema, por lo tanto el de `R` está
-# en inglés, por lo que `R` no reconoce el delimitador usado.
+# La configuración regional de mi sistema está en inglés, `R` también por lo que no reconoce '¿'.
 pdb<-todo2$X1
 nde<-stringr::str_replace(todo2$X2, '�', '')
 tde<-stringr::str_replace(todo2$X3, '�', '')
@@ -151,61 +124,47 @@ rs1<-stringr::str_replace(todo2$X9, '�', '')
 rs2<-stringr::str_replace(todo2$X10, '�', '')
 gpo<-stringr::str_replace(todo2$X11, '�', '')
 doi<-stringr::str_replace(todo2$X12, '�', '')
-# !!!  Ayer no sabía cómo hacer esto en `R`, así que pedí ayuda y mi papá hizo un macro en excel escrito en `VB`, Haly hizo un programa en `perl` y  hoy lo resolví con `python` (y después con `R`). Esto se encuentra documentado en los subdirectorios `ema/`, `mcr/` y `fmp/`, respectivamente.
 datos<-data.frame(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi)
 rm(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi)
-# Cuando `R` crea el data.frame, escribe todo como factor
-# El número de entidades, el pH y la resolución
-# debe tratarse como número
+# Cuidado con el tipo de las columnas.
 datos$nde<-as.numeric(as.character((datos$nde)))
 datos$peh<-as.numeric(as.character((datos$peh)))
 datos$rs1<-as.numeric(as.character((datos$rs1)))
 datos$rs2<-as.numeric(as.character((datos$rs2)))
-# Verificamos los datos al graficar algunas variables:
-library(ggplot2)
-library(RColorBrewer)
+# Verificamos los datos al graficar algunas variables interesantes:
 theme_set(theme_bw())
-ggplot(data = datos, aes(x=peh)) + geom_histogram(binwidth = 0.5) + labs(x="pH", y="Frecuencia") + xlim(1, 11) 
+# Histograma del pH.
+ggplot(data = datos, aes(x=peh)) + geom_histogram(binwidth = 0.5) + labs(x="pH", y="Frecuencia") + xlim(1, 11)
+# Histograma de la resolución.
 ggplot(data = datos, aes(x=rs1)) + geom_histogram(binwidth = 0.1) + labs(x="Resolución (Å)", y="Frecuencia")
+# Histograma del número de entidades.
 ggplot(data = datos, aes(x=nde)) + geom_histogram(binwidth = 1) + labs(x="Número de entidades", y="Frecuencia")
-# Es lo mismo? Sí. La única diferencia es 
-# que las barras están separadas
-#ggplot(data = datos, aes(x=nde)) + geom_bar() + labs(x="Número de entidades", y="Frecuencia")
-library(dplyr)
+# Determina cuentas por grupo de grupos espaciales y tido de entidad.
 df1<-datos %>%
   add_count(gpo, name = "cta_gpo")
 df2<-df1 %>%
   add_count(tde, name = "cta_tde")
-df3<-datos %>%
+tab_gpo<-datos %>%
   count(gpo, name = "cta_gpo") %>%
   arrange(desc(cta_gpo))
-df4<-datos %>%
+tab_tde<-datos %>%
   count(tde, name = "cta_tde") %>%
   arrange(desc(cta_tde))
+# Gráfico de barras de los grupos espaciales.
 ggplot(data = df1, aes(x=reorder(gpo, cta_gpo))) + geom_bar() + labs(x="Grupo espacial", y="Frecuencia") + theme(axis.text.x = element_text(angle = 90))
-gpo_rar <- df1 %>%
+# Es interesante notar que el número de grupos espaciales es mayor a 65.
+gpo_rar <- df2 %>%
   filter(cta_gpo <= 15)
+# Gráfico de barras de los grupos espaciales menos comunes. 
 ggplot(data = gpo_rar, aes(x=reorder(gpo, cta_gpo))) + geom_bar() + labs(x="Grupo espacial", y="Frecuencia", title = "Grupos espaciales con una frecuencia menor o igual a 15") + coord_flip()#+ theme(axis.text.x = element_text(size = 12, angle = 45)) 
-# Una tabla
-library(knitr)
-library(kableExtra)
-tabla_gpos<-head(df3, n=100)
-kable(tabla_gpos) %>%
+# Genera tablas.
+# Tabla de los cien grupos espaciales más comunes.
+kable(tab_gpo) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
-# Otra tabla
-library(knitr)
-library(kableExtra)
-tabla_tdes<-head(df4, n=10)
-kable(tabla_tdes) %>%
+# Tabla del total, por grupo, del tipo de entidad.
+kable(tab_tde) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
-rm(todo2)
-# Guarda los data frames
-write_excel_csv(df2, "/run/media/murphy/lolita/doctorado/extract/results.csv")
+rm(todo2, df1, datos)
+# Guarda datos como `.csv`.
+write_excel_csv(df2, "/run/media/murphy/lolita/doctorado/extract/df2.csv")
 ```
-
-
-
-
-
-
-

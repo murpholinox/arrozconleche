@@ -24,7 +24,7 @@
 <meta name="author" content="Francisco Murphy Pérez" />
 
 
-<meta name="date" content="2020-06-01" />
+<meta name="date" content="2020-06-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,25 +54,26 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -81,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -136,9 +137,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#contacto"><i class="fa fa-check"></i><b>1.1</b> Contacto</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="dependencias.html"><a href="dependencias.html"><i class="fa fa-check"></i><b>2</b> Dependencias</a><ul>
-<li class="chapter" data-level="2.1" data-path="dependencias.html"><a href="dependencias.html#sistema-operativo"><i class="fa fa-check"></i><b>2.1</b> Sistema operativo</a></li>
-<li class="chapter" data-level="2.2" data-path="dependencias.html"><a href="dependencias.html#minería-de-datos"><i class="fa fa-check"></i><b>2.2</b> Minería de datos</a></li>
-<li class="chapter" data-level="2.3" data-path="dependencias.html"><a href="dependencias.html#bitácora"><i class="fa fa-check"></i><b>2.3</b> Bitácora</a></li>
+<li class="chapter" data-level="2.1" data-path="dependencias.html"><a href="dependencias.html#configuración"><i class="fa fa-check"></i><b>2.1</b> Configuración</a></li>
+<li class="chapter" data-level="2.2" data-path="dependencias.html"><a href="dependencias.html#sesión"><i class="fa fa-check"></i><b>2.2</b> Sesión</a></li>
+<li class="chapter" data-level="2.3" data-path="dependencias.html"><a href="dependencias.html#sistema-operativo"><i class="fa fa-check"></i><b>2.3</b> Sistema operativo</a></li>
+<li class="chapter" data-level="2.4" data-path="dependencias.html"><a href="dependencias.html#minería-de-datos"><i class="fa fa-check"></i><b>2.4</b> Minería de datos</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dependencias.html"><a href="dependencias.html#bitácora"><i class="fa fa-check"></i><b>2.4.1</b> Bitácora</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html"><i class="fa fa-check"></i><b>3</b> Extracción de datos</a><ul>
 <li class="chapter" data-level="3.1" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#método-anterior"><i class="fa fa-check"></i><b>3.1</b> Método anterior</a></li>
@@ -148,16 +152,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.3.2" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#conoce-el-formato"><i class="fa fa-check"></i><b>3.3.2</b> Conoce el formato</a></li>
 <li class="chapter" data-level="3.3.3" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#descarga-la-información"><i class="fa fa-check"></i><b>3.3.3</b> Descarga la información</a></li>
 <li class="chapter" data-level="3.3.4" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#organización-de-la-información"><i class="fa fa-check"></i><b>3.3.4</b> Organización de la información</a></li>
-<li class="chapter" data-level="3.3.5" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#filtra-por-método-experimental"><i class="fa fa-check"></i><b>3.3.5</b> Filtra por método experimental</a></li>
+<li class="chapter" data-level="3.3.5" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#extrae-entradas-por-método-experimental"><i class="fa fa-check"></i><b>3.3.5</b> Extrae entradas por método experimental</a></li>
 <li class="chapter" data-level="3.3.6" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#extrae-información"><i class="fa fa-check"></i><b>3.3.6</b> Extrae información</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html"><i class="fa fa-check"></i><b>4</b> Limpieza de datos</a><ul>
-<li class="chapter" data-level="4.1" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-1"><i class="fa fa-check"></i><b>4.1</b> Filtro 1</a></li>
-<li class="chapter" data-level="4.2" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-2"><i class="fa fa-check"></i><b>4.2</b> Filtro 2</a></li>
-<li class="chapter" data-level="4.3" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-3"><i class="fa fa-check"></i><b>4.3</b> Filtro 3</a></li>
-<li class="chapter" data-level="4.4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#realiza-primer-listado"><i class="fa fa-check"></i><b>4.4</b> Realiza primer listado</a></li>
-<li class="chapter" data-level="4.5" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#falta"><i class="fa fa-check"></i><b>4.5</b> FALTA</a></li>
+<li class="chapter" data-level="4.1" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtros-1-y-2"><i class="fa fa-check"></i><b>4.1</b> Filtros 1 y 2</a></li>
+<li class="chapter" data-level="4.2" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-3"><i class="fa fa-check"></i><b>4.2</b> Filtro 3</a></li>
+<li class="chapter" data-level="4.3" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#prueba"><i class="fa fa-check"></i><b>4.3</b> Prueba</a></li>
+<li class="chapter" data-level="4.4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-4"><i class="fa fa-check"></i><b>4.4</b> Filtro 4</a></li>
+<li class="chapter" data-level="4.5" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#listado"><i class="fa fa-check"></i><b>4.5</b> Listado</a></li>
+<li class="chapter" data-level="4.6" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#obtiene-nombres"><i class="fa fa-check"></i><b>4.6</b> Obtiene nombres</a></li>
+<li class="chapter" data-level="4.7" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#todo"><i class="fa fa-check"></i><b>4.7</b> TODO</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
 <li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
@@ -187,66 +193,140 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="limpieza-de-datos" class="section level1">
 <h1><span class="header-section-number">4</span> Limpieza de datos</h1>
-<p>Habiendo verificado la naturaleza de nuestros datos, sigue el turno de su limpieza. Limpiar los datos consistirá en los siguientes filtros:</p>
+<p>Habiendo verificado la naturaleza de nuestros datos, sigue el turno de su limpieza. Limpiar los datos consiste en aplicar los siguientes filtros:</p>
 <ol style="list-style-type: decimal">
 <li>Aquellas entradas con una resolución peor que 2 Å no se ocupan.</li>
-<li>Además elimina las estructuras donde no se anotó el pH en su respectiva columna. Según la <a href="http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v50.dic/Categories/exptl_crystal_grow.html">página</a> del diccionario <code>.mmcif</code> dicha anotación se encuentra en 83.7 % del total de entradas depositadas en el PDB.</li>
-<li>Aquellas entradas con una estructura compleja cuaternaria no se ocupan.</li>
-<li>Aquellas entradas con entidades diferentes a proteínas no se ocupan.</li>
+<li>Elimina las estructuras donde no se anotó el pH en su respectiva columna. Según la <a href="http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v50.dic/Categories/exptl_crystal_grow.html">página</a> del diccionario <code>.mmcif</code> dicha anotación se encuentra en 83.7 % del total de entradas depositadas en el PDB.</li>
+<li>Aquellas entradas donde el número de entidades sea mayor o igual a cinco no se ocupan.</li>
+<li>Aquellas entradas donde la longitud de la cadena polipeptídica sea fija, se ocupan.</li>
 </ol>
-<div id="filtro-1" class="section level2">
-<h2><span class="header-section-number">4.1</span> Filtro 1</h2>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">fil1 &lt;-<span class="st"> </span>df2 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(rs1 <span class="op">&lt;=</span><span class="st"> </span><span class="fl">2.0</span>)</a></code></pre></div>
-</div>
-<div id="filtro-2" class="section level2">
-<h2><span class="header-section-number">4.2</span> Filtro 2</h2>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">fil2 &lt;-fil1 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(peh))</a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="kw">write_excel_csv</span>(fil2, <span class="st">&quot;/run/media/murphy/lolita/doctorado/clean/fil2.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#wc -l fil2.csv </span></a>
-<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#69689 fil2.csv</span></a></code></pre></div>
+<div id="filtros-1-y-2" class="section level2">
+<h2><span class="header-section-number">4.1</span> Filtros 1 y 2</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="limpieza-de-datos.html#cb23-1"></a><span class="co"># Filtro 1</span></span>
+<span id="cb23-2"><a href="limpieza-de-datos.html#cb23-2"></a>fil1 &lt;-<span class="st"> </span>df2 <span class="op">%&gt;%</span></span>
+<span id="cb23-3"><a href="limpieza-de-datos.html#cb23-3"></a><span class="st">  </span><span class="kw">filter</span>(rs1 <span class="op">&lt;=</span><span class="st"> </span><span class="fl">2.0</span>)</span>
+<span id="cb23-4"><a href="limpieza-de-datos.html#cb23-4"></a><span class="co"># Filtro 2</span></span>
+<span id="cb23-5"><a href="limpieza-de-datos.html#cb23-5"></a>fil2a &lt;-fil1 <span class="op">%&gt;%</span></span>
+<span id="cb23-6"><a href="limpieza-de-datos.html#cb23-6"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(peh)) <span class="co"># Si no tiene pH se queda</span></span>
+<span id="cb23-7"><a href="limpieza-de-datos.html#cb23-7"></a>fil2b &lt;-fil2a <span class="op">%&gt;%</span></span>
+<span id="cb23-8"><a href="limpieza-de-datos.html#cb23-8"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>ide <span class="op">==</span><span class="st">&quot;&quot;</span>) <span class="co"># Si no tiene identificador se va</span></span>
+<span id="cb23-9"><a href="limpieza-de-datos.html#cb23-9"></a><span class="kw">write_excel_csv</span>(fil2b, <span class="st">&quot;/run/media/murphy/lolita/doctorado/clean/fil2.csv&quot;</span>)</span>
+<span id="cb23-10"><a href="limpieza-de-datos.html#cb23-10"></a><span class="co">#wc -l fil2.csv </span></span>
+<span id="cb23-11"><a href="limpieza-de-datos.html#cb23-11"></a><span class="co">#69669 fil2.csv</span></span></code></pre></div>
 </div>
 <div id="filtro-3" class="section level2">
-<h2><span class="header-section-number">4.3</span> Filtro 3</h2>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="bu">cd</span> /run/media/murphy/lolita/doctorado/clean</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="fu">awk</span> -F <span class="st">&quot;;&quot;</span> <span class="st">&#39;{print $1}&#39;</span> fil2.csv <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">uniq</span> -c <span class="kw">|</span> <span class="fu">sort</span> -n <span class="op">&gt;</span> a</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co">#wc -l a </span></a>
-<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#58404 a</span></a>
-<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co"># a contiene dos columnas, la primera es el número</span></a>
-<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="co"># de entidades y la segunda es el pdb id.</span></a>
-<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="fu">awk</span> <span class="st">&#39;{if($1&gt;=5) print $2;}&#39;</span> a <span class="op">&gt;</span> pat</a>
-<a class="sourceLine" id="cb22-8" data-line-number="8"><span class="fu">grep</span> -v -f pat fil2.csv <span class="op">&gt;</span> fil3.csv</a></code></pre></div>
+<h2><span class="header-section-number">4.2</span> Filtro 3</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="limpieza-de-datos.html#cb24-1"></a><span class="bu">cd</span> /run/media/murphy/lolita/doctorado/clean</span>
+<span id="cb24-2"><a href="limpieza-de-datos.html#cb24-2"></a><span class="fu">awk</span> -F <span class="st">&quot;,&quot;</span> <span class="st">&#39;{print $1}&#39;</span> fil2.csv <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">uniq</span> -c <span class="kw">|</span> <span class="fu">sort</span> -n <span class="op">&gt;</span> a</span>
+<span id="cb24-3"><a href="limpieza-de-datos.html#cb24-3"></a><span class="co">#wc -l a </span></span>
+<span id="cb24-4"><a href="limpieza-de-datos.html#cb24-4"></a><span class="co">#58404 a</span></span>
+<span id="cb24-5"><a href="limpieza-de-datos.html#cb24-5"></a><span class="co"># a contiene dos columnas, la primera es el número</span></span>
+<span id="cb24-6"><a href="limpieza-de-datos.html#cb24-6"></a><span class="co"># de entidades y la segunda es el pdb id.</span></span>
+<span id="cb24-7"><a href="limpieza-de-datos.html#cb24-7"></a><span class="fu">awk</span> <span class="st">&#39;{if($1&gt;=5) print $2;}&#39;</span> a <span class="op">&gt;</span> pat</span>
+<span id="cb24-8"><a href="limpieza-de-datos.html#cb24-8"></a><span class="fu">grep</span> -v -f pat fil2.csv <span class="op">&gt;</span> fil3.csv</span></code></pre></div>
 </div>
-<div id="realiza-primer-listado" class="section level2">
-<h2><span class="header-section-number">4.4</span> Realiza primer listado</h2>
+<div id="prueba" class="section level2">
+<h2><span class="header-section-number">4.3</span> Prueba</h2>
+<p>Hagamos una pequeña prueba.
+Para el filtro 4 puedo
+1. Usar <code>bio3d</code>
+2. Usar <code>stride</code>
+3. Usar <code>gemmi</code></p>
+<p>Necesitamos un directorio prueba.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="limpieza-de-datos.html#cb25-1"></a>fil3 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;/run/media/murphy/lolita/doctorado/clean/fil3.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   pdb = col_character(),
+##   nde = col_double(),
+##   tde = col_character(),
+##   ide = col_character(),
+##   nom = col_character(),
+##   tec = col_character(),
+##   peh = col_double(),
+##   con = col_character(),
+##   rs1 = col_double(),
+##   rs2 = col_double(),
+##   gpo = col_character(),
+##   doi = col_character(),
+##   cta_gpo = col_double(),
+##   cta_tde = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="limpieza-de-datos.html#cb27-1"></a>p00698 &lt;-<span class="st"> </span>fil3 <span class="op">%&gt;%</span></span>
+<span id="cb27-2"><a href="limpieza-de-datos.html#cb27-2"></a><span class="st">  </span><span class="kw">filter</span>(ide <span class="op">==</span><span class="st"> &quot;P00698&quot;</span>)</span>
+<span id="cb27-3"><a href="limpieza-de-datos.html#cb27-3"></a><span class="kw">write_excel_csv</span>(p00698, <span class="st">&quot;/run/media/murphy/lolita/doctorado/prueba/p00698.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="limpieza-de-datos.html#cb28-1"></a><span class="bu">cd</span> /run/media/murphy/lolita/doctorado/prueba</span>
+<span id="cb28-2"><a href="limpieza-de-datos.html#cb28-2"></a><span class="fu">awk</span> -F <span class="st">&quot;,&quot;</span> <span class="st">&#39;{print $1}&#39;</span> p00698.csv <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span> <span class="op">&gt;</span> pdbids</span>
+<span id="cb28-3"><a href="limpieza-de-datos.html#cb28-3"></a><span class="fu">sed</span> <span class="st">&#39;s/$/.cif.gz/&#39;</span>g pdbids <span class="op">&gt;</span> list_pdbfiles</span>
+<span id="cb28-4"><a href="limpieza-de-datos.html#cb28-4"></a><span class="fu">cat</span> list_pdbfiles <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">line</span>; <span class="kw">do</span> <span class="fu">cp</span> /run/media/murphy/lolita/doctorado/PDB_backup/<span class="va">$line</span> /run/media/murphy/lolita/doctorado/prueba/hewl <span class="kw">;</span> <span class="kw">done</span> <span class="co"># 9 segundos.</span></span>
+<span id="cb28-5"><a href="limpieza-de-datos.html#cb28-5"></a><span class="bu">time</span> gemmi grep --delimiter=<span class="st">&#39;¿&#39;</span> _entity_poly.entity_id -a _entity_poly.type -a _entity_poly.pdbx_seq_one_letter_code -a _struct_ref.pdbx_seq_one_letter_code hewl/  <span class="op">&gt;</span> prueba1.csv</span>
+<span id="cb28-6"><a href="limpieza-de-datos.html#cb28-6"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Falta checar si los campos 3 y 4 son iguales o no? </span></span></code></pre></div>
+</div>
+<div id="filtro-4" class="section level2">
+<h2><span class="header-section-number">4.4</span> Filtro 4</h2>
+</div>
+<div id="listado" class="section level2">
+<h2><span class="header-section-number">4.5</span> Listado</h2>
 <p>Cuenta la frecuencia del identificador de UniProt, con base en esto realiza una lista ordenada en orden descendente.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">f3_cola &lt;-<span class="st"> </span>f3 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(ID_UniProt, <span class="dt">name=</span><span class="st">&quot;Cuenta&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Colapsa los datos hacia n</span></a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Cuenta))</a>
-<a class="sourceLine" id="cb23-4" data-line-number="4">f3_nocola &lt;-<span class="st"> </span>f3 <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Agrega n</span></a>
-<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="st">  </span><span class="kw">add_count</span>(ID_UniProt, <span class="dt">name=</span><span class="st">&quot;Cuenta&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb23-6" data-line-number="6"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Cuenta))</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="limpieza-de-datos.html#cb29-1"></a>f3_cola &lt;-<span class="st"> </span>fil3 <span class="op">%&gt;%</span></span>
+<span id="cb29-2"><a href="limpieza-de-datos.html#cb29-2"></a><span class="st">  </span><span class="kw">count</span>(ide, <span class="dt">name=</span><span class="st">&quot;cta_ide&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Colapsa los datos hacia n</span></span>
+<span id="cb29-3"><a href="limpieza-de-datos.html#cb29-3"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(cta_ide))</span>
+<span id="cb29-4"><a href="limpieza-de-datos.html#cb29-4"></a>f3_nocola &lt;-<span class="st"> </span>fil3 <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Agrega n</span></span>
+<span id="cb29-5"><a href="limpieza-de-datos.html#cb29-5"></a><span class="st">  </span><span class="kw">add_count</span>(ide, <span class="dt">name=</span><span class="st">&quot;cta_ide&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb29-6"><a href="limpieza-de-datos.html#cb29-6"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(cta_ide))</span>
+<span id="cb29-7"><a href="limpieza-de-datos.html#cb29-7"></a><span class="co"># Una tabla</span></span>
+<span id="cb29-8"><a href="limpieza-de-datos.html#cb29-8"></a>tabla_f3_cola&lt;-<span class="kw">head</span>(f3_cola, <span class="dt">n=</span><span class="dv">50</span>)</span>
+<span id="cb29-9"><a href="limpieza-de-datos.html#cb29-9"></a><span class="kw">kable</span>(tabla_f3_cola) <span class="op">%&gt;%</span></span>
+<span id="cb29-10"><a href="limpieza-de-datos.html#cb29-10"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>), <span class="dt">full_width=</span>F)</span>
+<span id="cb29-11"><a href="limpieza-de-datos.html#cb29-11"></a><span class="kw">write_excel_csv</span>(tabla_f3_cola, <span class="st">&quot;/run/media/murphy/lolita/doctorado/clean/tabla_f3_cola.csv&quot;</span>)</span></code></pre></div>
+<p>Aquí tenemos el <em>top</em> 50 de proteínas representadas en el PDB que se conforman de acuerdo a los filtros anteriores.</p>
 </div>
-<div id="falta" class="section level2">
-<h2><span class="header-section-number">4.5</span> FALTA</h2>
-<p>TODO: También elimina algunas entradas relacionadas con rRNA, proteosoma y la poliproteína proveniente de Gag-pol. Las primeras debido a la complejidad de su cristalización y la última debido a la dificultad para identificarla en los datos.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">dat3 &lt;-<span class="st"> </span>dat2 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>ID_UniProt <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;55771382&quot;</span>, <span class="st">&quot;P23639&quot;</span>, <span class="st">&quot;155076&quot;</span>, <span class="st">&quot;AP008226.1&quot;</span>, <span class="st">&quot;1262303&quot;</span>, <span class="st">&quot;3377779&quot;</span>, <span class="st">&quot;831416132&quot;</span>, <span class="st">&quot;M26923.1&quot;</span>, <span class="st">&quot;55979969&quot;</span>, <span class="st">&quot;359330873&quot;</span>, <span class="st">&quot;Z75578.1&quot;</span>, <span class="st">&quot;P03366&quot;</span>, <span class="st">&quot;46197919&quot;</span>, <span class="st">&quot;83754040&quot;</span>, <span class="st">&quot;55229667&quot;</span>, <span class="st">&quot;AE017221.1&quot;</span>, <span class="st">&quot;874346701&quot;</span>, <span class="st">&quot;P04585&quot;</span>, <span class="st">&quot;AP009048.1&quot;</span>, <span class="st">&quot;AP012306.1&quot;</span>, <span class="st">&quot;731469900&quot;</span>, <span class="st">&quot;834774822&quot;</span>, <span class="st">&quot;33357879&quot;</span>, <span class="st">&quot;A0A073FPA6&quot;</span>, <span class="st">&quot;J01695.2&quot;</span>, <span class="st">&quot;37223181&quot;</span>))</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co"># Elimina con base a su código. </span></a></code></pre></div>
-<p>Esto debería reordenar los datos, en base a su identificador de UniProt.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">filtrado_<span class="dv">3</span>_ord_cola &lt;-<span class="st"> </span>filtrado_<span class="dv">3</span> <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(ID_UniProt, <span class="dt">name=</span><span class="st">&quot;Cuenta&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Colapsa los datos hacia n</span></a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Cuenta))</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4">filtrado_<span class="dv">3</span>_ord_nocola &lt;-<span class="st"> </span>filtrado_<span class="dv">3</span> <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="st">  </span><span class="kw">add_count</span>(ID_UniProt, <span class="dt">name=</span><span class="st">&quot;Cuenta&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># No colapsa</span></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Cuenta))</a></code></pre></div>
-<p>Una tabla</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">library</span>(knitr)</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw">library</span>(kableExtra)</a>
-<a class="sourceLine" id="cb26-3" data-line-number="3">patabla&lt;-<span class="kw">head</span>(filtrado_<span class="dv">3</span>_ord_cola, <span class="dt">n=</span><span class="dv">50</span>)</a>
-<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="kw">kable</span>(patabla) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb26-5" data-line-number="5"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>), <span class="dt">full_width=</span>F)</a></code></pre></div>
+<div id="obtiene-nombres" class="section level2">
+<h2><span class="header-section-number">4.6</span> Obtiene nombres</h2>
+<p>Por simplicidad trabaja con nombres.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="limpieza-de-datos.html#cb30-1"></a><span class="bu">cd</span> /run/media/murphy/lolita/doctorado/clean</span>
+<span id="cb30-2"><a href="limpieza-de-datos.html#cb30-2"></a><span class="co"># Obtiene los identificadores</span></span>
+<span id="cb30-3"><a href="limpieza-de-datos.html#cb30-3"></a><span class="fu">awk</span> -F <span class="st">&quot;,&quot;</span> <span class="st">&#39;{print $1}&#39;</span>  tabla_f3_cola.csv <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="op">&gt;</span> top50_uac.lst</span>
+<span id="cb30-4"><a href="limpieza-de-datos.html#cb30-4"></a><span class="co"># Convierte de lista a línea.</span></span>
+<span id="cb30-5"><a href="limpieza-de-datos.html#cb30-5"></a><span class="fu">tr</span> <span class="st">&#39;\n&#39;</span> <span class="st">&#39; &#39;</span> <span class="op">&lt;</span> top50_uac.lst <span class="op">&gt;</span> top50_uac.ln</span>
+<span id="cb30-6"><a href="limpieza-de-datos.html#cb30-6"></a><span class="co"># Descarga el programa.</span></span>
+<span id="cb30-7"><a href="limpieza-de-datos.html#cb30-7"></a><span class="fu">wget</span> -O get_info.pl https://raw.githubusercontent.com/murpholinox/usefulscripts/master/uniprot_batch_retrieval.pl</span>
+<span id="cb30-8"><a href="limpieza-de-datos.html#cb30-8"></a><span class="co"># Instala requisitos para correr el programa.</span></span>
+<span id="cb30-9"><a href="limpieza-de-datos.html#cb30-9"></a><span class="co"># sudo dnf install &#39;perl(LWP::UserAgent)&#39; </span></span>
+<span id="cb30-10"><a href="limpieza-de-datos.html#cb30-10"></a><span class="co"># sudo dnf install perl-LWP-Protocol-https</span></span>
+<span id="cb30-11"><a href="limpieza-de-datos.html#cb30-11"></a><span class="fu">chmod</span> u+x get_info.pl</span>
+<span id="cb30-12"><a href="limpieza-de-datos.html#cb30-12"></a><span class="co"># Corre el programa.</span></span>
+<span id="cb30-13"><a href="limpieza-de-datos.html#cb30-13"></a><span class="fu">perl</span> ./get_info.pl top50_uac.ln <span class="op">&gt;</span> top50_wholeinfo.txt</span>
+<span id="cb30-14"><a href="limpieza-de-datos.html#cb30-14"></a><span class="co"># Obtiene identificadores.</span></span>
+<span id="cb30-15"><a href="limpieza-de-datos.html#cb30-15"></a><span class="fu">egrep</span> <span class="st">&quot;^ID|^AC|^DE   RecN|^OS&quot;</span> top50_wholeinfo.txt <span class="op">&gt;</span> top50_ids_acs_fnames_org.txt</span>
+<span id="cb30-16"><a href="limpieza-de-datos.html#cb30-16"></a><span class="co"># Obtiene nombres.</span></span>
+<span id="cb30-17"><a href="limpieza-de-datos.html#cb30-17"></a><span class="fu">grep</span> <span class="st">&quot;^DE&quot;</span> top50_ids_acs_fnames_org.txt <span class="kw">|</span> <span class="fu">awk</span> -F <span class="st">&quot;=&quot;</span> <span class="st">&#39;{print $2}&#39;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/Full=//&#39;</span>g <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/;$/,/g&#39;</span> <span class="op">&gt;</span> top50_fnames.lst</span>
+<span id="cb30-18"><a href="limpieza-de-datos.html#cb30-18"></a><span class="co"># Checa nombres con comas</span></span>
+<span id="cb30-19"><a href="limpieza-de-datos.html#cb30-19"></a><span class="fu">awk</span> -F , <span class="st">&#39;NF != 2 &#39;</span> <span class="op">&lt;</span> top50_fnames.lst</span>
+<span id="cb30-20"><a href="limpieza-de-datos.html#cb30-20"></a><span class="co"># HLA class I histocompatibility antigen, A alpha chain,</span></span>
+<span id="cb30-21"><a href="limpieza-de-datos.html#cb30-21"></a><span class="co">#Nitric oxide synthase, brain,</span></span>
+<span id="cb30-22"><a href="limpieza-de-datos.html#cb30-22"></a><span class="co">#DNA polymerase I, thermostable,</span></span>
+<span id="cb30-23"><a href="limpieza-de-datos.html#cb30-23"></a><span class="co">#Glycogen phosphorylase, muscle form,</span></span>
+<span id="cb30-24"><a href="limpieza-de-datos.html#cb30-24"></a><span class="co"># Elimina comas</span></span>
+<span id="cb30-25"><a href="limpieza-de-datos.html#cb30-25"></a><span class="fu">sed</span> -e <span class="st">&#39;s/antigen, A alpha/antigen A alpha/g ; s/synthase, brain,/synthase brain,/g ; s/polymerase I, thermostable,/polymerase I thermostable,/g ; s/phosphorylase, muscle form,/phosphorylase muscle form,/g&#39;</span> top50_fnames.lst <span class="op">&gt;</span> top50_fnames_fx.lst</span>
+<span id="cb30-26"><a href="limpieza-de-datos.html#cb30-26"></a><span class="co"># Obtiene organismos. </span></span>
+<span id="cb30-27"><a href="limpieza-de-datos.html#cb30-27"></a><span class="co"># Elimina organismos con doble línea OS</span></span>
+<span id="cb30-28"><a href="limpieza-de-datos.html#cb30-28"></a><span class="fu">grep</span> -v <span class="st">&quot;^OS   (HIV-1)&quot;</span>  top50_ids_acs_fnames_org.txt <span class="op">&gt;</span> b</span>
+<span id="cb30-29"><a href="limpieza-de-datos.html#cb30-29"></a><span class="fu">grep</span> -v <span class="st">&quot;^OS   10044&quot;</span> b <span class="op">&gt;</span> top50_ids_acs_fnames_org_fx.txt</span>
+<span id="cb30-30"><a href="limpieza-de-datos.html#cb30-30"></a><span class="fu">grep</span> <span class="st">&quot;^OS&quot;</span> top50_ids_acs_fnames_org_fx.txt <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/^OS   //&#39;</span>g <span class="op">&gt;</span> top50_org.txt</span>
+<span id="cb30-31"><a href="limpieza-de-datos.html#cb30-31"></a><span class="co"># Pega los nombres de las proteínas con su AC, `SUMA` y organismo.</span></span>
+<span id="cb30-32"><a href="limpieza-de-datos.html#cb30-32"></a><span class="ex">paste</span> top50_fnames_fx.lst top50_uac.lst <span class="op">&gt;</span> c</span>
+<span id="cb30-33"><a href="limpieza-de-datos.html#cb30-33"></a><span class="ex">paste</span> -d, c top50_org.txt <span class="op">&gt;</span> top50_final.csv</span></code></pre></div>
+<p>Con <code>top50_final.csv</code> podemos construir una tabla para la presentación.</p>
+</div>
+<div id="todo" class="section level2">
+<h2><span class="header-section-number">4.7</span> TODO</h2>
+<p>Falta checar el intervalo de pH de las 50 proteínas más representadas y checar las respectivas gráficas de pH</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="limpieza-de-datos.html#cb31-1"></a><span class="kw">ggplot</span>(<span class="kw">filter</span>(clean, UAC<span class="op">==</span><span class="st">&quot;P00698&quot;</span>), <span class="kw">aes</span>(<span class="dt">x=</span>Length)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>( <span class="op">~</span><span class="st"> </span>sg) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Residuos de aminoácido&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span> (<span class="st">&quot;Número de estructuras&quot;</span>)</span>
+<span id="cb31-2"><a href="limpieza-de-datos.html#cb31-2"></a><span class="kw">ggsave</span>(<span class="st">&quot;P00698_bar-length_wrap-sg.pdf&quot;</span>, <span class="dt">width =</span> <span class="dv">20</span>, <span class="dt">units =</span> <span class="st">&quot;cm&quot;</span>) </span>
+<span id="cb31-3"><a href="limpieza-de-datos.html#cb31-3"></a><span class="kw">ggsave</span>(<span class="st">&quot;P00698_bar-length_wrap-sg.png&quot;</span>, <span class="dt">width =</span> <span class="dv">20</span>, <span class="dt">units =</span> <span class="st">&quot;cm&quot;</span>) </span>
+<span id="cb31-4"><a href="limpieza-de-datos.html#cb31-4"></a><span class="kw">ggplot</span>(<span class="kw">filter</span>(clean, UAC<span class="op">==</span><span class="st">&quot;P00698&quot;</span> <span class="op">&amp;</span><span class="st"> </span>sg<span class="op">==</span><span class="st">&quot;P 43 21 2&quot;</span>), <span class="kw">aes</span>(<span class="dt">x=</span>pH)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;pH&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span> (<span class="st">&quot;Número de estructuras&quot;</span>)</span>
+<span id="cb31-5"><a href="limpieza-de-datos.html#cb31-5"></a><span class="kw">ggsave</span>(<span class="st">&quot;P00698_ph-sg_P_43_21_2.pdf&quot;</span>, <span class="dt">width =</span> <span class="dv">20</span>, <span class="dt">units =</span> <span class="st">&quot;cm&quot;</span>) </span>
+<span id="cb31-6"><a href="limpieza-de-datos.html#cb31-6"></a><span class="kw">ggsave</span>(<span class="st">&quot;p00698_ph-sg_P_43_21_2.png&quot;</span>, <span class="dt">width =</span> <span class="dv">20</span>, <span class="dt">units =</span> <span class="st">&quot;cm&quot;</span>) </span></code></pre></div>
 
 </div>
 </div>

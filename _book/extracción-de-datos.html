@@ -24,7 +24,7 @@
 <meta name="author" content="Francisco Murphy Pérez" />
 
 
-<meta name="date" content="2020-06-01" />
+<meta name="date" content="2020-06-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,25 +54,26 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -81,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -136,9 +137,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#contacto"><i class="fa fa-check"></i><b>1.1</b> Contacto</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="dependencias.html"><a href="dependencias.html"><i class="fa fa-check"></i><b>2</b> Dependencias</a><ul>
-<li class="chapter" data-level="2.1" data-path="dependencias.html"><a href="dependencias.html#sistema-operativo"><i class="fa fa-check"></i><b>2.1</b> Sistema operativo</a></li>
-<li class="chapter" data-level="2.2" data-path="dependencias.html"><a href="dependencias.html#minería-de-datos"><i class="fa fa-check"></i><b>2.2</b> Minería de datos</a></li>
-<li class="chapter" data-level="2.3" data-path="dependencias.html"><a href="dependencias.html#bitácora"><i class="fa fa-check"></i><b>2.3</b> Bitácora</a></li>
+<li class="chapter" data-level="2.1" data-path="dependencias.html"><a href="dependencias.html#configuración"><i class="fa fa-check"></i><b>2.1</b> Configuración</a></li>
+<li class="chapter" data-level="2.2" data-path="dependencias.html"><a href="dependencias.html#sesión"><i class="fa fa-check"></i><b>2.2</b> Sesión</a></li>
+<li class="chapter" data-level="2.3" data-path="dependencias.html"><a href="dependencias.html#sistema-operativo"><i class="fa fa-check"></i><b>2.3</b> Sistema operativo</a></li>
+<li class="chapter" data-level="2.4" data-path="dependencias.html"><a href="dependencias.html#minería-de-datos"><i class="fa fa-check"></i><b>2.4</b> Minería de datos</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dependencias.html"><a href="dependencias.html#bitácora"><i class="fa fa-check"></i><b>2.4.1</b> Bitácora</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html"><i class="fa fa-check"></i><b>3</b> Extracción de datos</a><ul>
 <li class="chapter" data-level="3.1" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#método-anterior"><i class="fa fa-check"></i><b>3.1</b> Método anterior</a></li>
@@ -148,16 +152,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.3.2" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#conoce-el-formato"><i class="fa fa-check"></i><b>3.3.2</b> Conoce el formato</a></li>
 <li class="chapter" data-level="3.3.3" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#descarga-la-información"><i class="fa fa-check"></i><b>3.3.3</b> Descarga la información</a></li>
 <li class="chapter" data-level="3.3.4" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#organización-de-la-información"><i class="fa fa-check"></i><b>3.3.4</b> Organización de la información</a></li>
-<li class="chapter" data-level="3.3.5" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#filtra-por-método-experimental"><i class="fa fa-check"></i><b>3.3.5</b> Filtra por método experimental</a></li>
+<li class="chapter" data-level="3.3.5" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#extrae-entradas-por-método-experimental"><i class="fa fa-check"></i><b>3.3.5</b> Extrae entradas por método experimental</a></li>
 <li class="chapter" data-level="3.3.6" data-path="extracción-de-datos.html"><a href="extracción-de-datos.html#extrae-información"><i class="fa fa-check"></i><b>3.3.6</b> Extrae información</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html"><i class="fa fa-check"></i><b>4</b> Limpieza de datos</a><ul>
-<li class="chapter" data-level="4.1" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-1"><i class="fa fa-check"></i><b>4.1</b> Filtro 1</a></li>
-<li class="chapter" data-level="4.2" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-2"><i class="fa fa-check"></i><b>4.2</b> Filtro 2</a></li>
-<li class="chapter" data-level="4.3" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-3"><i class="fa fa-check"></i><b>4.3</b> Filtro 3</a></li>
-<li class="chapter" data-level="4.4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#realiza-primer-listado"><i class="fa fa-check"></i><b>4.4</b> Realiza primer listado</a></li>
-<li class="chapter" data-level="4.5" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#falta"><i class="fa fa-check"></i><b>4.5</b> FALTA</a></li>
+<li class="chapter" data-level="4.1" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtros-1-y-2"><i class="fa fa-check"></i><b>4.1</b> Filtros 1 y 2</a></li>
+<li class="chapter" data-level="4.2" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-3"><i class="fa fa-check"></i><b>4.2</b> Filtro 3</a></li>
+<li class="chapter" data-level="4.3" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#prueba"><i class="fa fa-check"></i><b>4.3</b> Prueba</a></li>
+<li class="chapter" data-level="4.4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-4"><i class="fa fa-check"></i><b>4.4</b> Filtro 4</a></li>
+<li class="chapter" data-level="4.5" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#listado"><i class="fa fa-check"></i><b>4.5</b> Listado</a></li>
+<li class="chapter" data-level="4.6" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#obtiene-nombres"><i class="fa fa-check"></i><b>4.6</b> Obtiene nombres</a></li>
+<li class="chapter" data-level="4.7" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#todo"><i class="fa fa-check"></i><b>4.7</b> TODO</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
 <li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
@@ -189,193 +195,188 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">3</span> Extracción de datos</h1>
 <div id="método-anterior" class="section level2">
 <h2><span class="header-section-number">3.1</span> Método anterior</h2>
-<p>En un inicio la extracción de datos se realizaba por medio de la interfaz de programación de aplicaciones (API, por sus siglas en inglés) del banco de datos de proteínas (PDB, por sus siglas en inglés), basado en una ‘búsqueda avanzada’ en formato <code>.xml</code>, como se describe en este <a href="https://murpholinox.github.io/getdatafromthePDB/"><em>post</em></a>.</p>
+<p>En un inicio la extracción de datos se realizó por medio de la interfaz de programación de aplicaciones (API, por sus siglas en inglés) del banco de datos de proteínas (PDB, también por sus siglas en inglés), basado en una ‘búsqueda avanzada’ en formato <code>.xml</code>, como lo describo en el siguiente enlace <a href="https://murpholinox.github.io/getdatafromthePDB/" class="uri">https://murpholinox.github.io/getdatafromthePDB/</a>.</p>
 </div>
 <div id="cambios" class="section level2">
 <h2><span class="header-section-number">3.2</span> Cambios</h2>
-<p>A finales del 2019, hubo una serie de cambios al sitio <em>web</em> del PDB que no permitieron seguir con el proceso anterior, al introducir ciertas restricciones. Por lo menos a esta fecha, 30 de mayo 2020, las restricciones continúan y son las siguientes:</p>
+<p>A finales del 2019, se implementó una nueva API en el sitio <em>web</em> del PDB que no permitió seguir con el proceso anterior, al introducir ciertas restricciones. Por lo menos a esta fecha, 30 de mayo 2020, las restricciones continúan y son las siguientes:</p>
 <ol style="list-style-type: decimal">
 <li>Después de una ‘búsqueda avanzada’, no es posible descargar el archivo <code>.csv</code> de los resultados de la búsqueda con un número mayor a 2500 líneas.</li>
 </ol>
 <div class="figure">
-<img src="img/2500rows.png" alt="Restricciones en el PDB" />
+<img src="img/2500rows.png" alt="" />
 <p class="caption">Restricciones en el PDB</p>
 </div>
 <ol start="2" style="list-style-type: decimal">
 <li>Después de una ‘búsqueda avanzada’, la opción de descargar un <code>.csv</code> personalizado, es decir, con la posibilidad de seleccionar las columnas de interés, no se encuentra disponible.</li>
 </ol>
-<blockquote>
-<p>Justo estas dos limitantes interfieren con los últimos pasos del primer intento de la extracción de datos.</p>
-</blockquote>
 </div>
 <div id="nuevo-método" class="section level2">
 <h2><span class="header-section-number">3.3</span> Nuevo método</h2>
-<p>Debido a estas restricciones se decidió emplear la información cruda del PDB, es decir, se decidió obtener la información directamente del cabezal de los archivos de las estructuras depositadas en el PDB.</p>
+<p>A causa de lo anterior se decidió emplear la información cruda del PDB, es decir, extraer la información directamente del cabezal de los archivos de las estructuras depositadas en el PDB.</p>
 <div id="escoge-formato" class="section level3">
 <h3><span class="header-section-number">3.3.1</span> Escoge formato</h3>
-<p>El PDB ofrece archivos en tres formatos diferentes, <code>.xml</code>, <code>.pdb</code> y <code>.mmcif</code>. El segundo es el más fácil de leer y manipular; sin embargo, se decidió usar el tercer formato debido a lo siguiente:</p>
+<p>El PDB ofrece descargar sus archivos en tres formatos diferentes: <code>.xml</code>, <code>.pdb</code> y <code>.mmcif</code>. El segundo es el más fácil de leer y manipular; sin embargo, se decidió usar el tercer formato debido al siguiente párrafo:</p>
 <blockquote>
 <p>Many of the errors have been fixed in the equivalent mmCIF files. Hence, if you are interested in the header information, it is a good idea to extract information from mmCIF files…</p>
-<p>De la documentación de <code>biopython</code>, <a href="https://biopython.readthedocs.io/en/latest/chapter_pdb.html">aquí</a>.</p>
+<p>De <a href="https://biopython.readthedocs.io/en/latest/chapter_pdb.html" class="uri">https://biopython.readthedocs.io/en/latest/chapter_pdb.html</a>.</p>
 </blockquote>
 </div>
 <div id="conoce-el-formato" class="section level3">
 <h3><span class="header-section-number">3.3.2</span> Conoce el formato</h3>
-<p>El formato <code>.mmcif</code> se detalla en esta <a href="http://mmcif.wwpdb.org/">página</a> y cabe señalar que existe una correspondencia entre las etiquetas del <code>.pdb</code> con las del <code>.mmcif</code> (véase <a href="http://mmcif.wwpdb.org/docs/pdb_to_pdbx_correspondences.html">aquí</a>).</p>
+<p>El formato <code>.mmcif</code> se detalla en <a href="http://mmcif.wwpdb.org/" class="uri">http://mmcif.wwpdb.org/</a>. Existe una correspondencia entre las etiquetas del <code>.pdb</code> con las del <code>.mmcif</code>.</p>
 <blockquote>
-<p>El formato <code>.mmcif</code>, tiene como fin reemplazar el formato <code>.pdb</code> (información <a href="http://mmcif.wwpdb.org/docs/faqs/pdbx-mmcif-faq-general.html">aquí</a>).</p>
-</blockquote>
-<blockquote>
-<p>Desde abril del 2019, es indispensable depositar la estructura de tu proteína de interés en formato <code>.mmcif</code> (información <a href="https://journals.iucr.org/d/issues/2019/04/00/rr5177/">aquí</a>).</p>
+<p>El formato <code>.mmcif</code>, tiene como fin reemplazar el formato <code>.pdb</code> (véase <a href="http://mmcif.wwpdb.org/docs/faqs/pdbx-mmcif-faq-general.html" class="uri">http://mmcif.wwpdb.org/docs/faqs/pdbx-mmcif-faq-general.html</a>).</p>
 </blockquote>
 </div>
 <div id="descarga-la-información" class="section level3">
 <h3><span class="header-section-number">3.3.3</span> Descarga la información</h3>
 <p>Para descargar todo las estructuras del PDB en formato <code>.mmcif</code>, se usa el siguiente comando:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="bu">cd</span> /run/media/murphy/lolita/doctorado <span class="co"># Trabaja en el disco duro.</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="fu">rsync</span> -rlpt -v -z --delete --port=33444 <span class="dt">\ </span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="ex">rsync.rcsb.org</span>::ftp_data/structures/divided/mmCIF/ ./PDB </a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># Tarda 725 minutos!</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="extracción-de-datos.html#cb10-1"></a><span class="bu">cd</span> /run/media/murphy/lolita/doctorado <span class="co"># Trabaja en el disco duro.</span></span>
+<span id="cb10-2"><a href="extracción-de-datos.html#cb10-2"></a><span class="fu">rsync</span> -rlpt -v -z --delete --port=33444 <span class="dt">\ </span></span>
+<span id="cb10-3"><a href="extracción-de-datos.html#cb10-3"></a><span class="ex">rsync.rcsb.org</span>::ftp_data/structures/divided/mmCIF/ ./PDB </span>
+<span id="cb10-4"><a href="extracción-de-datos.html#cb10-4"></a><span class="co"># Tarda 725 minutos!</span></span></code></pre></div>
 <blockquote>
-<p>Instrucciones tomadas del mismo PDB, <a href="https://www.wwpdb.org/ftp/pdb-ftp-sites">aquí</a>.</p>
+<p>Instrucciones tomadas de <a href="https://www.wwpdb.org/ftp/pdb-ftp-sites" class="uri">https://www.wwpdb.org/ftp/pdb-ftp-sites</a>.</p>
 </blockquote>
 </div>
 <div id="organización-de-la-información" class="section level3">
 <h3><span class="header-section-number">3.3.4</span> Organización de la información</h3>
-<p>Las estructuras están organizadas en diferentes subdirectorios, cuyo nombre está formado por el segundo y el tercer carácter del archivo <code>.mmcif</code>. Por ejemplo <code>1ABC.mmcif</code> estará en el subdirectorio <code>ab/</code>. Para las pruebas se hace una copia de este directorio, sin los subdirectorios. Esto tiene dos fines: uno, se tiene un <em>backup</em> y dos, es más simple manipular los archivos en un solo directorio.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="bu">cd</span> /run/media/murphy/lolita/doctorado</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="fu">mkdir</span> PDB_backup</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="bu">cd</span> PDB/</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="bu">time</span> find . -name <span class="st">&#39;*.gz&#39;</span> -exec cp <span class="dt">\{\}</span> /run/media/murphy/lolita/doctorado/PDB_backup/ <span class="dt">\;</span> <span class="co"># Hay que dar la ruta absoluta.</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co"># Esto tarda 36 minutos!</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co"># Se confirma con:</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#find -name &quot;*.gz&quot; | wc -l</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#164391</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#cd ../PDB_backup/</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#find -name &quot;*.gz&quot; | wc -l</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#164391</span></a></code></pre></div>
-<p>Por otra parte, los archivos están comprimidos en formato <code>gunzip</code> (<a href="https://linux.die.net/man/1/gunzip">aquí</a> su documentación) y así se mantendran ya que no es necesario descomprimirlos.</p>
+<p>Las estructuras están organizadas en diferentes subdirectorios, cuyo nombre está formado por el segundo y el tercer carácter del archivo <code>.mmcif</code>. Por ejemplo <code>1abc.mmcif</code> estará en el subdirectorio <code>ab/</code>. Para las pruebas se hace una copia de este directorio, sin los subdirectorios. Esto tiene dos fines: realizar un respaldo y manipular de una manera más sencilla los archivos.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="extracción-de-datos.html#cb11-1"></a><span class="bu">cd</span> /run/media/murphy/lolita/doctorado</span>
+<span id="cb11-2"><a href="extracción-de-datos.html#cb11-2"></a><span class="fu">mkdir</span> PDB_backup</span>
+<span id="cb11-3"><a href="extracción-de-datos.html#cb11-3"></a><span class="bu">cd</span> PDB/</span>
+<span id="cb11-4"><a href="extracción-de-datos.html#cb11-4"></a><span class="bu">time</span> find . -name <span class="st">&#39;*.gz&#39;</span> -exec cp <span class="dt">\{\}</span> /run/media/murphy/lolita/doctorado/PDB_backup/ <span class="dt">\;</span> <span class="co"># Ruta absoluta.</span></span>
+<span id="cb11-5"><a href="extracción-de-datos.html#cb11-5"></a><span class="co"># Esto tarda 36 minutos!</span></span>
+<span id="cb11-6"><a href="extracción-de-datos.html#cb11-6"></a><span class="co"># Se confirma con:</span></span>
+<span id="cb11-7"><a href="extracción-de-datos.html#cb11-7"></a><span class="co"># cd ../PDB_backup/</span></span>
+<span id="cb11-8"><a href="extracción-de-datos.html#cb11-8"></a><span class="co"># find -name &quot;*.gz&quot; | wc -l</span></span>
+<span id="cb11-9"><a href="extracción-de-datos.html#cb11-9"></a><span class="co"># 164391</span></span></code></pre></div>
+<p>Los archivos descargados están comprimidos en formato <code>gzip</code> (<a href="https://www.gnu.org/software/gzip/" class="uri">https://www.gnu.org/software/gzip/</a>). No es necesario descomprimirlos.</p>
 </div>
-<div id="filtra-por-método-experimental" class="section level3">
-<h3><span class="header-section-number">3.3.5</span> Filtra por método experimental</h3>
-<p>Del universo de estructuras del PDB, obtenemos aquellas estructuras determinadas por cristalografía de rayos-X. Este filtro ayuda a reducir confusiones posteriores. Estas confusiones surgen porque <code>gemmi</code>, extrae etiquetas pero no conoce contextos. Esto puede resultar, dependiendo de las etiquetas a extraer, en una producción de un archivo de texto con un número de columnas variable por línea, es decir, datos en forma no rectangular.</p>
+<div id="extrae-entradas-por-método-experimental" class="section level3">
+<h3><span class="header-section-number">3.3.5</span> Extrae entradas por método experimental</h3>
+<p>Del universo de archivos depositados en el PDB, obtenemos aquellas estructuras determinadas por cristalografía de rayos-X (CRX). Esto ayuda a reducir confusiones posteriores. Estas confusiones surgen porque <code>gemmi</code>, extrae etiquetas pero no conoce contextos. Esto puede resultar, dependiendo de las etiquetas, en una producción de un archivo de texto con un número de columnas variable por línea, es decir, datos en forma no rectangular.</p>
 <blockquote>
-<p>La mayor parte del <code>tidyverse</code> trabaja con datos rectangulares, mismo número de columnas en todas las líneas, por lo que es esencial obtener datos de esta forma.</p>
+<p>Advertencia: La mayor parte del <code>tidyverse</code> trabaja con datos rectangulares, mismo número de columnas en todas las líneas, por lo que es esencial obtener datos de esta forma.</p>
 </blockquote>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="bu">cd</span> /run/media/murphy/lolita/doctorado/PDB_backup</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="fu">mkdir</span> extract</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="bu">time</span> gemmi grep _exptl.method PDB_backup/ <span class="op">&gt;</span> ./extract/method.dat <span class="co"># Esto tarda 74 minutos!</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="bu">time</span> grep X-RAY ./extract/method.dat <span class="kw">|</span> <span class="fu">awk</span> -F : <span class="st">&#39;{print $1}&#39;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span> <span class="op">&gt;</span> ./extract/pdbs_by_xray.dat <span class="co"># Esto tarda 0.93 segundos.</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co"># En vim pdbs_by_xray y haz :%s/$/.cif.gz/ y :sav list_pdbs_by_xray y :q</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="fu">mv</span> list_pdbs_by_xray extract/</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="bu">cd</span> extract/</a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co"># Es interesante comparar el número de entradas por</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co"># X-RAYs contra el total</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#wc -l method.dat pdbs_by_xray.dat</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co"># 164558 method.dat</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co"># 146114 pdbs_by_xray.dat</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co"># 88.79 % de las entradas en el PDB son por X-Rays</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="fu">mkdir</span> xrays</a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="bu">time</span> cat list_pdbs_by_xray <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">line</span>;</a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="kw">do</span> <span class="fu">cp</span> ../PDB_backup/<span class="va">$line</span> xrays/<span class="kw">;</span> <span class="kw">done</span> </a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co"># Esto tarda 49 minutos</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="extracción-de-datos.html#cb12-1"></a><span class="bu">cd</span> /run/media/murphy/lolita/doctorado/</span>
+<span id="cb12-2"><a href="extracción-de-datos.html#cb12-2"></a><span class="fu">mkdir</span> extract</span>
+<span id="cb12-3"><a href="extracción-de-datos.html#cb12-3"></a><span class="bu">time</span> gemmi grep _exptl.method PDB_backup/ <span class="op">&gt;</span> ./extract/method.dat <span class="co"># Esto tarda 74 minutos!</span></span>
+<span id="cb12-4"><a href="extracción-de-datos.html#cb12-4"></a><span class="bu">cd</span> extract/</span>
+<span id="cb12-5"><a href="extracción-de-datos.html#cb12-5"></a><span class="fu">grep</span> X-RAY method.dat <span class="kw">|</span> <span class="fu">awk</span> -F : <span class="st">&#39;{print $1}&#39;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span> <span class="op">&gt;</span> pdbs_by_xray.dat</span>
+<span id="cb12-6"><a href="extracción-de-datos.html#cb12-6"></a><span class="fu">sed</span> <span class="st">&#39;s/$/.cig.gz/&#39;</span>g pdbs_by_xray.dat <span class="op">&gt;</span> list_pdbs_by_xray</span>
+<span id="cb12-7"><a href="extracción-de-datos.html#cb12-7"></a><span class="co"># Es interesante comparar el número de entradas por CRX</span></span>
+<span id="cb12-8"><a href="extracción-de-datos.html#cb12-8"></a><span class="co"># contra el total:</span></span>
+<span id="cb12-9"><a href="extracción-de-datos.html#cb12-9"></a><span class="co"># wc -l method.dat pdbs_by_xray.dat</span></span>
+<span id="cb12-10"><a href="extracción-de-datos.html#cb12-10"></a><span class="co"># 164558 method.dat</span></span>
+<span id="cb12-11"><a href="extracción-de-datos.html#cb12-11"></a><span class="co"># 146114 pdbs_by_xray.dat</span></span>
+<span id="cb12-12"><a href="extracción-de-datos.html#cb12-12"></a><span class="co"># Es decir, 88.79 % de las entradas en el PDB son por CRX.</span></span>
+<span id="cb12-13"><a href="extracción-de-datos.html#cb12-13"></a><span class="fu">mkdir</span> xrays</span>
+<span id="cb12-14"><a href="extracción-de-datos.html#cb12-14"></a><span class="bu">time</span> cat list_pdbs_by_xray <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">line</span>;</span>
+<span id="cb12-15"><a href="extracción-de-datos.html#cb12-15"></a><span class="kw">do</span> <span class="fu">cp</span> /run/media/murphy/lolita/doctorado/PDB_backup/<span class="va">$line</span> xrays/<span class="kw">;</span> <span class="kw">done</span> </span>
+<span id="cb12-16"><a href="extracción-de-datos.html#cb12-16"></a><span class="co"># Esto tarda 49 minutos!</span></span></code></pre></div>
 </div>
 <div id="extrae-información" class="section level3">
 <h3><span class="header-section-number">3.3.6</span> Extrae información</h3>
 <p><code>gemmi</code> funciona de la siguiente manera:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># Obtiene número de acceso:</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#time gemmi grep _struct_ref.pdbx_db_accession xrays/ &gt; from_xrays_get_accession_code</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co"># Esto tarda 83 minutos!</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co"># Obtiene número de entidades:</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#time gemmi grep _struct_ref.entity_id xrays/ &gt; from_xrays_get_number_of_entities</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co"># Esto tarda 73 minutos!</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#time gemmi grep _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession  xrays/ &gt; from_xrays_get_ne_te_ac </span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co"># Esto tarda 75 minutos!</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co"># Si bien esto funciona, los resultados generados no producen</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co"># datos rectangulares, por la falta de un delimitador apropiado.</span></a></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># El primer delimitador a probar fue TAB (\t)</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#time gemmi grep --delimiter=&#39;\t&#39; _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI xrays/ &gt; todo</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co"># Esto tarda 45 minutos! </span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co"># Sin embargo, el campo donde se anotan las condiciones </span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co"># experimentales de la cristalización, contienen </span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co"># este delimitador. La limpieza de datos no es fácil:</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#awk &#39;</span><span class="re">BEGIN</span><span class="co">{FS=&quot;\t&quot;;}{if(NF&gt;12) print $0;}&#39; todo &gt; errores</span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#cat errores # Para ver las líneas mal formateadas.</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co"># En vim %s/\\^I/ /g</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#awk &#39;</span><span class="re">BEGIN</span><span class="co">{FS=&quot;\t&quot;;}{if(NF!=12) print $0;}&#39; todo_fix.tsv # Confirma</span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co"># Desafortunadamente, esto todavía no es suficiente.</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co"># ¿Por qué? No sé. Debe haber caracteres raros en los datos.</span></a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co"># Probé con un delimitador que jamás podría estar</span></a>
-<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co"># en los archivos `mmcif`, &#39;¿&#39;...</span></a>
-<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co"># (básicamente por que no existe en inglés).</span></a>
-<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="bu">cd</span> /run/media/murphy/lolita/doctorado/extract</a>
-<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="bu">time</span> gemmi grep --delimiter=<span class="st">&#39;¿&#39;</span> _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI xrays/ <span class="op">&gt;</span> todo2</a>
-<a class="sourceLine" id="cb11-18" data-line-number="18"><span class="co"># Esto tarda 45 minutos!</span></a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">library</span>(readr)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">todo2 &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="st">&quot;/run/media/murphy/lolita/doctorado/extract/todo2&quot;</span>, </a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">    <span class="st">&quot;¿&quot;</span>, <span class="dt">escape_double =</span> <span class="ot">FALSE</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">    <span class="dt">comment =</span> <span class="st">&quot;*&gt;&quot;</span>, <span class="dt">trim_ws =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="kw">library</span>(stringr)</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co"># El locale de mi sistema, por lo tanto el de `R` está</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co"># en inglés, por lo que `R` no reconoce el delimitador usado.</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">pdb&lt;-todo2<span class="op">$</span>X1</a>
-<a class="sourceLine" id="cb12-9" data-line-number="9">nde&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X2, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</a>
-<a class="sourceLine" id="cb12-10" data-line-number="10">tde&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X3, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</a>
-<a class="sourceLine" id="cb12-11" data-line-number="11">ide&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X4, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</a>
-<a class="sourceLine" id="cb12-12" data-line-number="12">nom&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X5, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</a>
-<a class="sourceLine" id="cb12-13" data-line-number="13">tec&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X6, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</a>
-<a class="sourceLine" id="cb12-14" data-line-number="14">peh&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X7, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</a>
-<a class="sourceLine" id="cb12-15" data-line-number="15">con&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X8, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</a>
-<a class="sourceLine" id="cb12-16" data-line-number="16">rs1&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X9, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</a>
-<a class="sourceLine" id="cb12-17" data-line-number="17">rs2&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X10, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</a>
-<a class="sourceLine" id="cb12-18" data-line-number="18">gpo&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X11, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</a>
-<a class="sourceLine" id="cb12-19" data-line-number="19">doi&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X12, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</a>
-<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="co"># !!!  Ayer no sabía cómo hacer esto en `R`, así que pedí ayuda y mi papá hizo un macro en excel escrito en `VB`, Haly hizo un programa en `perl` y  hoy lo resolví con `python` (y después con `R`). Esto se encuentra documentado en los subdirectorios `ema/`, `mcr/` y `fmp/`, respectivamente.</span></a>
-<a class="sourceLine" id="cb12-21" data-line-number="21">datos&lt;-<span class="kw">data.frame</span>(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi)</a>
-<a class="sourceLine" id="cb12-22" data-line-number="22"><span class="kw">rm</span>(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi)</a>
-<a class="sourceLine" id="cb12-23" data-line-number="23"><span class="co"># Cuando `R` crea el data.frame, escribe todo como factor</span></a>
-<a class="sourceLine" id="cb12-24" data-line-number="24"><span class="co"># El número de entidades, el pH y la resolución</span></a>
-<a class="sourceLine" id="cb12-25" data-line-number="25"><span class="co"># debe tratarse como número</span></a>
-<a class="sourceLine" id="cb12-26" data-line-number="26">datos<span class="op">$</span>nde&lt;-<span class="kw">as.numeric</span>(<span class="kw">as.character</span>((datos<span class="op">$</span>nde)))</a>
-<a class="sourceLine" id="cb12-27" data-line-number="27">datos<span class="op">$</span>peh&lt;-<span class="kw">as.numeric</span>(<span class="kw">as.character</span>((datos<span class="op">$</span>peh)))</a>
-<a class="sourceLine" id="cb12-28" data-line-number="28">datos<span class="op">$</span>rs1&lt;-<span class="kw">as.numeric</span>(<span class="kw">as.character</span>((datos<span class="op">$</span>rs1)))</a>
-<a class="sourceLine" id="cb12-29" data-line-number="29">datos<span class="op">$</span>rs2&lt;-<span class="kw">as.numeric</span>(<span class="kw">as.character</span>((datos<span class="op">$</span>rs2)))</a>
-<a class="sourceLine" id="cb12-30" data-line-number="30"><span class="co"># Verificamos los datos al graficar algunas variables:</span></a>
-<a class="sourceLine" id="cb12-31" data-line-number="31"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb12-32" data-line-number="32"><span class="kw">library</span>(RColorBrewer)</a>
-<a class="sourceLine" id="cb12-33" data-line-number="33"><span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())</a>
-<a class="sourceLine" id="cb12-34" data-line-number="34"><span class="kw">ggplot</span>(<span class="dt">data =</span> datos, <span class="kw">aes</span>(<span class="dt">x=</span>peh)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;pH&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">1</span>, <span class="dv">11</span>) </a></code></pre></div>
-<p><img src="arrozconleche_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> datos, <span class="kw">aes</span>(<span class="dt">x=</span>rs1)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Resolución (Å)&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)</a></code></pre></div>
-<p><img src="arrozconleche_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> datos, <span class="kw">aes</span>(<span class="dt">x=</span>nde)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Número de entidades&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)</a></code></pre></div>
-<p><img src="arrozconleche_files/figure-html/unnamed-chunk-12-3.png" width="672" /></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># Es lo mismo? Sí. La única diferencia es </span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co"># que las barras están separadas</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#ggplot(data = datos, aes(x=nde)) + geom_bar() + labs(x=&quot;Número de entidades&quot;, y=&quot;Frecuencia&quot;)</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">df1&lt;-datos <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="st">  </span><span class="kw">add_count</span>(gpo, <span class="dt">name =</span> <span class="st">&quot;cta_gpo&quot;</span>)</a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">df2&lt;-df1 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="st">  </span><span class="kw">add_count</span>(tde, <span class="dt">name =</span> <span class="st">&quot;cta_tde&quot;</span>)</a>
-<a class="sourceLine" id="cb15-9" data-line-number="9">df3&lt;-datos <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="st">  </span><span class="kw">count</span>(gpo, <span class="dt">name =</span> <span class="st">&quot;cta_gpo&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(cta_gpo))</a>
-<a class="sourceLine" id="cb15-12" data-line-number="12">df4&lt;-datos <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="st">  </span><span class="kw">count</span>(tde, <span class="dt">name =</span> <span class="st">&quot;cta_tde&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(cta_tde))</a>
-<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="kw">ggplot</span>(<span class="dt">data =</span> df1, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">reorder</span>(gpo, cta_gpo))) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Grupo espacial&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</a></code></pre></div>
-<p><img src="arrozconleche_files/figure-html/unnamed-chunk-12-4.png" width="672" /></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">gpo_rar &lt;-<span class="st"> </span>df1 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(cta_gpo <span class="op">&lt;=</span><span class="st"> </span><span class="dv">15</span>)</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw">ggplot</span>(<span class="dt">data =</span> gpo_rar, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">reorder</span>(gpo, cta_gpo))) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Grupo espacial&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Grupos espaciales con una frecuencia menor o igual a 15&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()<span class="co">#+ theme(axis.text.x = element_text(size = 12, angle = 45)) </span></a></code></pre></div>
-<p><img src="arrozconleche_files/figure-html/unnamed-chunk-12-5.png" width="672" /></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co"># Una tabla</span></a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">library</span>(knitr)</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="kw">library</span>(kableExtra)</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4">tabla_gpos&lt;-<span class="kw">head</span>(df3, <span class="dt">n=</span><span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="kw">kable</span>(tabla_gpos) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>), <span class="dt">full_width=</span>F)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="extracción-de-datos.html#cb13-1"></a><span class="co"># Obtiene número de acceso:</span></span>
+<span id="cb13-2"><a href="extracción-de-datos.html#cb13-2"></a><span class="co"># time gemmi grep _struct_ref.pdbx_db_accession xrays/ &gt; from_xrays_get_ide</span></span>
+<span id="cb13-3"><a href="extracción-de-datos.html#cb13-3"></a><span class="co"># Esto tarda 83 minutos!</span></span>
+<span id="cb13-4"><a href="extracción-de-datos.html#cb13-4"></a><span class="co"># Obtiene número de entidades:</span></span>
+<span id="cb13-5"><a href="extracción-de-datos.html#cb13-5"></a><span class="co"># time gemmi grep _entity_poly.entity_id xrays/ &gt; from_xrays_get_nde</span></span>
+<span id="cb13-6"><a href="extracción-de-datos.html#cb13-6"></a><span class="co"># Esto tarda 73 minutos!</span></span>
+<span id="cb13-7"><a href="extracción-de-datos.html#cb13-7"></a><span class="co"># Obtiene anteriores y tipo de entidad:</span></span>
+<span id="cb13-8"><a href="extracción-de-datos.html#cb13-8"></a><span class="co"># time gemmi grep _struct_ref.pdbx_db_accession -a _entity_poly.entity_id -a _entity_poly.type xrays/ &gt; from_xrays_get_ide_nde_tde </span></span>
+<span id="cb13-9"><a href="extracción-de-datos.html#cb13-9"></a><span class="co"># Esto tarda 75 minutos!</span></span>
+<span id="cb13-10"><a href="extracción-de-datos.html#cb13-10"></a><span class="co"># Estos resultados no producen datos rectangulares,</span></span>
+<span id="cb13-11"><a href="extracción-de-datos.html#cb13-11"></a><span class="co"># por la ausencia de un delimitador apropiado.</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="extracción-de-datos.html#cb14-1"></a><span class="co"># El primer delimitador usado fue &lt;TAB&gt; (\t).</span></span>
+<span id="cb14-2"><a href="extracción-de-datos.html#cb14-2"></a><span class="co"># time gemmi grep --delimiter=&#39;\t&#39; _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI xrays/ &gt; todo</span></span>
+<span id="cb14-3"><a href="extracción-de-datos.html#cb14-3"></a><span class="co"># Esto tarda 45 minutos! </span></span>
+<span id="cb14-4"><a href="extracción-de-datos.html#cb14-4"></a><span class="co"># Estos resultados no producen datos rectangulares,</span></span>
+<span id="cb14-5"><a href="extracción-de-datos.html#cb14-5"></a><span class="co"># por la presencia de &lt;TAB&gt; en la columna de las</span></span>
+<span id="cb14-6"><a href="extracción-de-datos.html#cb14-6"></a><span class="co"># condiciones de cristalización.</span></span>
+<span id="cb14-7"><a href="extracción-de-datos.html#cb14-7"></a><span class="co"># Un simple:</span></span>
+<span id="cb14-8"><a href="extracción-de-datos.html#cb14-8"></a><span class="co"># awk &#39;</span><span class="re">BEGIN</span><span class="co">{FS=&quot;\t&quot;;}{if(NF&gt;12) print $0;}&#39; todo &gt; errores</span></span>
+<span id="cb14-9"><a href="extracción-de-datos.html#cb14-9"></a><span class="co"># Nos indica donde están los errores.</span></span>
+<span id="cb14-10"><a href="extracción-de-datos.html#cb14-10"></a><span class="co"># La solución es usar un delimitador que jamás</span></span>
+<span id="cb14-11"><a href="extracción-de-datos.html#cb14-11"></a><span class="co"># podría aparecer en los archivos `.mmcif`.</span></span>
+<span id="cb14-12"><a href="extracción-de-datos.html#cb14-12"></a><span class="bu">cd</span> /run/media/murphy/lolita/doctorado/extract</span>
+<span id="cb14-13"><a href="extracción-de-datos.html#cb14-13"></a><span class="bu">time</span> gemmi grep --delimiter=<span class="st">&#39;¿&#39;</span> _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI xrays/ <span class="op">&gt;</span> todo2</span>
+<span id="cb14-14"><a href="extracción-de-datos.html#cb14-14"></a><span class="co"># Esto tarda 45 minutos!</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="extracción-de-datos.html#cb15-1"></a>todo2 &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="st">&quot;/run/media/murphy/lolita/doctorado/extract/todo2&quot;</span>, </span>
+<span id="cb15-2"><a href="extracción-de-datos.html#cb15-2"></a>    <span class="st">&quot;¿&quot;</span>, <span class="dt">escape_double =</span> <span class="ot">FALSE</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb15-3"><a href="extracción-de-datos.html#cb15-3"></a>    <span class="dt">comment =</span> <span class="st">&quot;*&gt;&quot;</span>, <span class="dt">trim_ws =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb15-4"><a href="extracción-de-datos.html#cb15-4"></a><span class="co"># La configuración regional de mi sistema está en</span></span>
+<span id="cb15-5"><a href="extracción-de-datos.html#cb15-5"></a><span class="co"># inglés, `R` también por lo que no reconoce &#39;¿&#39;.</span></span>
+<span id="cb15-6"><a href="extracción-de-datos.html#cb15-6"></a>pdb&lt;-todo2<span class="op">$</span>X1</span>
+<span id="cb15-7"><a href="extracción-de-datos.html#cb15-7"></a>nde&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X2, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb15-8"><a href="extracción-de-datos.html#cb15-8"></a>tde&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X3, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb15-9"><a href="extracción-de-datos.html#cb15-9"></a>ide&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X4, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb15-10"><a href="extracción-de-datos.html#cb15-10"></a>nom&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X5, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb15-11"><a href="extracción-de-datos.html#cb15-11"></a>tec&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X6, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb15-12"><a href="extracción-de-datos.html#cb15-12"></a>peh&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X7, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb15-13"><a href="extracción-de-datos.html#cb15-13"></a>con&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X8, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb15-14"><a href="extracción-de-datos.html#cb15-14"></a>rs1&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X9, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb15-15"><a href="extracción-de-datos.html#cb15-15"></a>rs2&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X10, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb15-16"><a href="extracción-de-datos.html#cb15-16"></a>gpo&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X11, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb15-17"><a href="extracción-de-datos.html#cb15-17"></a>doi&lt;-stringr<span class="op">::</span><span class="kw">str_replace</span>(todo2<span class="op">$</span>X12, <span class="st">&#39;�&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb15-18"><a href="extracción-de-datos.html#cb15-18"></a><span class="co"># Este problema se resolvió de distintas maneras.</span></span>
+<span id="cb15-19"><a href="extracción-de-datos.html#cb15-19"></a><span class="co"># Esto se encuentra documentado en los subdirectorios</span></span>
+<span id="cb15-20"><a href="extracción-de-datos.html#cb15-20"></a><span class="co"># `ema/`, `mcr/` y `fmp/`, respectivamente.</span></span>
+<span id="cb15-21"><a href="extracción-de-datos.html#cb15-21"></a>datos&lt;-<span class="kw">data.frame</span>(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi)</span>
+<span id="cb15-22"><a href="extracción-de-datos.html#cb15-22"></a><span class="kw">rm</span>(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi)</span>
+<span id="cb15-23"><a href="extracción-de-datos.html#cb15-23"></a><span class="co"># Cuando `R` crea un objeto escribe todo como tipo factor.</span></span>
+<span id="cb15-24"><a href="extracción-de-datos.html#cb15-24"></a><span class="co"># Algunas columnas deben tratarse como tipo número.</span></span>
+<span id="cb15-25"><a href="extracción-de-datos.html#cb15-25"></a>datos<span class="op">$</span>nde&lt;-<span class="kw">as.numeric</span>(<span class="kw">as.character</span>((datos<span class="op">$</span>nde)))</span>
+<span id="cb15-26"><a href="extracción-de-datos.html#cb15-26"></a>datos<span class="op">$</span>peh&lt;-<span class="kw">as.numeric</span>(<span class="kw">as.character</span>((datos<span class="op">$</span>peh)))</span>
+<span id="cb15-27"><a href="extracción-de-datos.html#cb15-27"></a>datos<span class="op">$</span>rs1&lt;-<span class="kw">as.numeric</span>(<span class="kw">as.character</span>((datos<span class="op">$</span>rs1)))</span>
+<span id="cb15-28"><a href="extracción-de-datos.html#cb15-28"></a>datos<span class="op">$</span>rs2&lt;-<span class="kw">as.numeric</span>(<span class="kw">as.character</span>((datos<span class="op">$</span>rs2)))</span>
+<span id="cb15-29"><a href="extracción-de-datos.html#cb15-29"></a><span class="co"># Verificamos los datos al graficar algunas variables:</span></span>
+<span id="cb15-30"><a href="extracción-de-datos.html#cb15-30"></a><span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())</span>
+<span id="cb15-31"><a href="extracción-de-datos.html#cb15-31"></a><span class="co"># Histograma del pH para todas las estructuras del PDB</span></span>
+<span id="cb15-32"><a href="extracción-de-datos.html#cb15-32"></a><span class="co"># determinadas por CRX.</span></span>
+<span id="cb15-33"><a href="extracción-de-datos.html#cb15-33"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> datos, <span class="kw">aes</span>(<span class="dt">x=</span>peh)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;pH&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">1</span>, <span class="dv">11</span>)</span></code></pre></div>
+<p><img src="arrozconleche_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="extracción-de-datos.html#cb16-1"></a><span class="co"># Histograma de la resolución para todas las</span></span>
+<span id="cb16-2"><a href="extracción-de-datos.html#cb16-2"></a><span class="co"># estructuras del PDB determinadas por CRX.</span></span>
+<span id="cb16-3"><a href="extracción-de-datos.html#cb16-3"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> datos, <span class="kw">aes</span>(<span class="dt">x=</span>rs1)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Resolución (Å)&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)</span></code></pre></div>
+<p><img src="arrozconleche_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="extracción-de-datos.html#cb17-1"></a><span class="co"># Histograma del número de entidades para todas las</span></span>
+<span id="cb17-2"><a href="extracción-de-datos.html#cb17-2"></a><span class="co"># estructuras del PDB determinadas por CRX.</span></span>
+<span id="cb17-3"><a href="extracción-de-datos.html#cb17-3"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> datos, <span class="kw">aes</span>(<span class="dt">x=</span>nde)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Número de entidades&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)</span></code></pre></div>
+<p><img src="arrozconleche_files/figure-html/unnamed-chunk-14-3.png" width="672" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="extracción-de-datos.html#cb18-1"></a><span class="co"># Hacemos cuentas.</span></span>
+<span id="cb18-2"><a href="extracción-de-datos.html#cb18-2"></a>df1&lt;-datos <span class="op">%&gt;%</span></span>
+<span id="cb18-3"><a href="extracción-de-datos.html#cb18-3"></a><span class="st">  </span><span class="kw">add_count</span>(gpo, <span class="dt">name =</span> <span class="st">&quot;cta_gpo&quot;</span>)</span>
+<span id="cb18-4"><a href="extracción-de-datos.html#cb18-4"></a>df2&lt;-df1 <span class="op">%&gt;%</span></span>
+<span id="cb18-5"><a href="extracción-de-datos.html#cb18-5"></a><span class="st">  </span><span class="kw">add_count</span>(tde, <span class="dt">name =</span> <span class="st">&quot;cta_tde&quot;</span>)</span>
+<span id="cb18-6"><a href="extracción-de-datos.html#cb18-6"></a>df3&lt;-datos <span class="op">%&gt;%</span></span>
+<span id="cb18-7"><a href="extracción-de-datos.html#cb18-7"></a><span class="st">  </span><span class="kw">count</span>(gpo, <span class="dt">name =</span> <span class="st">&quot;cta_gpo&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb18-8"><a href="extracción-de-datos.html#cb18-8"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(cta_gpo))</span>
+<span id="cb18-9"><a href="extracción-de-datos.html#cb18-9"></a>df4&lt;-datos <span class="op">%&gt;%</span></span>
+<span id="cb18-10"><a href="extracción-de-datos.html#cb18-10"></a><span class="st">  </span><span class="kw">count</span>(tde, <span class="dt">name =</span> <span class="st">&quot;cta_tde&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb18-11"><a href="extracción-de-datos.html#cb18-11"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(cta_tde))</span>
+<span id="cb18-12"><a href="extracción-de-datos.html#cb18-12"></a><span class="co"># Gráfico de barras de los grupos espaciales para</span></span>
+<span id="cb18-13"><a href="extracción-de-datos.html#cb18-13"></a><span class="co"># todas las estructuras del PDB determinadas por CRX.</span></span>
+<span id="cb18-14"><a href="extracción-de-datos.html#cb18-14"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> df1, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">reorder</span>(gpo, cta_gpo))) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Grupo espacial&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<p><img src="arrozconleche_files/figure-html/unnamed-chunk-14-4.png" width="672" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="extracción-de-datos.html#cb19-1"></a><span class="co"># Es interesante notar que el número de grupos</span></span>
+<span id="cb19-2"><a href="extracción-de-datos.html#cb19-2"></a><span class="co"># espaciales es mayor a 65.</span></span>
+<span id="cb19-3"><a href="extracción-de-datos.html#cb19-3"></a>gpo_rar &lt;-<span class="st"> </span>df1 <span class="op">%&gt;%</span></span>
+<span id="cb19-4"><a href="extracción-de-datos.html#cb19-4"></a><span class="st">  </span><span class="kw">filter</span>(cta_gpo <span class="op">&lt;=</span><span class="st"> </span><span class="dv">15</span>)</span>
+<span id="cb19-5"><a href="extracción-de-datos.html#cb19-5"></a><span class="co"># Gráfico de barras de los grupos espaciales menos</span></span>
+<span id="cb19-6"><a href="extracción-de-datos.html#cb19-6"></a><span class="co"># comunes para todas las estructuras del PDB</span></span>
+<span id="cb19-7"><a href="extracción-de-datos.html#cb19-7"></a><span class="co"># determinadas por CRX. Un slice del anterior.</span></span>
+<span id="cb19-8"><a href="extracción-de-datos.html#cb19-8"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> gpo_rar, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">reorder</span>(gpo, cta_gpo))) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Grupo espacial&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Grupos espaciales con una frecuencia menor o igual a 15&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()<span class="co">#+ theme(axis.text.x = element_text(size = 12, angle = 45)) </span></span></code></pre></div>
+<p><img src="arrozconleche_files/figure-html/unnamed-chunk-14-5.png" width="672" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="extracción-de-datos.html#cb20-1"></a><span class="co"># Ahora genera unas tablas.</span></span>
+<span id="cb20-2"><a href="extracción-de-datos.html#cb20-2"></a></span>
+<span id="cb20-3"><a href="extracción-de-datos.html#cb20-3"></a>tab_gpo&lt;-<span class="kw">head</span>(df3, <span class="dt">n=</span><span class="dv">100</span>)</span>
+<span id="cb20-4"><a href="extracción-de-datos.html#cb20-4"></a><span class="co"># Tabla de los cien grupos espaciales más comunes.</span></span>
+<span id="cb20-5"><a href="extracción-de-datos.html#cb20-5"></a><span class="kw">kable</span>(tab_gpo) <span class="op">%&gt;%</span></span>
+<span id="cb20-6"><a href="extracción-de-datos.html#cb20-6"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>), <span class="dt">full_width=</span>F)</span></code></pre></div>
 <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1142,12 +1143,10 @@ P c a b
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co"># Otra tabla</span></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw">library</span>(knitr)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="kw">library</span>(kableExtra)</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">tabla_tdes&lt;-<span class="kw">head</span>(df4, <span class="dt">n=</span><span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="kw">kable</span>(tabla_tdes) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>), <span class="dt">full_width=</span>F)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="extracción-de-datos.html#cb21-1"></a><span class="co"># Tabla de la suma del tipo de entidades.</span></span>
+<span id="cb21-2"><a href="extracción-de-datos.html#cb21-2"></a>tab_tde&lt;-<span class="kw">head</span>(df4, <span class="dt">n=</span><span class="dv">10</span>)</span>
+<span id="cb21-3"><a href="extracción-de-datos.html#cb21-3"></a><span class="kw">kable</span>(tab_tde) <span class="op">%&gt;%</span></span>
+<span id="cb21-4"><a href="extracción-de-datos.html#cb21-4"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>), <span class="dt">full_width=</span>F)</span></code></pre></div>
 <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1218,9 +1217,9 @@ other
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">rm</span>(todo2)</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co"># Guarda los data frames</span></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="kw">write_excel_csv</span>(df2, <span class="st">&quot;/run/media/murphy/lolita/doctorado/extract/results.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="extracción-de-datos.html#cb22-1"></a><span class="kw">rm</span>(todo2)</span>
+<span id="cb22-2"><a href="extracción-de-datos.html#cb22-2"></a><span class="co"># Guarda objeto df2.</span></span>
+<span id="cb22-3"><a href="extracción-de-datos.html#cb22-3"></a><span class="kw">write_excel_csv</span>(df2, <span class="st">&quot;/run/media/murphy/lolita/doctorado/extract/df2.csv&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>
