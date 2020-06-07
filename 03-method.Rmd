@@ -4,11 +4,13 @@ Habiendo verificado la naturaleza de nuestros datos, sigue el turno de su limpie
 1. Elimina entradas con una resolución peor que 2 Å. 
 2. Elimina entradas donde no se anotó el pH en su respectiva columna. Según la [página](http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v50.dic/Categories/exptl_crystal_grow.html) del diccionario `.mmcif` dicha anotación se encuentra en 83.7 % del total de entradas depositadas en el PDB.
 3. Elimina entradas donde el número de entidades sea mayor o igual a dos.
-4. Elimina entradas donde la longitud de la cadena polipeptídica sea variable.
+4. Elimina entradas donde la cadena polipeptídica tenga mutaciones o traiga el péptido señal o la cola de histidinas o donde no se haya modelado el último aminoácido (esto siempre y cuando la secuencia consenso en el PDB sea la secuencia wt).
+
+>Nota: Lo último es desafortunado; sin embargo, la alternativa es mucho más costosa en tiempo/trabajo y número de entradas perdidas. La alternativa: Bajar la densidad electrónica, el modelo y obtener el coeficiente de correlación entre ambos a nivel local (por aminoácido), si este coeficiente no es mayor que algún valor, podríamos eliminar estas entradas. Desventajas: (1) No todos los modelos tienen los datos depositados en el PDB, por lo tanto no será posible recrear la densidad electrónica. Esto no significa que su cristal de proteína a cierto pH no haya existido. (2) El coeficiente de correlación depende de varios factores, en casos difíciles esto se tendría que hacer a ojo, entrada por entrada, y sería altamente dependiente de la persona que lo realice (yo). 
 
 ## Filtros 1 y 2
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 # Filtro 0
 fil0 <-df2 %>%
   filter(!ide =="") # Si no tiene identificador se va.
@@ -34,68 +36,98 @@ awk '{if($1>=2) print $2;}' a > pat
 grep -v -f pat fil2.csv > fil3.csv
 ```
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 # Carga fil3.
 fil3 <- read_csv("/run/media/murphy/lolita/doctorado/clean/fil3.csv")
 ```
 
-## Prueba
-Necesitamos un directorio prueba.
-```{r}
-p00698 <- fil3 %>%
-  filter(ide == "P00698")
-write_excel_csv(p00698, "/run/media/murphy/lolita/doctorado/prueba/p00698.csv")
-```
 
-```{bash, eval=FALSE}
-cd /run/media/murphy/lolita/doctorado/prueba
-awk -F "," '{print $1}' p00698.csv | tail -n +2 | tr '[:upper:]' '[:lower:]' > pdbs_p00698.dat
-sed 's/$/.cif.gz/'g pdbs_p00698.dat > list_pdbs_id_p00698
-mkdir hewl
-cat list_pdbs_id_p00698 | while read line; do cp /run/media/murphy/lolita/doctorado/PDB_backup/$line /run/media/murphy/lolita/doctorado/prueba/hewl ; done # 9 segundos.
-time gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _entity_poly.pdbx_seq_one_letter_code hewl/  > prueba1
-```
+## Filtro 4
+Saca el ide, de acuerdo al top50. 
+### Top50
+Cuenta la frecuencia del identificador de UniProt, con base en esto realiza una lista ordenada en orden descendente.
+
+> Nota: Digo identificador de UniProt, porque esta es la base de datos que el PDB liga con mayor frecuencia a sus entradas, pero en general puede ser el identificador de cualquier otra base de datos.
 
 ```{r}
-# Carga fil3.
-prueba1 <-read_delim("/run/media/murphy/lolita/doctorado/prueba/prueba1", 
+fil3cola <- fil3 %>%
+  count(ide, name="cta_ide") %>% # Colapsa los datos hacia n
+  arrange(desc(cta_ide))
+#f3_nocola <- fil3 %>% # Agrega n
+#  add_count(ide, name="cta_ide") %>%
+#  arrange(desc(cta_ide)) # TODO: No necesario a menos que se necesite una gráfica ordenada por cta_ide.
+# Una tabla
+tab_fil3cola<-head(fil3cola, n=50) #Aquí escoge n.
+kable(tab_fil3cola) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
+write_excel_csv(tab_fil3cola, "/run/media/murphy/lolita/doctorado/clean/tab_fil3cola.csv")
+```
+
+```{r}
+ide_in_tf3c <- tab_fil3cola$ide
+for (j in seq(1,50))
+{
+ide_i_ <-ide_in_tf3c[[j]]
+filename <- paste("/run/media/murphy/lolita/doctorado/clean/fil4/dir/", ide_i_, sep="") # 
+write_excel_csv(filter(fil3, ide==ide_i_), filename)
+}
+```
+
+```{bash}
+cd /run/media/murphy/lolita/doctorado/clean/fil4/dir # Tiene que estar vacío
+for k in `ls -1 *`
+do
+awk -F "," '{print $1}' "$k" | tail -n +2 | tr '[:upper:]' '[:lower:]' > pdbs_"$k"
+sed 's/$/.cif.gz/'g pdbs_"$k" > list_pdbs_id_"$k"
+rm -rf sub_"$k"/
+mkdir sub_"$k"
+cat list_pdbs_id_"$k" | while read line; do cp /run/media/murphy/lolita/doctorado/PDB_backup/$line /run/media/murphy/lolita/doctorado/clean/fil4/dir/sub_"$k" ; done 
+gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _entity_poly.pdbx_seq_one_letter_code_can sub_"$k"/  > can_seq_"$k".csv 
+awk -F "¿" '{print ">"$1"\n"$4}' can_seq_"$k".csv | sed 's/\\n//g' > seqs_"$k".fa
+cat /run/media/murphy/lolita/doctorado/clean/fil4/ori_seq/ori_"$k".fa >> /run/media/murphy/lolita/doctorado/clean/fil4/dir/seqs_"$k".fa
+clustalo -i seqs_"$k".fa -o clu_"$k".afa # Checar en Ugene,
+muscle -in seqs_"$k".fa -out mus_"$k".afa
+cons clu_"$k".afa -outseq cons_"$k" -identity 1 -datafile EBLOSUM62 -sprotein1
+# Checar la secuencia consenso en Ugene con el alineamiento. 
+# Esto tarda 4 minutos!
+done
+```
+
+
+## El último cacho
+```{r, warning=FALSE, message=FALSE}
+for (j in seq(1,50))
+{
+ide_i_ <-ide_in_tf3c[[j]]
+filename <- paste("/run/media/murphy/lolita/doctorado/prueba/can_seq_", ide_i_, ".csv", sep="")
+ide_i_ <-read_delim(filename, 
     "¿", escape_double = FALSE, col_names = FALSE, 
     comment = "*>", trim_ws = TRUE)
-pdb<-prueba1$X1
-nde<-stringr::str_replace(prueba1$X2, '�', '')
-tde<-stringr::str_replace(prueba1$X3, '�', '')
-sec0<-stringr::str_replace(prueba1$X4, '�', '')
+pdb<-ide_i_$X1
+nde<-stringr::str_replace(ide_i_$X2, '�', '')
+tde<-stringr::str_replace(ide_i_$X3, '�', '')
+sec0<-stringr::str_replace(ide_i_$X4, '�', '')
 sec<-stringr::str_replace_all(sec0, '\\\\n', '')
-prueba1<-data.frame(pdb, nde, tde, sec)
-ulti<-length(sec)
+# TODO: EL problema es la secuencia WT original, no siempre es la más representada en el PDB.
+# Necesitamos un diccionario con el ide y la secuencias más representada en el PDB de ese ide.
+ulti<-length(sec) 
 repe <- seq(1,ulti)
+lop<-c()
+bad_seq<-c()
+sec_original<-c("KVFGRCELAAAMKRHGLDNYRGYSLGNWVCAAKFESNFNTQATNRNTDGSTDYGILQINSRWWCNDGRTPGSRNLCNIPCSALLSSDITASVNCAKKIVSDGNGMNAWVAWRNRCKGTDVQAWIRGCRL")
 for (i in repe) {
 long_i<-str_length(sec[[i]])
 lop<-c(lop,long_i)
+if(sec[[i]] != sec_original){
+bad_seq<-c(bad_seq, "NotWt")
+} else {
+  bad_seq<-c(bad_seq,"Wt")
+}
 }
 ldp<-as.data.frame(lop)
-ldp = ldp[-1,]
+ide_i_<-data.frame(pdb, nde, tde, sec, ldp, bad_seq)
+}
 ```
-
-## Filtro 4
-
-## Listado
-Cuenta la frecuencia del identificador de UniProt, con base en esto realiza una lista ordenada en orden descendente.
-
-```{r, eval=FALSE}
-f3_cola <- fil3 %>%
-  count(ide, name="cta_ide") %>% # Colapsa los datos hacia n
-  arrange(desc(cta_ide))
-f3_nocola <- fil3 %>% # Agrega n
-  add_count(ide, name="cta_ide") %>%
-  arrange(desc(cta_ide))
-# Una tabla
-tabla_f3_cola<-head(f3_cola, n=50)
-kable(tabla_f3_cola) %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
-write_excel_csv(tabla_f3_cola, "/run/media/murphy/lolita/doctorado/clean/tabla_f3_cola.csv")
-```
-Aquí tenemos el *top* 50 de proteínas representadas en el PDB que se conforman de acuerdo a los filtros anteriores.
 
 ## Obtiene nombres
 Por simplicidad trabaja con nombres.
