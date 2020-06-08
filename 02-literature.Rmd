@@ -158,10 +158,10 @@ gpo_rar <- df2 %>%
 # Gráfico de barras de los grupos espaciales menos comunes. 
 ggplot(data = gpo_rar, aes(x=reorder(gpo, cta_gpo))) + geom_bar() + labs(x="Grupo espacial", y="Frecuencia", title = "Grupos espaciales con una frecuencia menor o igual a 15") + coord_flip()#+ theme(axis.text.x = element_text(size = 12, angle = 45)) 
 # Genera tablas.
-# Tabla de los cien grupos espaciales más comunes.
+# Tabla de grupos espaciales en el PDB.
 kable(tab_gpo) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
-# Tabla del total, por grupo, del tipo de entidad.
+# Tabla del tipo de entidades en el PDB.
 kable(tab_tde) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
 rm(todo2, df1, datos)

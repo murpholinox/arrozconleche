@@ -8,3 +8,20 @@ orf3 <- filtro3 %>%
   add_count(V3) %>%
   arrange(desc(n))
 ```
+ulti<-length(sec) 
+repe <- seq(1,ulti)
+lop<-c()
+bad_seq<-c()
+sec_original<-c("KVFGRCELAAAMKRHGLDNYRGYSLGNWVCAAKFESNFNTQATNRNTDGSTDYGILQINSRWWCNDGRTPGSRNLCNIPCSALLSSDITASVNCAKKIVSDGNGMNAWVAWRNRCKGTDVQAWIRGCRL")
+for (i in repe) {
+long_i<-str_length(sec[[i]])
+lop<-c(lop,long_i)
+if(sec[[i]] != sec_original){
+bad_seq<-c(bad_seq, "NotWt")
+} else {
+  bad_seq<-c(bad_seq,"Wt")
+}
+}
+ldp<-as.data.frame(lop)
+ide_i_<-data.frame(pdb, nde, tde, sec, ldp, bad_seq)
+}

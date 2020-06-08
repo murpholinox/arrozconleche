@@ -21,19 +21,21 @@ fil1 <- fil0 %>%
 fil2 <-fil1 %>%
   filter(!is.na(peh)) # Si no tiene pH se va.
 write_excel_csv(fil2, "/run/media/murphy/lolita/doctorado/clean/fil2.csv")
-#wc -l fil2.csv 
-#69669 fil2.csv
+# wc -l fil2.csv 
+# 69669 fil2.csv
 ```
 
 ## Filtro 3
 ```{bash}
 cd /run/media/murphy/lolita/doctorado/clean
 awk -F "," '{print $1}' fil2.csv | tail -n +2 | uniq -c | sort -n > a
-#wc -l a 
-#58388 a
-# a contiene dos columnas, la primera es el número de entidades y la segunda es el pdb id.
+# wc -l a 
+# 58388 a
+# `a`: dos columnas, la primera es el número de entidades y la segunda es el pdb id.
 awk '{if($1>=2) print $2;}' a > pat
 grep -v -f pat fil2.csv > fil3.csv
+# wc -l fil3.csv 
+#49746 fil3.csv
 ```
 
 ```{r, warning=FALSE, message=FALSE}
@@ -43,19 +45,19 @@ fil3 <- read_csv("/run/media/murphy/lolita/doctorado/clean/fil3.csv")
 
 
 ## Filtro 4
-Saca el ide, de acuerdo al top50. 
+Saca el ide, de acuerdo al *top* 50. 
 ### Top50
 Cuenta la frecuencia del identificador de UniProt, con base en esto realiza una lista ordenada en orden descendente.
 
-> Nota: Digo identificador de UniProt, porque esta es la base de datos que el PDB liga con mayor frecuencia a sus entradas, pero en general puede ser el identificador de cualquier otra base de datos.
+> Nota: Digo identificador de UniProt, porque esta es la base de datos que el PDB liga con mayor frecuencia a sus entradas, pero en general puede ser el identificador de cualquier otra base de datos, incluso el mismo PDB.
 
 ```{r}
 fil3cola <- fil3 %>%
   count(ide, name="cta_ide") %>% # Colapsa los datos hacia n
   arrange(desc(cta_ide))
-#f3_nocola <- fil3 %>% # Agrega n
-#  add_count(ide, name="cta_ide") %>%
-#  arrange(desc(cta_ide)) # TODO: No necesario a menos que se necesite una gráfica ordenada por cta_ide.
+# f3_nocola <- fil3 %>% # Agrega n
+#   add_count(ide, name="cta_ide") %>%
+#   arrange(desc(cta_ide)) # Útil si se necesita  una gráfica ordenada por cta_ide.
 # Una tabla
 tab_fil3cola<-head(fil3cola, n=50) #Aquí escoge n.
 kable(tab_fil3cola) %>%
@@ -74,58 +76,52 @@ write_excel_csv(filter(fil3, ide==ide_i_), filename)
 ```
 
 ```{bash}
-cd /run/media/murphy/lolita/doctorado/clean/fil4/dir # Tiene que estar vacío
-for k in `ls -1 *`
+cd /run/media/murphy/lolita/doctorado/clean/fil4/dir 
+for k in `ls -1rt` # Ordenados
 do
 awk -F "," '{print $1}' "$k" | tail -n +2 | tr '[:upper:]' '[:lower:]' > pdbs_"$k"
 sed 's/$/.cif.gz/'g pdbs_"$k" > list_pdbs_id_"$k"
-rm -rf sub_"$k"/
 mkdir sub_"$k"
 cat list_pdbs_id_"$k" | while read line; do cp /run/media/murphy/lolita/doctorado/PDB_backup/$line /run/media/murphy/lolita/doctorado/clean/fil4/dir/sub_"$k" ; done 
-gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _entity_poly.pdbx_seq_one_letter_code_can sub_"$k"/  > can_seq_"$k".csv 
+/home/murphy/Repos/gemmi/gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _entity_poly.pdbx_seq_one_letter_code_can sub_"$k"/  > can_seq_"$k".csv
 awk -F "¿" '{print ">"$1"\n"$4}' can_seq_"$k".csv | sed 's/\\n//g' > seqs_"$k".fa
-cat /run/media/murphy/lolita/doctorado/clean/fil4/ori_seq/ori_"$k".fa >> /run/media/murphy/lolita/doctorado/clean/fil4/dir/seqs_"$k".fa
-clustalo -i seqs_"$k".fa -o clu_"$k".afa # Checar en Ugene,
-muscle -in seqs_"$k".fa -out mus_"$k".afa
-cons clu_"$k".afa -outseq cons_"$k" -identity 1 -datafile EBLOSUM62 -sprotein1
+#awk -F "¿" '{print $1"\t"$4}' can_seq_"$k".csv | sed 's/\\n//g' > seqsforr_"$k".fa
+# mafft mejor que muscle y clustal omega
+mafft --anysymbol --quiet --op 15 --ep 15 --addfragments seqs_"$k".fa /run/media/murphy/lolita/doctorado/clean/fil4/ori_seq/ori_"$k".fa > msa_"$k".afa
+cons msa_"$k".afa -outseq cons_"$k" -identity 1 -datafile EBLOSUM62 -sprotein1
 # Checar la secuencia consenso en Ugene con el alineamiento. 
 # Esto tarda 4 minutos!
+grep -v EMBOSS cons_"$k" | sed 's/x//g' | tr '\n' ' ' | sed 's/ //g' > cons_"$k"_c
 done
 ```
 
-
 ## El último cacho
 ```{r, warning=FALSE, message=FALSE}
+library(stringdist)
 for (j in seq(1,50))
 {
-ide_i_ <-ide_in_tf3c[[j]]
-filename <- paste("/run/media/murphy/lolita/doctorado/prueba/can_seq_", ide_i_, ".csv", sep="")
-ide_i_ <-read_delim(filename, 
+  ide <-ide_in_tf3c[[j]] # identificador
+  file1 <- paste("/run/media/murphy/lolita/doctorado/clean/fil4/dir/can_seq_", ide, ".csv", sep="")
+  impo1 <- read_delim(file1,  # carga el archivo con las secuencias
     "¿", escape_double = FALSE, col_names = FALSE, 
     comment = "*>", trim_ws = TRUE)
-pdb<-ide_i_$X1
-nde<-stringr::str_replace(ide_i_$X2, '�', '')
-tde<-stringr::str_replace(ide_i_$X3, '�', '')
-sec0<-stringr::str_replace(ide_i_$X4, '�', '')
-sec<-stringr::str_replace_all(sec0, '\\\\n', '')
-# TODO: EL problema es la secuencia WT original, no siempre es la más representada en el PDB.
-# Necesitamos un diccionario con el ide y la secuencias más representada en el PDB de ese ide.
-ulti<-length(sec) 
-repe <- seq(1,ulti)
-lop<-c()
-bad_seq<-c()
-sec_original<-c("KVFGRCELAAAMKRHGLDNYRGYSLGNWVCAAKFESNFNTQATNRNTDGSTDYGILQINSRWWCNDGRTPGSRNLCNIPCSALLSSDITASVNCAKKIVSDGNGMNAWVAWRNRCKGTDVQAWIRGCRL")
-for (i in repe) {
-long_i<-str_length(sec[[i]])
-lop<-c(lop,long_i)
-if(sec[[i]] != sec_original){
-bad_seq<-c(bad_seq, "NotWt")
-} else {
-  bad_seq<-c(bad_seq,"Wt")
-}
-}
-ldp<-as.data.frame(lop)
-ide_i_<-data.frame(pdb, nde, tde, sec, ldp, bad_seq)
+  pdb<-impo1$X1
+  nde<-stringr::str_replace(impo1$X2, '�', '')
+  tde<-stringr::str_replace(impo1$X3, '�', '')
+  sec0<-stringr::str_replace(impo1$X4, '�', '')
+  sec<-stringr::str_replace_all(sec0, '\\\\n', '')
+  oname1 = paste("df", "_", ide, sep="")
+  assign(oname1, data.frame(pdb, nde, tde, sec)) # Usa assign
+  file2 <- paste("/run/media/murphy/lolita/doctorado/clean/fil4/dir/cons_", ide, "_c", sep="")
+  impo2 <- read_csv(file2, col_names = FALSE)
+  oname2 = paste("cons_", ide, sep="")
+  assign(oname2, impo2$X1) # de nuevo.
+# n<-nrow(oname1)
+#   for (i in seq(1,n))
+#   {
+#     y<-adist(oname1$sec[i], oname2)
+#     print(y)
+# }
 }
 ```
 

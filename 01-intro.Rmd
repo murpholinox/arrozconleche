@@ -3,6 +3,7 @@ Se listan las dependencias usadas.
 
 ## Configuración
 Se cargan las librerías necesarias de `R`.
+
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(knitr)
