@@ -4,9 +4,12 @@ Habiendo verificado la naturaleza de nuestros datos, sigue el turno de su limpie
 1. Elimina entradas con una resolución peor que 2 Å. 
 2. Elimina entradas donde no se anotó el pH en su respectiva columna. Según la [página](http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v50.dic/Categories/exptl_crystal_grow.html) del diccionario `.mmcif` dicha anotación se encuentra en 83.7 % del total de entradas depositadas en el PDB.
 3. Elimina entradas donde el número de entidades sea mayor o igual a dos.
-4. Elimina entradas donde la cadena polipeptídica tenga mutaciones o traiga el péptido señal o la cola de histidinas o donde no se haya modelado el último aminoácido (esto siempre y cuando la secuencia consenso en el PDB sea la secuencia wt).
+4. Elimina entradas donde su secuencia de aminoácidos sea muy diferente de la secuencia consenso.
 
->Nota: Lo último es desafortunado; sin embargo, la alternativa es mucho más costosa en tiempo/trabajo y número de entradas perdidas. La alternativa: Bajar la densidad electrónica, el modelo y obtener el coeficiente de correlación entre ambos a nivel local (por aminoácido), si este coeficiente no es mayor que algún valor, podríamos eliminar estas entradas. Desventajas: (1) No todos los modelos tienen los datos depositados en el PDB, por lo tanto no será posible recrear la densidad electrónica. Esto no significa que su cristal de proteína a cierto pH no haya existido. (2) El coeficiente de correlación depende de varios factores, en casos difíciles esto se tendría que hacer a ojo, entrada por entrada, y sería altamente dependiente de la persona que lo realice (yo). 
+> Advertencia: Dependiendo de la proteína, la secuencia consenso puede ser igual a la secuencia de la proteína madura en su estado natural o no.
+
+5. Elimina proteínas que no hayan cristalizado en un rango de pH amplio.
+
 
 ## Filtros 1 y 2
 
@@ -43,26 +46,31 @@ grep -v -f pat fil2.csv > fil3.csv
 fil3 <- read_csv("/run/media/murphy/lolita/doctorado/clean/fil3.csv")
 ```
 
-
 ## Filtro 4
-Saca el ide, de acuerdo al *top* 50. 
+Saca el identificador, de acuerdo al *top* 50. 
+
 ### Top50
 Cuenta la frecuencia del identificador de UniProt, con base en esto realiza una lista ordenada en orden descendente.
 
-> Nota: Digo identificador de UniProt, porque esta es la base de datos que el PDB liga con mayor frecuencia a sus entradas, pero en general puede ser el identificador de cualquier otra base de datos, incluso el mismo PDB.
+> Nota: Digo identificador de UniProt, porque esta es la base de datos que a la que se hace mayor referencia en los archivos del PDB, pero en general puede ser el identificador de cualquier otra base de datos, incluso el mismo PDB.
 
 ```{r}
 fil3cola <- fil3 %>%
   count(ide, name="cta_ide") %>% # Colapsa los datos hacia n
   arrange(desc(cta_ide))
-# f3_nocola <- fil3 %>% # Agrega n
-#   add_count(ide, name="cta_ide") %>%
-#   arrange(desc(cta_ide)) # Útil si se necesita  una gráfica ordenada por cta_ide.
+fil3nocola <- fil3 %>% # Agrega n
+   add_count(ide, name="cta_ide") %>%
+   arrange(desc(cta_ide)) 
 # Una tabla
 tab_fil3cola<-head(fil3cola, n=50) #Aquí escoge n.
 kable(tab_fil3cola) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
 write_excel_csv(tab_fil3cola, "/run/media/murphy/lolita/doctorado/clean/tab_fil3cola.csv")
+```
+
+```{bash}
+cd /run/media/murphy/lolita/doctorado/clean/fil4/dir
+rm -rf * 
 ```
 
 ```{r}
@@ -75,6 +83,10 @@ write_excel_csv(filter(fil3, ide==ide_i_), filename)
 }
 ```
 
+
+### Consenso
+Crea un alineamiento múltiple y obtiene una secuencia consenso. Con base en la secuencia consenso eliminamos entradas del mismo identificador que no sean la misma proteína (sucede en el caso de virus, el identificador corresponde al gen de una poliproteína).
+
 ```{bash}
 cd /run/media/murphy/lolita/doctorado/clean/fil4/dir 
 for k in `ls -1rt` # Ordenados
@@ -85,7 +97,6 @@ mkdir sub_"$k"
 cat list_pdbs_id_"$k" | while read line; do cp /run/media/murphy/lolita/doctorado/PDB_backup/$line /run/media/murphy/lolita/doctorado/clean/fil4/dir/sub_"$k" ; done 
 /home/murphy/Repos/gemmi/gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _entity_poly.pdbx_seq_one_letter_code_can sub_"$k"/  > can_seq_"$k".csv
 awk -F "¿" '{print ">"$1"\n"$4}' can_seq_"$k".csv | sed 's/\\n//g' > seqs_"$k".fa
-#awk -F "¿" '{print $1"\t"$4}' can_seq_"$k".csv | sed 's/\\n//g' > seqsforr_"$k".fa
 # mafft mejor que muscle y clustal omega
 mafft --anysymbol --quiet --op 15 --ep 15 --addfragments seqs_"$k".fa /run/media/murphy/lolita/doctorado/clean/fil4/ori_seq/ori_"$k".fa > msa_"$k".afa
 cons msa_"$k".afa -outseq cons_"$k" -identity 1 -datafile EBLOSUM62 -sprotein1
@@ -95,15 +106,14 @@ grep -v EMBOSS cons_"$k" | sed 's/x//g' | tr '\n' ' ' | sed 's/ //g' > cons_"$k"
 done
 ```
 
-## El último cacho
+Los siguientes bloques tienen como objetivo eliminar entradas de la misma proteína donde la distancia en caracteres (sean sustituciones, deleciones o inserciones) sea mayor o igual a 15 con respecto a la secuencia consenso. Esto elimina proteínas con el péptido señal (normalmente arriba de 15) y mantiene proteínas con la cola de histidinas (normalmente abajo de 15).
+
 ```{r, warning=FALSE, message=FALSE}
-library(stringdist)
 for (j in seq(1,50))
 {
   ide <-ide_in_tf3c[[j]] # identificador
   file1 <- paste("/run/media/murphy/lolita/doctorado/clean/fil4/dir/can_seq_", ide, ".csv", sep="")
-  impo1 <- read_delim(file1,  # carga el archivo con las secuencias
-    "¿", escape_double = FALSE, col_names = FALSE, 
+  impo1 <- read_delim(file1, "¿", escape_double = FALSE, col_names = FALSE, 
     comment = "*>", trim_ws = TRUE)
   pdb<-impo1$X1
   nde<-stringr::str_replace(impo1$X2, '�', '')
@@ -111,30 +121,79 @@ for (j in seq(1,50))
   sec0<-stringr::str_replace(impo1$X4, '�', '')
   sec<-stringr::str_replace_all(sec0, '\\\\n', '')
   oname1 = paste("df", "_", ide, sep="")
-  assign(oname1, data.frame(pdb, nde, tde, sec)) # Usa assign
+  assign(oname1, data.frame(pdb, nde, tde, sec))
   file2 <- paste("/run/media/murphy/lolita/doctorado/clean/fil4/dir/cons_", ide, "_c", sep="")
   impo2 <- read_csv(file2, col_names = FALSE)
   oname2 = paste("cons_", ide, sep="")
-  assign(oname2, impo2$X1) # de nuevo.
-# n<-nrow(oname1)
-#   for (i in seq(1,n))
-#   {
-#     y<-adist(oname1$sec[i], oname2)
-#     print(y)
-# }
+  assign(oname2, impo2$X1)
+  n<-nrow(get(oname1))
+  bad_seq<-c() # Vacío
+    for(i in seq(1, n)) {
+      y <- adist(get(oname1)$sec[i], get(oname2))  
+      if(y >= 15)
+      {bad_seq <- c(bad_seq, "NotWt")}
+      else
+      {bad_seq <- c(bad_seq, "Wt")}
+    }
+  assign(oname1, cbind(get(oname1), bad_seq))
+  file3 <-paste("/run/media/murphy/lolita/doctorado/clean/fil4/dir/fil4_", ide, sep="")
+  write_excel_csv(get(oname1), file3)
 }
 ```
 
-## Obtiene nombres
+```{bash}
+cd /run/media/murphy/lolita/doctorado/clean/fil4/dir/
+awk -F "," '{ if ($5=="NotWt") print $1}' fil4_*  | tr '\n' ' '  > bad_pdbs
+/home/murphy/Repos/gemmi/gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI sub_*/ > casifil4
+cat fil4_* >> fil4_todos
+grep -v bad_seq fil4_todos > casifil4_2
+# casifil4 tiene question mark y casifil4_2 tiene coma y tiene la columna bad_seq
+```
+
+```{r}
+setwd("/run/media/murphy/lolita/doctorado/clean/fil4/dir")
+#bad_pdbs <- read_table2("/run/media/murphy/lolita/doctorado/clean/fil4/dir/bad_pdbs", col_names = FALSE)
+casifil4 <- read_delim("/run/media/murphy/lolita/doctorado/clean/fil4/dir/casifil4", "¿", escape_double = FALSE, col_names = FALSE, comment = "*>", trim_ws = TRUE)
+casifil4_2 <- read_csv("/run/media/murphy/lolita/doctorado/clean/fil4/dir/casifil4_2", 
+    col_names = FALSE)
+casifil4_2<-rename(casifil4_2, bad=X5)
+allbadseqs <-select(casifil4_2, bad)
+ym_fil4<-cbind(casifil4, allbadseqs)
+pdb<-ym_fil4$X1
+nde<-stringr::str_replace(ym_fil4$X2, '�', '')
+tde<-stringr::str_replace(ym_fil4$X3, '�', '')
+ide<-stringr::str_replace(ym_fil4$X4, '�', '')
+nom<-stringr::str_replace(ym_fil4$X5, '�', '')
+tec<-stringr::str_replace(ym_fil4$X6, '�', '')
+peh<-stringr::str_replace(ym_fil4$X7, '�', '')
+con<-stringr::str_replace(ym_fil4$X8, '�', '')
+rs1<-stringr::str_replace(ym_fil4$X9, '�', '')
+rs2<-stringr::str_replace(ym_fil4$X10, '�', '')
+gpo<-stringr::str_replace(ym_fil4$X11, '�', '')
+doi<-stringr::str_replace(ym_fil4$X12, '�', '')
+sil<-ym_fil4$bad
+ymto_fil4<-tibble(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi, sil)
+rm(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi, sil)
+# Cuidado con el tipo de las columnas, de nuevo
+ymto_fil4$nde<-as.numeric(as.character((ymto_fil4$nde)))
+ymto_fil4$peh<-as.numeric(as.character((ymto_fil4$peh)))
+ymto_fil4$rs1<-as.numeric(as.character((ymto_fil4$rs1)))
+ymto_fil4$rs2<-as.numeric(as.character((ymto_fil4$rs2)))
+fil4<- ymto_fil4 %>%
+  filter(sil=="Wt") # Las secuencias malas son 666. casifil* tienen 7719 obs.
+# fil4 tiene 7719-666=7053
+```
+
+## Obtiene nombres y organismos
 Por simplicidad trabaja con nombres.
 
-```{bash, eval=FALSE}
+```{bash}
 cd /run/media/murphy/lolita/doctorado/clean
 # Obtiene los identificadores
-awk -F "," '{print $1}'  tabla_f3_cola.csv | tail -n +2 > top50_uac.lst
+awk -F "," '{print $1}'  tab_fil3cola.csv | tail -n +2 > top50_uac.lst
 # Convierte de lista a línea.
 tr '\n' ' ' < top50_uac.lst > top50_uac.ln
-# Descarga el programa.
+# Descarga el script en perl.
 wget -O get_info.pl https://raw.githubusercontent.com/murpholinox/usefulscripts/master/uniprot_batch_retrieval.pl
 # Instala requisitos para correr el programa.
 # sudo dnf install 'perl(LWP::UserAgent)' 
@@ -142,39 +201,156 @@ wget -O get_info.pl https://raw.githubusercontent.com/murpholinox/usefulscripts/
 chmod u+x get_info.pl
 # Corre el programa.
 perl ./get_info.pl top50_uac.ln > top50_wholeinfo.txt
-# Obtiene identificadores.
-egrep "^ID|^AC|^DE   RecN|^OS" top50_wholeinfo.txt > top50_ids_acs_fnames_org.txt
-# Obtiene nombres.
-grep "^DE" top50_ids_acs_fnames_org.txt | awk -F "=" '{print $2}' | sed 's/Full=//'g | sed 's/;$/,/g' > top50_fnames.lst
-# Checa nombres con comas
-awk -F , 'NF != 2 ' < top50_fnames.lst
-# HLA class I histocompatibility antigen, A alpha chain,
-#Nitric oxide synthase, brain,
-#DNA polymerase I, thermostable,
-#Glycogen phosphorylase, muscle form,
-# Elimina comas
-sed -e 's/antigen, A alpha/antigen A alpha/g ; s/synthase, brain,/synthase brain,/g ; s/polymerase I, thermostable,/polymerase I thermostable,/g ; s/phosphorylase, muscle form,/phosphorylase muscle form,/g' top50_fnames.lst > top50_fnames_fx.lst
-# Obtiene organismos. 
+# 1 # Obtiene nombres.
+egrep "^DE   RecN|^DE   SubN" top50_wholeinfo.txt > top50_nombres.txt
+# Solo nombres.
+awk -F "=" '{print $2}' top50_nombres.txt | sed 's/,//'g | sed 's/;//g' > top50_nombres_fx.txt
+# 2 # Obtiene organismos. 
+egrep "^OS" top50_wholeinfo.txt > top50_org.txt
 # Elimina organismos con doble línea OS
-grep -v "^OS   (HIV-1)"  top50_ids_acs_fnames_org.txt > b
-grep -v "^OS   10044" b > top50_ids_acs_fnames_org_fx.txt
-grep "^OS" top50_ids_acs_fnames_org_fx.txt | sed 's/^OS   //'g > top50_org.txt
-# Pega los nombres de las proteínas con su AC, `SUMA` y organismo.
-paste top50_fnames_fx.lst top50_uac.lst > c
-paste -d, c top50_org.txt > top50_final.csv
+grep -v "^OS   (HIV-1)"  top50_org.txt > b
+grep -v "^OS   10044" b > c
+grep -v "^OS   14847"  c > d
+grep -v "^OS   (Hal" d | sed 's/^OS   //g' > top50_org_fx.txt 
+# Pega los nombres de las proteínas con su identificador y organismo.
+paste -d, top50_uac.lst top50_nombres_fx.txt top50_org_fx.txt > top50_final.csv
 ```
 
 Con `top50_final.csv` podemos construir una tabla para la presentación. 
 
-## TODO
-Falta checar el intervalo de pH de las 50 proteínas más representadas y checar las respectivas gráficas de pH
+## Filtro 5
+Grafica el intervalo de pH de las 50 proteínas más representadas en el PDB que cumplen los primeros cuatro filtros. 
 
-```{r, eval=FALSE}
-ggplot(filter(clean, UAC=="P00698"), aes(x=Length)) + geom_bar() + facet_wrap( ~ sg) + xlab("Residuos de aminoácido") + ylab ("Número de estructuras")
-ggsave("P00698_bar-length_wrap-sg.pdf", width = 20, units = "cm") 
-ggsave("P00698_bar-length_wrap-sg.png", width = 20, units = "cm") 
-ggplot(filter(clean, UAC=="P00698" & sg=="P 43 21 2"), aes(x=pH)) + geom_bar() + xlab("pH") + ylab ("Número de estructuras")
-ggsave("P00698_ph-sg_P_43_21_2.pdf", width = 20, units = "cm") 
-ggsave("p00698_ph-sg_P_43_21_2.png", width = 20, units = "cm") 
+```{r}
+setwd("/run/media/murphy/lolita/doctorado/clean/fil4/plots_all")
+for (j in seq(1,50))
+{
+id <-tab_fil3cola$ide[j]
+ggplot(filter(fil4, ide==id), aes(x=peh)) + geom_histogram(binwidth = 0.5) + facet_wrap( ~ gpo) + xlab("pH") + ylab ("Número de entradas") + coord_cartesian(ylim = c(1, 20)) + geom_hline(yintercept=5, linetype="dashed", color = "#999999")
+pdfplot<-paste("hist_pH_wrap_gpo_", id, ".pdf", sep="" )
+pngplot<-paste("hist_pH_wrap_gpo_", id, ".png", sep="" )
+ggsave(pdfplot, width = 20, units = "cm") 
+ggsave(pngplot, width = 20, units = "cm")
+}
 ```
+
+```{r}
+# Toma solo aquellas entradas donde n sea mayor a 10
+by_idegpo <-fil4 %>%
+  add_count(ide, gpo) %>%
+  arrange(ide, desc(n)) %>%
+  filter(n>10)
+```
+
+```{r}
+setwd("/run/media/murphy/lolita/doctorado/clean/fil4/plots_gt10")
+for (j in seq(1,50))
+{
+id <-tab_fil3cola$ide[j]
+ggplot(filter(by_idegpo, ide==id), aes(x=peh)) + geom_histogram(binwidth = 0.5) + facet_wrap( ~ gpo) + xlab("pH") + ylab ("Número de entradas") + coord_cartesian(ylim = c(1, 20)) + geom_hline(yintercept=5, linetype="dashed", color = "#999999")
+pdfplot<-paste("hist_pH_wrap_gpo_", id, ".pdf", sep="" )
+pngplot<-paste("hist_pH_wrap_gpo_", id, ".png", sep="" )
+ggsave(pdfplot, width = 20, units = "cm") 
+ggsave(pngplot, width = 20, units = "cm")
+}
+```
+
+```{r}
+set1 <-c("P00918", "P11838", "P00698", "P00760", "Q6PJP8", "Q6B0I6", "P02766", "O95696", "Q9UIF8", "P00644")
+set2 <-c("P00720", "P24941", "P42212", "P29476", "P02185", "O60885", "P18031", "P61823", "P07900", "P28720")
+set3 <-c("P61626", "P15121", "P56817", "P0DTD1", "P19491", "P23497", "P00800", "O26232", "P22629", "P00489")
+set4 <-c("P03367", "P68400", "A0A073FPA6", "P46881", "Q16539", "P00811", "P14174", "P00431", "P01116", "P00183")
+set5 <-c("P01112", "Q00511", "Q76353", "P00282", "P02883", "P02945", "P06873", "P16113", "Q04609", "P00772")
+mkplt1 <- by_idegpo %>%
+  filter(ide %in% set1)
+mkplt2 <- by_idegpo %>%
+  filter(ide %in% set2)
+mkplt3 <- by_idegpo %>%
+  filter(ide %in% set3)
+mkplt4 <- by_idegpo %>%
+  filter(ide %in% set4)
+mkplt5 <- by_idegpo %>%
+  filter(ide %in% set5)
+```
+
+
+
+```{r}
+# Semi-Final
+setwd("/run/media/murphy/lolita/doctorado/clean/fil5")
+# ggplot(data = fil4, aes(x=peh, fill=gpo)) + geom_histogram(binwidth = 0.5, color ="black") + coord_cartesian(ylim = c(1, 10)) + facet_wrap(~ ide) + xlab("pH") + ylab ("Número de entradas") + scale_fill_discrete(name="Grupo espacial")
+# ggplot(data = by_idegpo, aes(x=peh, fill=gpo)) + geom_histogram(binwidth = 0.5, color="black") + coord_cartesian(ylim = c(1, 10)) + facet_wrap(~ ide) + xlab("pH") + ylab ("Número de entradas") + scale_fill_discrete(name="Grupo espacial")
+# ggplot(data = fil4, aes(x=factor(gpo), y=peh)) + geom_boxplot() + facet_wrap(~ ide) + coord_flip()
+# ggplot(data = by_idegpo, aes(x=factor(gpo), y=peh)) + geom_boxplot() + facet_wrap(~ ide) + coord_flip()
+# Las gráficas por partes están más decentes.
+# Histogramas
+ggplot(data = mkplt1, aes(x=peh, fill=gpo)) + geom_histogram(binwidth = 0.5, color ="black") + coord_cartesian(ylim = c(1, 10)) + facet_wrap(~ ide) + xlab("pH") + ylab ("Número de entradas") + scale_fill_discrete(name="Grupo espacial")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_hist_1.svg", width = 20, units = "cm")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_hist_1.png", width = 20, units = "cm")
+ggplot(data = mkplt2, aes(x=peh, fill=gpo)) + geom_histogram(binwidth = 0.5, color="black") + coord_cartesian(ylim = c(1, 10)) + facet_wrap(~ ide) + xlab("pH") + ylab ("Número de entradas") + scale_fill_discrete(name="Grupo espacial")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_hist_2.svg", width = 20, units = "cm")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_hist_2.png", width = 20, units = "cm")
+ggplot(data = mkplt3, aes(x=peh, fill=gpo)) + geom_histogram(binwidth = 0.5, color ="black") + coord_cartesian(ylim = c(1, 10)) + facet_wrap(~ ide) + xlab("pH") + ylab ("Número de entradas") + scale_fill_discrete(name="Grupo espacial")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_hist_3.svg", width = 20, units = "cm")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_hist_3.png", width = 20, units = "cm")
+ggplot(data = mkplt4, aes(x=peh, fill=gpo)) + geom_histogram(binwidth = 0.5, color="black") + coord_cartesian(ylim = c(1, 10)) + facet_wrap(~ ide) + xlab("pH") + ylab ("Número de entradas") + scale_fill_discrete(name="Grupo espacial")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_hist_4.svg", width = 20, units = "cm")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_hist_4.png", width = 20, units = "cm")
+ggplot(data = mkplt5, aes(x=peh, fill=gpo)) + geom_histogram(binwidth = 0.5, color="black") + coord_cartesian(ylim = c(1, 10)) + facet_wrap(~ ide) + xlab("pH") + ylab ("Número de entradas") + scale_fill_discrete(name="Grupo espacial")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_hist_5.svg", width = 20, units = "cm")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_hist_5.png", width = 20, units = "cm")
+# Boxplots
+ggplot(data = mkplt1, aes(x=factor(gpo), y=peh)) + geom_boxplot() + facet_wrap(~ ide) + coord_flip() + scale_y_continuous(breaks=seq(3:12)) + ylab("pH") + xlab("Grupo espacial")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_bp_1.svg", width = 20, units = "cm") 
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_bp_1.png", width = 20, units = "cm")
+ggplot(data = mkplt2, aes(x=factor(gpo), y=peh)) + geom_boxplot() + facet_wrap(~ ide) + coord_flip() + scale_y_continuous(breaks=seq(3:12)) + ylab("pH") + xlab("Grupo espacial")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_bp_2.svg", width = 20, units = "cm") 
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_bp_2.png", width = 20, units = "cm")
+ggplot(data = mkplt3, aes(x=factor(gpo), y=peh)) + geom_boxplot() + facet_wrap(~ ide) + coord_flip() + scale_y_continuous(breaks=seq(3:12)) + ylab("pH") + xlab("Grupo espacial")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_bp_3.svg", width = 20, units = "cm") 
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_bp_3.png", width = 20, units = "cm")
+ggplot(data = mkplt4, aes(x=factor(gpo), y=peh)) + geom_boxplot() + facet_wrap(~ ide) + coord_flip() + scale_y_continuous(breaks=seq(3:12)) + ylab("pH") + xlab("Grupo espacial")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_bp_4.svg", width = 20, units = "cm") 
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_bp_4.png", width = 20, units = "cm")
+ggplot(data = mkplt5, aes(x=factor(gpo), y=peh)) + geom_boxplot() + facet_wrap(~ ide) + coord_flip() + scale_y_continuous(breaks=seq(3:12)) + ylab("pH") + xlab("Grupo espacial")
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_bp_5.svg", width = 20, units = "cm") 
+ggsave("/run/media/murphy/lolita/doctorado/clean/fil5/plots/final_bp_5.png", width = 20, units = "cm")
+```
+
+Falta eliminar las entradas que no nos sirven.
+
+```{r}
+malas <-c("P02945", "Q04609", "Q76353", "A0A073FPA6", "P00811", "P46881", "P00489", "P23497", "O95696", "P11838", "Q6B0I6", "Q6PJP8", "Q9UIF8", "P18031", "P29476", "P28720")
+buenas_cola <- fil4 %>%
+  filter(!ide %in% malas) %>%
+  filter(n >= 10) %>%
+  count(ide, gpo) %>%
+  arrange(desc(n))
+buenas_nocola <- fil4 %>%
+  filter(!ide %in% malas) %>%
+  filter( n>= 10) %>%
+  add_count(ide, gpo) %>%
+  arrange(desc(n))
+# Tabla
+kable(buenas_cola) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
+```
+
+```{r}
+ggplot(data = buenas_nocola, aes(x=factor(gpo), y=peh)) + geom_boxplot() + facet_wrap(~ ide) + coord_flip() + scale_y_continuous(breaks=seq(3:12)) + ylab("pH") + xlab("Grupo espacial")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

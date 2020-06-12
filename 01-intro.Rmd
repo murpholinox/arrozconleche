@@ -8,6 +8,8 @@ Se cargan las librerías necesarias de `R`.
 library(tidyverse)
 library(knitr)
 library(kableExtra)
+library(stringdist)
+library(svglite)
 ```
 
 ## Sesión
@@ -20,7 +22,7 @@ sessionInfo()
 Como se nota en la salida anterior, el sistema operativo usado es Fedora 32 (<https://getfedora.org/>) en su versión *workstation*. 
 
 ```{bash}
-uname -r # Imprime versión del kernel.
+uname -r # Imprime versión del núcleo de linux.
 ```
 
 ## Minería de datos
