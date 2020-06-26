@@ -46,11 +46,11 @@ cd /run/media/murphy/lolita/doctorado
 mkdir PDB_backup
 cd PDB/
 time find . -name '*.gz' -exec cp \{\} /run/media/murphy/lolita/doctorado/PDB_backup/ \; 
-# Esto tarda 36 minutos!
+# Esto tarda 39m23.037s
 # Se confirma con:
 # cd ../PDB_backup/
 # find -name "*.gz" | wc -l
-# 164391
+# 165650
 ```
 
 Los archivos descargados están comprimidos en formato `gzip` (<https://www.gnu.org/software/gzip/>). No es necesario descomprimirlos. 
@@ -79,19 +79,26 @@ Del universo de archivos depositados en el PDB, obtenemos aquellas estructuras d
 ```{bash, eval=FALSE}
 cd /run/media/murphy/lolita/doctorado/
 mkdir extract
-time gemmi grep _exptl.method PDB_backup/ > ./extract/method.dat # Esto tarda 74 minutos!
+time gemmi grep _exptl.method PDB_backup/ > ./extract/method.dat 
+# Esto tarda 77m43.750s
+# Confirma con:
+# wc -l method.dat
+# 165820 
+# La diferencia es por los pdbs obtenidos vía múltiples métodos.
+# La siguiente línea nos da donde se da esta diferencia.
+# awk -F ":" '{print $1}' method.dat | uniq -c | awk '{ if ($1!="1") print $0}' > morethanonemethod.dat
 cd extract/
 grep X-RAY method.dat | awk -F : '{print $1}' | tr '[:upper:]' '[:lower:]' > pdbs_by_xray.dat
-sed 's/$/.cig.gz/'g pdbs_by_xray.dat > list_pdbs_by_xray
+sed 's/$/.cif.gz/'g pdbs_by_xray.dat > list_pdbs_by_xray
 # Es interesante comparar el número de entradas por CRX contra el total:
-# wc -l method.dat pdbs_by_xray.dat
-# 164558 method.dat
-# 146114 pdbs_by_xray.dat
-# Es decir, 88.79 % de las entradas en el PDB son por CRX.
+# wc -l pdbs_by_xray.dat
+# 147209 pdbs_by_xray.dat
+# El total era 165650, el cociente da = (147209/165650)*100=88.87
+# Es decir, 88.87 % de las entradas en el PDB son por CRX.
 mkdir xrays
 time cat list_pdbs_by_xray | while read line;
 do cp /run/media/murphy/lolita/doctorado/PDB_backup/$line xrays/; done 
-# Esto tarda 49 minutos!
+# Esto tarda 51m51.134s!
 ```
 
 #### Extrae datos
@@ -99,31 +106,36 @@ do cp /run/media/murphy/lolita/doctorado/PDB_backup/$line xrays/; done
 # El primer delimitador usado fue <TAB> (\t).
 # time gemmi grep --delimiter='\t' _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI xrays/ > todo
 # Esto tarda 45 minutos! 
-# Estos resultados no producen datos rectangulares, por la presencia de <TAB> en la columna de la condición de cristalización.
-# La solución es usar un delimitador que jamás podría aparecer en los archivos `.mmcif`.
+# Estos resultados no producen datos rectangulares. 
+# La causa es la presencia de <TAB> en la condición de cristalización.
+# La solución es usar un delimitador que no aparece en los archivos.
 cd /run/media/murphy/lolita/doctorado/extract
-time gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI xrays/ > todo2
-# Esto tarda 45 minutos!
+time gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI xrays/ > information_from_xrays
+# Esto tarda 47m45.080s!
+# Por qué tarda menos cuando extrae más etiquetas?
+# Ni idea, pero es reproducible.
 ```
 
-Importa los datos extraídos a `R` y los verifica.
+Importa los datos extraídos a `R` y los verifica realizando algunas gráficas interesantes.
 ```{r, warning=FALSE, message=FALSE}
-todo2 <- read_delim("/run/media/murphy/lolita/doctorado/extract/todo2", 
+setwd("/run/media/murphy/lolita/doctorado/extract/")
+info <- read_delim("information_from_xrays", 
     "¿", escape_double = FALSE, col_names = FALSE, 
     comment = "*>", trim_ws = TRUE)
-# La configuración regional de mi sistema está en inglés, `R` también por lo que no reconoce '¿'.
-pdb<-todo2$X1
-nde<-stringr::str_replace(todo2$X2, '�', '')
-tde<-stringr::str_replace(todo2$X3, '�', '')
-ide<-stringr::str_replace(todo2$X4, '�', '')
-nom<-stringr::str_replace(todo2$X5, '�', '')
-tec<-stringr::str_replace(todo2$X6, '�', '')
-peh<-stringr::str_replace(todo2$X7, '�', '')
-con<-stringr::str_replace(todo2$X8, '�', '')
-rs1<-stringr::str_replace(todo2$X9, '�', '')
-rs2<-stringr::str_replace(todo2$X10, '�', '')
-gpo<-stringr::str_replace(todo2$X11, '�', '')
-doi<-stringr::str_replace(todo2$X12, '�', '')
+# La configuración regional de mi sistema está en inglés.
+# `R` también por lo que no reconoce '¿'.
+pdb<-info$X1
+nde<-stringr::str_replace(info$X2, '�', '')
+tde<-stringr::str_replace(info$X3, '�', '')
+ide<-stringr::str_replace(info$X4, '�', '')
+nom<-stringr::str_replace(info$X5, '�', '')
+tec<-stringr::str_replace(info$X6, '�', '')
+peh<-stringr::str_replace(info$X7, '�', '')
+con<-stringr::str_replace(info$X8, '�', '')
+rs1<-stringr::str_replace(info$X9, '�', '')
+rs2<-stringr::str_replace(info$X10, '�', '')
+gpo<-stringr::str_replace(info$X11, '�', '')
+doi<-stringr::str_replace(info$X12, '�', '')
 datos<-data.frame(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi)
 rm(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi)
 # Cuidado con el tipo de las columnas.
@@ -135,11 +147,17 @@ datos$rs2<-as.numeric(as.character((datos$rs2)))
 theme_set(theme_bw())
 # Histograma del pH.
 ggplot(data = datos, aes(x=peh)) + geom_histogram(binwidth = 0.5) + labs(x="pH", y="Frecuencia") + xlim(1, 11)
+ggsave("histograma_todo_xrays_ph.png", width = 20, units = "cm")
+ggsave("histograma_todo_xrays_ph.svg", width = 20, units = "cm")
 # Histograma de la resolución.
 ggplot(data = datos, aes(x=rs1)) + geom_histogram(binwidth = 0.1) + labs(x="Resolución (Å)", y="Frecuencia")
+ggsave("histograma_todo_xrays_res.png", width = 20, units = "cm")
+ggsave("histograma_todo_xrays_res.svg", width = 20, units = "cm")
 # Histograma del número de entidades.
 ggplot(data = datos, aes(x=nde)) + geom_histogram(binwidth = 1) + labs(x="Número de entidades", y="Frecuencia")
-# Determina cuentas por grupo de grupos espaciales y tido de entidad.
+ggsave("histograma_todo_xrays_nde.png", width = 20, units = "cm")
+ggsave("histograma_todo_xrays_nde.svg", width = 20, units = "cm")
+# Determina cuántos tipos de grupos espaciales y de entidades.
 df1<-datos %>%
   add_count(gpo, name = "cta_gpo")
 df2<-df1 %>%
@@ -152,11 +170,15 @@ tab_tde<-datos %>%
   arrange(desc(cta_tde))
 # Gráfico de barras de los grupos espaciales.
 ggplot(data = df1, aes(x=reorder(gpo, cta_gpo))) + geom_bar() + labs(x="Grupo espacial", y="Frecuencia") + theme(axis.text.x = element_text(angle = 90))
+ggsave("barras_todo_xrays_gpo.png", width = 20, units = "cm")
+ggsave("barras_todo_xrays_gpo.svg", width = 20, units = "cm")
 # Es interesante notar que el número de grupos espaciales es mayor a 65.
 gpo_rar <- df2 %>%
   filter(cta_gpo <= 15)
 # Gráfico de barras de los grupos espaciales menos comunes. 
 ggplot(data = gpo_rar, aes(x=reorder(gpo, cta_gpo))) + geom_bar() + labs(x="Grupo espacial", y="Frecuencia", title = "Grupos espaciales con una frecuencia menor o igual a 15") + coord_flip()#+ theme(axis.text.x = element_text(size = 12, angle = 45)) 
+ggsave("histograma_todo_xrays_gpo_rar.png", width = 20, units = "cm")
+ggsave("histograma_todo_xrays_gpo_rar.svg", width = 20, units = "cm")
 # Genera tablas.
 # Tabla de grupos espaciales en el PDB.
 kable(tab_gpo) %>%
@@ -164,7 +186,7 @@ kable(tab_gpo) %>%
 # Tabla del tipo de entidades en el PDB.
 kable(tab_tde) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
-rm(todo2, df1, datos)
-# Guarda datos como `.csv`.
+rm(info, df1, datos)
+# Guarda los datos como `.csv`.
 write_excel_csv(df2, "/run/media/murphy/lolita/doctorado/extract/df2.csv")
 ```

@@ -1,11 +1,18 @@
 # Dependencias
 Se listan las dependencias usadas.
 
+## Corre o no todo el código
+```{r setup, include = FALSE}
+#knitr::opts_chunk$set(eval = FALSE)
+```
+
 ## Configuración
 Se cargan las librerías necesarias de `R`.
 
 ```{r, warning=FALSE, message=FALSE}
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(readr)
 library(knitr)
 library(kableExtra)
 library(stringdist)

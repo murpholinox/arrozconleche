@@ -1,0 +1,14 @@
+---
+output: pdf_document
+---
+
+![img x](/run/media/murphy/lolita/doctorado/clean/fil5/final_bp_1.png)
+![img x](/run/media/murphy/lolita/doctorado/clean/fil5/final_bp_2.png)
+![img x](/run/media/murphy/lolita/doctorado/clean/fil5/final_bp_3.png)
+![img x](/run/media/murphy/lolita/doctorado/clean/fil5/final_bp_4.png)
+![img x](/run/media/murphy/lolita/doctorado/clean/fil5/final_bp_5.png)
+![img x](/run/media/murphy/lolita/doctorado/clean/fil5/final_hist_1.png)
+![img x](/run/media/murphy/lolita/doctorado/clean/fil5/final_hist_2.png)
+![img x](/run/media/murphy/lolita/doctorado/clean/fil5/final_hist_3.png)
+![img x](/run/media/murphy/lolita/doctorado/clean/fil5/final_hist_4.png)
+![img x](/run/media/murphy/lolita/doctorado/clean/fil5/final_hist_5.png)

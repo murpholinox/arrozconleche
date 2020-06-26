@@ -24,7 +24,7 @@
 <meta name="author" content="Francisco Murphy Pérez" />
 
 
-<meta name="date" content="2020-06-07" />
+<meta name="date" content="2020-06-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -163,12 +163,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html"><i class="fa fa-check"></i><b>4</b> Limpieza de datos</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtros-1-y-2"><i class="fa fa-check"></i><b>4.1</b> Filtros 1 y 2</a></li>
-<li class="chapter" data-level="4.2" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-3"><i class="fa fa-check"></i><b>4.2</b> Filtro 3</a></li>
-<li class="chapter" data-level="4.3" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-4"><i class="fa fa-check"></i><b>4.3</b> Filtro 4</a></li>
-<li class="chapter" data-level="4.4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#el-último-cacho"><i class="fa fa-check"></i><b>4.4</b> El último cacho</a></li>
-<li class="chapter" data-level="4.5" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#obtiene-nombres"><i class="fa fa-check"></i><b>4.5</b> Obtiene nombres</a></li>
-<li class="chapter" data-level="4.6" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#todo"><i class="fa fa-check"></i><b>4.6</b> TODO</a></li>
+<li class="chapter" data-level="4.1" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-3"><i class="fa fa-check"></i><b>4.1</b> Filtro 3</a></li>
+<li class="chapter" data-level="4.2" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-4"><i class="fa fa-check"></i><b>4.2</b> Filtro 4</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#top50"><i class="fa fa-check"></i><b>4.2.1</b> Top50</a></li>
+<li class="chapter" data-level="4.2.2" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#consenso"><i class="fa fa-check"></i><b>4.2.2</b> Consenso</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#obtiene-nombres-y-organismos"><i class="fa fa-check"></i><b>4.3</b> Obtiene nombres y organismos</a></li>
+<li class="chapter" data-level="4.4" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#gráficas"><i class="fa fa-check"></i><b>4.4</b> Gráficas</a></li>
+<li class="chapter" data-level="4.5" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-5"><i class="fa fa-check"></i><b>4.5</b> Filtro 5</a></li>
+<li class="chapter" data-level="4.6" data-path="limpieza-de-datos.html"><a href="limpieza-de-datos.html#filtro-6"><i class="fa fa-check"></i><b>4.6</b> Filtro 6</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
 <ul>
@@ -177,6 +181,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="color-blind-friendly-palette-with-grey.html"><a href="color-blind-friendly-palette-with-grey.html"><i class="fa fa-check"></i><b>7</b> Color blind friendly palette with grey:</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -203,9 +208,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="configuración" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Configuración</h2>
 <p>Se cargan las librerías necesarias de <code>R</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="dependencias.html#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="dependencias.html#cb1-2"></a><span class="kw">library</span>(knitr)</span>
-<span id="cb1-3"><a href="dependencias.html#cb1-3"></a><span class="kw">library</span>(kableExtra)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="dependencias.html#cb1-1"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="dependencias.html#cb1-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="dependencias.html#cb1-3"></a><span class="kw">library</span>(readr)</span>
+<span id="cb1-4"><a href="dependencias.html#cb1-4"></a><span class="kw">library</span>(knitr)</span>
+<span id="cb1-5"><a href="dependencias.html#cb1-5"></a><span class="kw">library</span>(kableExtra)</span>
+<span id="cb1-6"><a href="dependencias.html#cb1-6"></a><span class="kw">library</span>(stringdist)</span>
+<span id="cb1-7"><a href="dependencias.html#cb1-7"></a><span class="kw">library</span>(svglite)</span></code></pre></div>
 </div>
 <div id="sesión" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Sesión</h2>
@@ -230,30 +239,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [1] stats     graphics  grDevices datasets  utils     methods   base     
 ## 
 ## other attached packages:
-##  [1] kableExtra_1.1.0 knitr_1.28       forcats_0.5.0    stringr_1.4.0   
-##  [5] dplyr_1.0.0      purrr_0.3.4      readr_1.3.1      tidyr_1.1.0     
-##  [9] tibble_3.0.1     ggplot2_3.3.1    tidyverse_1.3.0 
+## [1] svglite_1.2.3      stringdist_0.9.5.5 kableExtra_1.1.0   knitr_1.28        
+## [5] readr_1.3.1        ggplot2_3.3.1      dplyr_1.0.0       
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] tidyselect_1.1.0  xfun_0.14         haven_2.3.1       lattice_0.20-38  
-##  [5] colorspace_1.4-1  vctrs_0.3.1       generics_0.0.2    viridisLite_0.3.0
-##  [9] htmltools_0.4.0   yaml_2.2.1        blob_1.2.1        rlang_0.4.6      
-## [13] pillar_1.4.4      withr_2.2.0       glue_1.4.1        DBI_1.1.0        
-## [17] dbplyr_1.4.4      modelr_0.1.8      readxl_1.3.1      lifecycle_0.2.0  
-## [21] munsell_0.5.0     gtable_0.3.0      cellranger_1.1.0  rvest_0.3.5      
-## [25] evaluate_0.14     fansi_0.4.1       broom_0.5.6       Rcpp_1.0.4.6     
-## [29] renv_0.10.0       backports_1.1.7   scales_1.1.1      webshot_0.5.2    
-## [33] jsonlite_1.6.1    fs_1.4.1          hms_0.5.3         digest_0.6.25    
-## [37] stringi_1.4.6     bookdown_0.19     grid_3.6.3        cli_2.0.2        
-## [41] tools_3.6.3       magrittr_1.5      crayon_1.3.4      pkgconfig_2.0.3  
-## [45] ellipsis_0.3.1    xml2_1.3.2        reprex_0.3.0      lubridate_1.7.8  
-## [49] assertthat_0.2.1  rmarkdown_2.2     httr_1.4.1        rstudioapi_0.11  
-## [53] R6_2.4.1          nlme_3.1-144      compiler_3.6.3</code></pre>
+##  [1] Rcpp_1.0.4.6      pillar_1.4.4      compiler_3.6.3    tools_3.6.3      
+##  [5] digest_0.6.25     viridisLite_0.3.0 evaluate_0.14     lifecycle_0.2.0  
+##  [9] tibble_3.0.1      gtable_0.3.0      pkgconfig_2.0.3   rlang_0.4.6      
+## [13] rstudioapi_0.11   parallel_3.6.3    yaml_2.2.1        xfun_0.14        
+## [17] xml2_1.3.2        withr_2.2.0       stringr_1.4.0     httr_1.4.1       
+## [21] systemfonts_0.2.3 gdtools_0.2.2     generics_0.0.2    vctrs_0.3.1      
+## [25] hms_0.5.3         webshot_0.5.2     grid_3.6.3        tidyselect_1.1.0 
+## [29] glue_1.4.1        R6_2.4.1          rmarkdown_2.2     bookdown_0.19    
+## [33] purrr_0.3.4       magrittr_1.5      scales_1.1.1      ellipsis_0.3.1   
+## [37] htmltools_0.4.0   rvest_0.3.5       colorspace_1.4-1  renv_0.10.0      
+## [41] stringi_1.4.6     munsell_0.5.0     crayon_1.3.4</code></pre>
 </div>
 <div id="sistema-operativo" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Sistema operativo</h2>
 <p>Como se nota en la salida anterior, el sistema operativo usado es Fedora 32 (<a href="https://getfedora.org/" class="uri">https://getfedora.org/</a>) en su versión <em>workstation</em>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="dependencias.html#cb4-1"></a><span class="fu">uname</span> -r <span class="co"># Imprime versión del kernel.</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="dependencias.html#cb4-1"></a><span class="fu">uname</span> -r <span class="co"># Imprime versión del núcleo de linux.</span></span></code></pre></div>
 <pre><code>## 5.6.15-300.fc32.x86_64</code></pre>
 </div>
 <div id="minería-de-datos" class="section level2" number="2.4">
