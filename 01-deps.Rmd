@@ -2,9 +2,9 @@
 Se listan las dependencias usadas.
 
 ## Ejecuta código
-
+*Switch* global para ejecutar, o no, bloques de código.
 ```{r setup}
-knitr::opts_chunk$set(eval = FALSE)
+# knitr::opts_chunk$set(eval = FALSE)
 ```
 
 ## Configuración

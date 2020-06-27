@@ -4,10 +4,12 @@ author: "Francisco Murphy Pérez"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
-bibliography: [book.bib, packages.bib]
+bibliography:
+- book.bib
+- packages.bib
 biblio-style: apalike
 link-citations: yes
-description: "Bitácora de doctorado"
+description: Bitácora de doctorado
 ---
 
 # Resumen del proyecto

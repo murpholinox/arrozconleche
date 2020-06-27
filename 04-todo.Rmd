@@ -2,7 +2,7 @@
 
 Cristalizar las proteínas, difractarlas...
 
-Pensar en los análisis, 
+Pensar en los análisis: 
 
 1. Composición atómica
 2. Número y tipo de contactos

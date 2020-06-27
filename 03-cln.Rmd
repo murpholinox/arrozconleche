@@ -13,6 +13,7 @@ Habiendo verificado la integridad de nuestros datos, sigue el turno de su limpie
 
 ## Filtros 0 1 y 2
 ```{bash}
+rm -rf /run/media/murphy/lolita/doctorado/clean
 mkdir /run/media/murphy/lolita/doctorado/clean
 ```
 
@@ -79,13 +80,14 @@ write_excel_csv(tab_fil3cola, "tab_fil3cola.csv")
 ```{bash}
 # Genera el directorio para el alineamiento múltiple.
 # Copia las secuencias originales.
+rm -rf /run/media/murphy/lolita/doctorado/clean/fil4
 cd /run/media/murphy/lolita/doctorado/clean
 mkdir -p fil4/msa
 cp -r /home/murphy/ori_seq /run/media/murphy/lolita/doctorado/clean/fil4/
 ```
 
 ```{r}
-# Extrae el identificador de las 50 proteínas más representadas en el PDB.
+# Extrae las 50 proteínas más representadas en el PDB y según filtros previos.
 ide_in_tf3c <- tab_fil3cola$ide
 for (j in seq(1,50))
 {
@@ -243,7 +245,6 @@ Grafica el intervalo de pH.
 
 ```{bash}
 mkdir /run/media/murphy/lolita/doctorado/clean/fil4/plots_all
-mkdir /run/media/murphy/lolita/doctorado/clean/fil4/plots_gt10
 mkdir /run/media/murphy/lolita/doctorado/clean/fil4/plots_bue
 ```
 
@@ -253,7 +254,7 @@ setwd("/run/media/murphy/lolita/doctorado/clean/fil4/plots_all")
 for (j in seq(1,50))
 {
 id <-tab_fil3cola$ide[j]
-ggplot(filter(fil4, ide==id), aes(x=factor(gpo), y=peh)) + geom_boxplot() + coord_flip() + ylab("pH") + xlab("Grupo espacial")
+print(ggplot(filter(fil4, ide==id), aes(x=factor(gpo), y=peh)) + geom_boxplot() + coord_flip() + ylab("pH") + xlab("Grupo espacial"))
 svgplot<-paste("box_pH_by_gpo_", id, ".svg", sep="" )
 pngplot<-paste("box_pH_by_gpo_", id, ".png", sep="" )
 ggsave(svgplot, width = 20, units = "cm") 
@@ -268,7 +269,7 @@ setwd("/run/media/murphy/lolita/doctorado/clean/fil4/plots_bue")
 buenas<-c("P00918", "P00698", "P00760", "P02766", "P00644", "P42212", "P02185", "O60885", "P61823", "P28720", "P07900", "P0DTD1", "P19491", "O26232", "P22629", "P03367", "P68400", "Q16539", "P14174", "P01116", "P01112", "P00282", "P06873", "P16113", "P00772")
 for (k in seq(1,length(buenas)))
 {
-ggplot(filter(fil4, ide==buenas[k]), aes(x=peh)) + geom_histogram(binwidth = 0.5) + facet_wrap( ~ gpo) + xlab("pH") + ylab ("Número de entradas") + coord_cartesian(ylim = c(1, 20)) + geom_hline(yintercept=5, linetype="dashed", color = "red")
+print(ggplot(filter(fil4, ide==buenas[k]), aes(x=peh)) + geom_histogram(binwidth = 0.5) + facet_wrap( ~ gpo) + xlab("pH") + ylab ("Número de entradas") + coord_cartesian(ylim = c(1, 20)) + geom_hline(yintercept=5, linetype="dashed", color = "red"))
 svgplot<-paste("hist_pH_by_gpo_", buenas[k], ".svg", sep="" )
 pngplot<-paste("hist_pH_by_gpo_", buenas[k], ".png", sep="" )
 ggsave(svgplot, width = 20, units = "cm") 
