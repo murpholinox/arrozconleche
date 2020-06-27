@@ -1,0 +1,12 @@
+# Qué falta?
+
+Cristalizar las proteínas, difractarlas...
+
+Pensar en los análisis, 
+
+1. Composición atómica
+2. Número y tipo de contactos
+3. Diferencia entre grupos espaciales (P00698 y P00760) cristalizan en buen intervalo en dos grupos espaciales
+4. Estimar la dosis absorbida con un PDB modelo y datos de flujo del sincrotrón a usar
+
+

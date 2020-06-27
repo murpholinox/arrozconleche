@@ -4,21 +4,21 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2 Dependencias | Bitácora</title>
-  <meta name="description" content="2 Dependencias | Bitácora de doctorado" />
+  <title>Bitácora</title>
+  <meta name="description" content="Bitácora de doctorado" />
   <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2 Dependencias | Bitácora" />
+  <meta property="og:title" content="Bitácora" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="2 Dependencias | Bitácora de doctorado" />
+  <meta property="og:description" content="Bitácora de doctorado" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2 Dependencias | Bitácora" />
+  <meta name="twitter:title" content="Bitácora" />
   
-  <meta name="twitter:description" content="2 Dependencias | Bitácora de doctorado" />
+  <meta name="twitter:description" content="Bitácora de doctorado" />
   
 
 <meta name="author" content="Francisco Murphy Pérez" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="extracción-de-datos.html"/>
+<link rel="prev" href="limpieza-de-datos.html"/>
+
 <script src="libs/header-attrs-2.2/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -195,81 +195,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="dependencias" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Dependencias</h1>
-<p>Se listan las dependencias usadas.</p>
-<div id="ejecuta-código" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Ejecuta código</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="dependencias.html#cb1-1"></a>knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">eval =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
-</div>
-<div id="configuración" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Configuración</h2>
-<p>Se cargan las librerías necesarias de <code>R</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="dependencias.html#cb2-1"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb2-2"><a href="dependencias.html#cb2-2"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb2-3"><a href="dependencias.html#cb2-3"></a><span class="kw">library</span>(readr)</span>
-<span id="cb2-4"><a href="dependencias.html#cb2-4"></a><span class="kw">library</span>(knitr)</span>
-<span id="cb2-5"><a href="dependencias.html#cb2-5"></a><span class="kw">library</span>(kableExtra)</span>
-<span id="cb2-6"><a href="dependencias.html#cb2-6"></a><span class="kw">library</span>(stringdist)</span>
-<span id="cb2-7"><a href="dependencias.html#cb2-7"></a><span class="kw">library</span>(svglite)</span></code></pre></div>
-</div>
-<div id="sesión" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Sesión</h2>
-<p>Imprime información de la sesión activa de <code>R</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="dependencias.html#cb3-1"></a><span class="kw">sessionInfo</span>()</span></code></pre></div>
-</div>
-<div id="sistema-operativo" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Sistema operativo</h2>
-<p>Como se nota en la salida anterior, el sistema operativo usado es Fedora 32 (<a href="https://getfedora.org/" class="uri">https://getfedora.org/</a>) en su versión <em>workstation</em>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="dependencias.html#cb4-1"></a><span class="fu">uname</span> -r <span class="co"># Imprime versión del núcleo de linux.</span></span></code></pre></div>
-</div>
-<div id="minería-de-datos" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Minería de datos</h2>
-<p>La extracción de datos se realiza con <code>gemmi</code> (<a href="https://github.com/project-gemmi/gemmi" class="uri">https://github.com/project-gemmi/gemmi</a>). Cuya instalación depende a su vez de <code>git</code> y <code>cmake</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="dependencias.html#cb5-1"></a><span class="fu">sudo</span> dnf -y install git cmake</span>
-<span id="cb5-2"><a href="dependencias.html#cb5-2"></a><span class="bu">cd</span><span class="kw">;</span> <span class="fu">mkdir</span> Repos<span class="kw">;</span> <span class="bu">cd</span> Repos</span>
-<span id="cb5-3"><a href="dependencias.html#cb5-3"></a><span class="fu">git</span> clone https://github.com/project-gemmi/gemmi.git</span>
-<span id="cb5-4"><a href="dependencias.html#cb5-4"></a><span class="bu">cd</span> gemmi</span>
-<span id="cb5-5"><a href="dependencias.html#cb5-5"></a><span class="fu">cmake</span> .</span>
-<span id="cb5-6"><a href="dependencias.html#cb5-6"></a><span class="fu">make</span></span>
-<span id="cb5-7"><a href="dependencias.html#cb5-7"></a><span class="bu">echo</span> <span class="st">&quot;# Gemmi&quot;</span> <span class="op">&gt;&gt;</span> ~/.bashrc</span>
-<span id="cb5-8"><a href="dependencias.html#cb5-8"></a><span class="bu">echo</span> <span class="st">&quot;alias gemmi=&#39;/home/murphy/Repos/gemmi/gemmi&#39;&quot;</span> <span class="op">&gt;&gt;</span> ~/.bashrc</span></code></pre></div>
-<p>Y para la transformación y limpieza de datos se usa:</p>
-<ul>
-<li><code>grep</code> (<a href="https://www.gnu.org/software/grep/" class="uri">https://www.gnu.org/software/grep/</a>)</li>
-<li><code>awk</code> (<a href="https://www.gnu.org/software/gawk/" class="uri">https://www.gnu.org/software/gawk/</a>)</li>
-<li><code>sed</code> (<a href="https://www.gnu.org/software/gawk/" class="uri">https://www.gnu.org/software/gawk/</a>)</li>
-<li><code>R</code> (<a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a>)</li>
-<li><code>tidyverse</code> (<a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>)</li>
-<li><code>bash</code> (<a href="https://www.gnu.org/software/bash/" class="uri">https://www.gnu.org/software/bash/</a>)</li>
-</ul>
-<p>La instalación de <code>R</code> conviene hacerla como lo describo en el siguiente enlace <a href="https://murpholinox.github.io/installRwithouttexlivedependencies/" class="uri">https://murpholinox.github.io/installRwithouttexlivedependencies/</a>.</p>
-<p>La instalación del <code>tidyverse</code> depende a su vez de la instalación de las siguientes librerías en el SO.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="dependencias.html#cb6-1"></a><span class="fu">sudo</span> dnf -y install openssl-devel libxml2-devel libcurl-devel</span></code></pre></div>
-<div id="bitácora" class="section level3" number="2.5.1">
-<h3><span class="header-section-number">2.5.1</span> Bitácora</h3>
-<p>La reproducción correcta, desde la ejecución del código hasta la producción del archivo de salida, de esta bitácora depende de la instalación de varios programas:</p>
-<ul>
-<li><code>rstudio</code> (<a href="https://rstudio.com/" class="uri">https://rstudio.com/</a>)</li>
-<li><code>bookdown</code> (<a href="https://github.com/rstudio/bookdown" class="uri">https://github.com/rstudio/bookdown</a>)</li>
-<li><code>rmarkdown</code> (<a href="https://rmarkdown.rstudio.com/" class="uri">https://rmarkdown.rstudio.com/</a>)</li>
-<li><code>renv</code> (<a href="https://github.com/rstudio/renv" class="uri">https://github.com/rstudio/renv</a>)</li>
-</ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="dependencias.html#cb7-1"></a><span class="co"># renv::consent() # Da permiso a renv.</span></span>
-<span id="cb7-2"><a href="dependencias.html#cb7-2"></a><span class="co"># renv::init() # Inicia renv.</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="dependencias.html#cb8-1"></a><span class="co"># Ve las dependencias.</span></span>
-<span id="cb8-2"><a href="dependencias.html#cb8-2"></a><span class="fu">cat</span> renv.lock</span></code></pre></div>
+<div id="qué-falta" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Qué falta?</h1>
+<p>Cristalizar las proteínas, difractarlas…</p>
+<p>Pensar en los análisis,</p>
+<ol style="list-style-type: decimal">
+<li>Composición atómica</li>
+<li>Número y tipo de contactos</li>
+<li>Diferencia entre grupos espaciales (P00698 y P00760) cristalizan en buen intervalo en dos grupos espaciales</li>
+<li>Estimar la dosis absorbida con un PDB modelo y datos de flujo del sincrotrón a usar</li>
+</ol>
 
-</div>
-</div>
+<p><img src="/run/media/murphy/lolita/doctorado/clean/fil5/final_bp_1.png" alt="img x" />
+<img src="/run/media/murphy/lolita/doctorado/clean/fil5/final_bp_2.png" alt="img x" />
+<img src="/run/media/murphy/lolita/doctorado/clean/fil5/final_bp_3.png" alt="img x" />
+<img src="/run/media/murphy/lolita/doctorado/clean/fil5/final_bp_4.png" alt="img x" />
+<img src="/run/media/murphy/lolita/doctorado/clean/fil5/final_bp_5.png" alt="img x" />
+<img src="/run/media/murphy/lolita/doctorado/clean/fil5/final_hist_1.png" alt="img x" />
+<img src="/run/media/murphy/lolita/doctorado/clean/fil5/final_hist_2.png" alt="img x" />
+<img src="/run/media/murphy/lolita/doctorado/clean/fil5/final_hist_3.png" alt="img x" />
+<img src="/run/media/murphy/lolita/doctorado/clean/fil5/final_hist_4.png" alt="img x" />
+<img src="/run/media/murphy/lolita/doctorado/clean/fil5/final_hist_5.png" alt="img x" /></p>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="extracción-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="limpieza-de-datos.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

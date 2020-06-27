@@ -1,0 +1,283 @@
+# Limpieza de datos
+Habiendo verificado la integridad de nuestros datos, sigue el turno de su limpieza que consiste en aplicar los siguientes filtros:
+
+0. Elimina entradas donde no se tenga un identificador.
+1. Elimina entradas con una resolución peor que 2 Å. 
+2. Elimina entradas donde no se anotó el pH en su respectiva columna. Según la [página](http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v50.dic/Categories/exptl_crystal_grow.html) del diccionario `.mmcif` dicha anotación se encuentra en 83.7 % del total de entradas depositadas en el PDB.
+3. Elimina entradas donde el número de entidades sea mayor o igual a dos.
+4. Elimina entradas donde su secuencia de aminoácidos sea muy diferente de la secuencia consenso.
+
+> Advertencia: Dependiendo de la proteína, la secuencia consenso puede ser igual a la secuencia de la proteína madura en su estado natural o no.
+
+5. Elimina proteínas que no hayan cristalizado en un rango de pH amplio.
+
+## Filtros 0 1 y 2
+```{bash}
+mkdir /run/media/murphy/lolita/doctorado/clean
+```
+
+```{r, warning=FALSE, message=FALSE}
+# Filtro 0
+fil0 <-df2 %>%
+  filter(!ide =="") # Si no tiene identificador se va.
+# Filtro 1
+fil1 <- fil0 %>%
+  filter(rs1 <= 2.0) # Mala resolución no me sirve.
+# Filtro 2
+fil2 <-fil1 %>%
+  filter(!is.na(peh)) # Si no tiene pH se va.
+setwd("/run/media/murphy/lolita/doctorado/clean")
+write_excel_csv(fil0, "fil0.csv")
+write_excel_csv(fil1, "fil1.csv")
+write_excel_csv(fil2, "fil2.csv")
+```
+
+## Filtro 3
+```{bash}
+cd /run/media/murphy/lolita/doctorado/clean
+awk -F "," '{print $1}' fil2.csv | tail -n +2 | uniq -c | sort -n > number_of_identities_pdb
+# wc -l number_of_identities_pdb 
+# 58961
+awk '{if($1>=2) print $2;}' number_of_identities_pdb > pattern
+grep -v -f pattern fil2.csv > fil3.csv
+# wc -l fil3.csv 
+# 50128 fil3.csv
+```
+
+```{r, warning=FALSE, message=FALSE}
+# Carga fil3.
+fil3 <- read_csv("/run/media/murphy/lolita/doctorado/clean/fil3.csv")
+```
+
+## Filtro 4
+Saca el identificador, de acuerdo al *top* 50. 
+
+### Top50
+Cuenta la frecuencia del identificador de UniProt, con base en esto realiza una lista ordenada en orden descendente.
+
+> Nota: Digo identificador de UniProt, porque esta es la base de datos que a la que se hace mayor referencia en los archivos del PDB <https://www.rcsb.org/pages/help/advancedsearch/uniProtAccessionNumbers>, pero en general puede ser el identificador de cualquier otra base de datos, incluso el mismo PDB.
+
+```{r}
+fil3cola <- fil3 %>%
+  count(ide, name="cta_ide") %>% # Colapsa los datos hacia n
+  arrange(desc(cta_ide))
+fil3nocola <- fil3 %>% # Agrega n a los datos
+   add_count(ide, name="cta_ide") %>%
+   arrange(desc(cta_ide)) 
+# Una tabla
+tab_fil3cola<-head(fil3cola, n=50) #Aquí escoge n.
+kable(tab_fil3cola) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
+setwd("/run/media/murphy/lolita/doctorado/clean")
+write_excel_csv(fil3cola, "fil3cola.csv")
+write_excel_csv(fil3nocola, "fil3nocola.csv")
+write_excel_csv(tab_fil3cola, "tab_fil3cola.csv")
+```
+
+### Setup para alineamiento múltiple
+
+```{bash}
+# Genera el directorio para el alineamiento múltiple.
+# Copia las secuencias originales.
+cd /run/media/murphy/lolita/doctorado/clean
+mkdir -p fil4/msa
+cp -r /home/murphy/ori_seq /run/media/murphy/lolita/doctorado/clean/fil4/
+```
+
+```{r}
+# Extrae el identificador de las 50 proteínas más representadas en el PDB.
+ide_in_tf3c <- tab_fil3cola$ide
+for (j in seq(1,50))
+{
+ide_i_ <-ide_in_tf3c[[j]]
+filename <- paste("/run/media/murphy/lolita/doctorado/clean/fil4/msa/", ide_i_, sep="") 
+# Escribe un archivo por cada identificador, a partir de fil3.
+write_excel_csv(filter(fil3, ide==ide_i_), filename)
+}
+```
+
+### Consenso
+Crea un alineamiento múltiple de la secuencia canónica de aminoácidos en las estructuras restantes y obtiene una secuencia consenso. Con base en la secuencia consenso, se eliminan entradas del mismo identificador que no sean la misma proteína (sucede cuando el identificador corresponde al gen de una poliproteína, caso de los virus).
+
+```{bash}
+cd /run/media/murphy/lolita/doctorado/clean/fil4/msa 
+for k in `ls -1rt` # Ordenados
+do
+awk -F "," '{print $1}' "$k" | tail -n +2 | tr '[:upper:]' '[:lower:]' > pdbs_"$k"
+sed 's/$/.cif.gz/'g pdbs_"$k" > list_pdbs_id_"$k"
+mkdir sub_"$k"
+cat list_pdbs_id_"$k" | while read line; do cp /run/media/murphy/lolita/doctorado/PDB_backup/$line /run/media/murphy/lolita/doctorado/clean/fil4/msa/sub_"$k" ; done 
+/home/murphy/Repos/gemmi/gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _entity_poly.pdbx_seq_one_letter_code_can sub_"$k"/  > can_seq_"$k".csv
+awk -F "¿" '{print ">"$1"\n"$4}' can_seq_"$k".csv | sed 's/\\n//g' > seqs_"$k".fa
+# Usa mafft para el alineamiento.
+mafft --anysymbol --quiet --op 15 --ep 15 --addfragments seqs_"$k".fa /run/media/murphy/lolita/doctorado/clean/fil4/ori_seq/ori_"$k".fa > msa_"$k".afa
+# Obtiene la secuencia consenso con cons de EMBOSS.
+cons msa_"$k".afa -outseq cons_"$k" -identity 1 -datafile EBLOSUM62 -sprotein1
+# Se verifica visualmente la secuencia consenso en Ugene.
+grep -v EMBOSS cons_"$k" | sed 's/x//g' | tr '\n' ' ' | sed 's/ //g' > cons_"$k"_c
+done
+```
+
+Los siguientes bloques tienen como objetivo eliminar entradas de la misma proteína donde la distancia en caracteres (sean sustituciones, deleciones o inserciones) sea mayor o igual a 15 con respecto a la secuencia consenso. Esto elimina proteínas con el péptido señal (normalmente arriba de 15) y mantiene proteínas con la cola de histidinas (normalmente abajo de 15).
+
+```{r, warning=FALSE, message=FALSE}
+# Para cada proteína compara su secuencia canónica con su secuencia consenso.
+# Se asigna una etiqueta "Wt" o "NotWt" dependiendo del resultado.
+for (j in seq(1,50))
+{
+  ide <-ide_in_tf3c[[j]] # identificador
+  file1 <- paste("/run/media/murphy/lolita/doctorado/clean/fil4/msa/can_seq_", ide, ".csv", sep="")
+  impo1 <- read_delim(file1, "¿", escape_double = FALSE, col_names = FALSE, 
+    comment = "*>", trim_ws = TRUE)
+  pdb<-impo1$X1
+  nde<-stringr::str_replace(impo1$X2, '�', '')
+  tde<-stringr::str_replace(impo1$X3, '�', '')
+  sec0<-stringr::str_replace(impo1$X4, '�', '')
+  sec<-stringr::str_replace_all(sec0, '\\\\n', '')
+  oname1 = paste("df", "_", ide, sep="")
+  assign(oname1, data.frame(pdb, nde, tde, sec))
+  file2 <- paste("/run/media/murphy/lolita/doctorado/clean/fil4/msa/cons_", ide, "_c", sep="")
+  impo2 <- read_csv(file2, col_names = FALSE)
+  oname2 = paste("cons_", ide, sep="")
+  assign(oname2, impo2$X1)
+  n<-nrow(get(oname1))
+  bad_seq<-c() # Vacío
+    for(i in seq(1, n)) {
+      y <- adist(get(oname1)$sec[i], get(oname2))  
+      if(y >= 15)
+      {bad_seq <- c(bad_seq, "NotWt")}
+      else
+      {bad_seq <- c(bad_seq, "Wt")}
+    }
+  assign(oname1, cbind(get(oname1), bad_seq))
+  file3 <-paste("/run/media/murphy/lolita/doctorado/clean/fil4/msa/fil4_", ide, sep="")
+  write_excel_csv(get(oname1), file3)
+}
+```
+
+```{bash}
+# Extrae toda la información, solo para las 50 proteínas más representadas.
+cd /run/media/murphy/lolita/doctorado/clean/fil4/msa/
+#awk -F "," '{ if ($5=="NotWt") print $1}' fil4_*  | tr '\n' ' '  > bad_pdbs
+/home/murphy/Repos/gemmi/gemmi grep --delimiter='¿' _entity_poly.entity_id -a _entity_poly.type -a _struct_ref.pdbx_db_accession -a _entity.pdbx_description -a _exptl_crystal_grow.method -a _exptl_crystal_grow.pH -a _exptl_crystal_grow.pdbx_details -a _reflns.d_resolution_high -a _reflns_shell.d_res_high -a _symmetry.space_group_name_H-M -a _citation.pdbx_database_id_DOI sub_*/ > information_from_fil3
+cat fil4_* >> fil4_todos
+grep -v bad_seq fil4_todos > almost_fil4
+```
+
+
+```{r}
+# Aplica finalmente el filtro 4 sobre las 50 proteínas más representadas.
+setwd("/run/media/murphy/lolita/doctorado/clean/fil4/msa")
+info_fil3 <- read_delim("information_from_fil3", "¿", escape_double = FALSE, col_names = FALSE, comment = "*>", trim_ws = TRUE)
+almost_fil4 <- read_csv("almost_fil4", col_names = FALSE)
+almost_fil4<-rename(almost_fil4, bad=X5)
+allbadseqs <-select(almost_fil4, bad)
+nearly_almost_fil4<-cbind(info_fil3, allbadseqs)
+pdb<-nearly_almost_fil4$X1
+nde<-stringr::str_replace(nearly_almost_fil4$X2, '�', '')
+tde<-stringr::str_replace(nearly_almost_fil4$X3, '�', '')
+ide<-stringr::str_replace(nearly_almost_fil4$X4, '�', '')
+nom<-stringr::str_replace(nearly_almost_fil4$X5, '�', '')
+tec<-stringr::str_replace(nearly_almost_fil4$X6, '�', '')
+peh<-stringr::str_replace(nearly_almost_fil4$X7, '�', '')
+con<-stringr::str_replace(nearly_almost_fil4$X8, '�', '')
+rs1<-stringr::str_replace(nearly_almost_fil4$X9, '�', '')
+rs2<-stringr::str_replace(nearly_almost_fil4$X10, '�', '')
+gpo<-stringr::str_replace(nearly_almost_fil4$X11, '�', '')
+doi<-stringr::str_replace(nearly_almost_fil4$X12, '�', '')
+sil<-nearly_almost_fil4$bad
+closest_to_fil4<-tibble(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi, sil)
+rm(pdb, nde, tde, ide, nom, tec, peh, con, rs1, rs2, gpo, doi, sil)
+# Cuidado con el tipo de las columnas, de nuevo.
+closest_to_fil4$nde<-as.numeric(as.character((closest_to_fil4$nde)))
+closest_to_fil4$peh<-as.numeric(as.character((closest_to_fil4$peh)))
+closest_to_fil4$rs1<-as.numeric(as.character((closest_to_fil4$rs1)))
+closest_to_fil4$rs2<-as.numeric(as.character((closest_to_fil4$rs2)))
+fil4<- closest_to_fil4 %>%
+  filter(sil=="Wt") # Las secuencias malas son 666. casifil* tienen 7719 obs.
+# fil4 tiene 7719-666=7053
+write_excel_csv(fil4, "/run/media/murphy/lolita/doctorado/clean/fil4.csv")
+```
+
+## Obtiene nombres y organismos
+Por simplicidad trabaja con nombres.
+
+```{bash}
+cd /run/media/murphy/lolita/doctorado/clean/
+rm -rf top50
+mkdir top50
+cd top50
+# Obtiene los identificadores
+cp ../tab_fil3cola.csv .
+awk -F "," '{print $1}'  tab_fil3cola.csv | tail -n +2 > top50_uac.lst
+# Convierte de lista a línea.
+tr '\n' ' ' < top50_uac.lst > top50_uac.ln
+# Descarga el script en perl.
+wget -O get_info.pl https://raw.githubusercontent.com/murpholinox/usefulscripts/master/uniprot_batch_retrieval.pl
+# Instala requisitos para correr el programa.
+# sudo dnf install 'perl(LWP::UserAgent)' 
+# sudo dnf install perl-LWP-Protocol-https
+chmod u+x get_info.pl
+# Corre el programa.
+perl ./get_info.pl top50_uac.ln > top50_wholeinfo.txt
+# 1 # Obtiene nombres.
+egrep "^DE   RecN|^DE   SubN" top50_wholeinfo.txt > top50_nombres.txt
+# Solo nombres.
+awk -F "=" '{print $2}' top50_nombres.txt | sed 's/,//'g | sed 's/;//g' > top50_nombres_fx.txt
+# 2 # Obtiene organismos. 
+egrep "^OS" top50_wholeinfo.txt > top50_org.txt
+# Elimina organismos con doble línea OS
+grep -v "^OS   (HIV-1)"  top50_org.txt > b
+grep -v "^OS   10044" b > c
+grep -v "^OS   14847"  c > d
+grep -v "^OS   (Hal" d | sed 's/^OS   //g' > top50_org_fx.txt 
+# Pega los nombres de las proteínas con su identificador y organismo.
+paste -d, top50_uac.lst top50_nombres_fx.txt top50_org_fx.txt > top50_final.csv
+cp top50_final.csv /home/murphy/Repos/kaomurph/tabs
+```
+
+En `top50_final.csv` van las cincuenta proteínas más representadas en el PDB que cumplen los primeros cuatro filtros.
+
+## Gráficas
+Grafica el intervalo de pH.
+
+```{bash}
+mkdir /run/media/murphy/lolita/doctorado/clean/fil4/plots_all
+mkdir /run/media/murphy/lolita/doctorado/clean/fil4/plots_gt10
+mkdir /run/media/murphy/lolita/doctorado/clean/fil4/plots_bue
+```
+
+```{r}
+setwd("/run/media/murphy/lolita/doctorado/clean/fil4/plots_all")
+# Histogramas con datos de fil4
+for (j in seq(1,50))
+{
+id <-tab_fil3cola$ide[j]
+ggplot(filter(fil4, ide==id), aes(x=factor(gpo), y=peh)) + geom_boxplot() + coord_flip() + ylab("pH") + xlab("Grupo espacial")
+svgplot<-paste("box_pH_by_gpo_", id, ".svg", sep="" )
+pngplot<-paste("box_pH_by_gpo_", id, ".png", sep="" )
+ggsave(svgplot, width = 20, units = "cm") 
+ggsave(pngplot, width = 20, units = "cm")
+}
+```
+
+Se realiza un análisis visual de las gráficas anteriores, básicamente si el gráfico de caja indica que tengo una distribución de pH arriba de tres unidades se mantiene, en caso contrario se descarta.
+
+```{r}
+setwd("/run/media/murphy/lolita/doctorado/clean/fil4/plots_bue")
+buenas<-c("P00918", "P00698", "P00760", "P02766", "P00644", "P42212", "P02185", "O60885", "P61823", "P28720", "P07900", "P0DTD1", "P19491", "O26232", "P22629", "P03367", "P68400", "Q16539", "P14174", "P01116", "P01112", "P00282", "P06873", "P16113", "P00772")
+for (k in seq(1,length(buenas)))
+{
+ggplot(filter(fil4, ide==buenas[k]), aes(x=peh)) + geom_histogram(binwidth = 0.5) + facet_wrap( ~ gpo) + xlab("pH") + ylab ("Número de entradas") + coord_cartesian(ylim = c(1, 20)) + geom_hline(yintercept=5, linetype="dashed", color = "red")
+svgplot<-paste("hist_pH_by_gpo_", buenas[k], ".svg", sep="" )
+pngplot<-paste("hist_pH_by_gpo_", buenas[k], ".png", sep="" )
+ggsave(svgplot, width = 20, units = "cm") 
+ggsave(pngplot, width = 20, units = "cm")
+}
+```
+
+Se realiza un análisis visual de las gráficas anteriores, básicamente si el histograma tiene la mayor parte de sus barras arriba de cinco, se queda, en caso contrario se descarta.
+
+```{r}
+finales<-c("P00918", "P00698", "P00760", "P02766", "P42212", "O60885", "P19491", "O26232", "P00772", "P00644", "P03367", "P68400", "Q16539", "P14174")
+```

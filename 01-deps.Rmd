@@ -1,9 +1,10 @@
 # Dependencias
 Se listan las dependencias usadas.
 
-## Corre o no todo el código
-```{r setup, include = FALSE}
-#knitr::opts_chunk$set(eval = FALSE)
+## Ejecuta código
+
+```{r setup}
+knitr::opts_chunk$set(eval = FALSE)
 ```
 
 ## Configuración
