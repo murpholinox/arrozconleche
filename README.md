@@ -1,1 +1,1 @@
-Bitácora de doctorado de Francisco Murphy Pérez.
+Bitácora, _in silico_, de doctorado de Francisco Murphy Pérez.
